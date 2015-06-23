@@ -10,52 +10,52 @@ function createAppFormValidate(){
     var appDesc = $('#appDesc').val();
 
     if('' == appName){
-        $('#appNameMsg').text('应用名不能为空！');
+        $('#appNameMsg').text($.i18n.prop('app_create_form_appNameEmpty'));
         $('#appNameMsg').css('color','red');
         $('#appName').focus();
         return false;
     }
     var appNameRegex = /^[0-9a-zA-Z\-]*$/;
     if(!appNameRegex.test(appName)){
-        $('#appNameMsg').text('作为环信体系中的一个app唯一标识,只能是字母,数字或字母数字组合!');
+        $('#appNameMsg').text($.i18n.prop('app_create_form_productNameMsg'));
         $('#appNameMsg').css('color','red');
         $('#appName').focus();
         return false;
     }
-    $('#appNameMsg').text('输入正确！');
+    $('#appNameMsg').text($.i18n.prop('app_create_form_ok'));
     $('#appNameMsg').css('color','blue');
 
     if('' == nick){
-        $('#nickMsg').text('产品名称不能为空！');
+        $('#nickMsg').text($.i18n.prop('app_create_form_productNameEmpty'));
         $('#nickMsg').css('color','red');
         $('#nick').focus();
         return false;
     }
     var nickRegex = /^[0-9a-zA-Z-_\u4e00-\u9faf]*$/;
     if(!nickRegex.test(nick)){
-        $('#nickMsg').text('您的这款app对应的产品叫什么? 只能是汉字,字母,数字、横线、下划线及其组合!');
+        $('#nickMsg').text($.i18n.prop('app_create_form_appNameMsg'));
         $('#nickMsg').css('color','red');
         $('#nick').focus();
         return false;
     }
-    $('#nickMsg').text('输入正确！');
+    $('#nickMsg').text($.i18n.prop('app_create_form_ok'));
     $('#nickMsg').css('color','blue');
 
     if('' == appDesc){
-        $('#appDescMsg').text('应用描述不能为空！');
+        $('#appDescMsg').text($.i18n.prop('app_create_form_appDescEmpty'));
         $('#appDescMsg').css('color','red');
         $('#appDesc').focus();
         return false;
     }
     var appDescReg = /^[0-9a-zA-Z,.?。，？、\/'":\u4e00-\u9faf]{0,100}$/;
     if(!appDescReg.test(appDesc)){
-        $('#appDescMsg').text('应用描述只能输入字母，数字或者汉字,字数在一百字以内!');
+        $('#appDescMsg').text($.i18n.prop('app_create_form_appDescMsg'));
         $('#appDescMsg').css('color','red');
         $('#appDesc').focus();
         return false;
     }
 
-    $('#appDescMsg').text('输入正确！');
+    $('#appDescMsg').text($.i18n.prop('app_create_form_ok'));
     $('#appDescMsg').css('color','blue');
 
     return true;
@@ -91,10 +91,10 @@ function saveNewApp(){
                 },
                 data:JSON.stringify(dataBody),
                 error: function(jqXHR, textStatus, errorThrown) {
-                    alert('提示\n\n应用创建失败!\n更换应用名?');
+                    alert($.i18n.prop('app_create_form_failed'));
                 },
                 success: function(respData, textStatus, jqXHR) {
-                    alert('app创建成功!');
+                    alert($.i18n.prop('app_create_form_succ'));
                     $(respData.entities).each(function(){
                         window.location.href = 'app_profile.html?appUuid=' + this.uuid;
                     });
@@ -301,7 +301,7 @@ function updateImage(appUuid){
             },
             success: function(respData, textStatus, jqXHR) {
                 alert($.i18n.prop('app_profile_alert_update_done'));
-                location.replace(location.href);
+                EasemobCommon.disPatcher.refreshCurrentPage();
             }
         });
     }

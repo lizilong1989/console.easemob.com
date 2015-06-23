@@ -82,25 +82,25 @@ function updateAdminPasswdFormValidate(){
     var renewpassword = $('#renewpassword').val();
 
     if('' == oldpassword){
-        $('#oldpasswordEMsg').text('原密码不能为空！');
+        $('#oldpasswordEMsg').text($.i18n.prop('admin_home_password_form_passwordEmpty'));
         $('#oldpassword').focus();
         return false;
     }
     $('#oldpasswordEMsg').text('');
     if('' == newpassword){
-        $('#newpasswordEMsg').text('新密码不能为空！');
+        $('#newpasswordEMsg').text($.i18n.prop('admin_home_password_form_newPasswordEmpty'));
         $('#newpassword').focus();
         return false;
     }
 
-    if(newpassword.length < 6 || newpassword.length > 20){
-        $('#newpasswordEMsg').text('新密码长度在6-20个字符之间！');
+    if(newpassword.length < 6){
+        $('#newpasswordEMsg').text($.i18n.prop('admin_home_password_form_newPasswordIllegal'));
         $('#newpassword').focus();
         return false;
     }
     $('#newpasswordEMsg').text('');
     if(renewpassword != newpassword){
-        $('#renewpasswordEMsg').text('两次新密码不一致');
+        $('#renewpasswordEMsg').text($.i18n.prop('admin_home_password_form_passwordNotMatch'));
         return false;
     }
 
@@ -131,7 +131,7 @@ function updateAdminPasswd() {
             type:'POST',
             data:JSON.stringify(dtoken),
             error: function(jqXHR, textStatus, errorThrown) {
-                $('#oldpasswordEMsg').text('原密码不正确!');
+                $('#oldpasswordEMsg').text($.i18n.prop('admin_home_password_form_oldPasswordInCorrect'));
             },
             success: function(respData, textStatus, jqXHR) {
                 if(respData.access_token == ''){
@@ -146,10 +146,10 @@ function updateAdminPasswd() {
                         'Content-Type':'application/json'
                     },
                     success:function(respData){
-                        alert('提示!\n密码修改成功!');
+                        alert($.i18n.prop('admin_home_password_form_succ'));
                     },
                     error:function(data){
-                        alert('提示!\n密码修改失败!');
+                        alert($.i18n.prop('admin_home_password_form_failed'));
                     }
                 });
             }
@@ -168,7 +168,7 @@ function getOrgAdminList(){
     if(!access_token || access_token==''){
         EasemobCommon.disPatcher.sessionTimeOut();
     } else {
-        var loading = '<tr id="tr_loading"><td class="text-center" colspan="9"><img src ="assets/img/loading.gif">&nbsp;&nbsp;&nbsp;<span>正在读取数据...</span></td></tr>';
+        var loading = '<tr id="tr_loading"><td class="text-center" colspan="9"><img src ="/assets/img/loading.gif">&nbsp;&nbsp;&nbsp;' + $.i18n.prop('admin_home_password_loading') + '</td></tr>';
         $('#orgadminsBody').empty();
         $('#orgadminsBody').append(loading);
 
@@ -186,7 +186,7 @@ function getOrgAdminList(){
                 var selectOptions = '';
                 $(respData.data).each(function(){
                     var username = this.username;
-                    var confirmedStr = (this.confirmed == true) ? "已激活" : "未激活";
+                    var confirmedStr = (this.confirmed == true) ? $.i18n.prop('admin_list_table_confirmed') : $.i18n.prop('admin_list_table_unConfirmed');
                     var email = this.email;
                     var companyName = this.properties.companyName;
                     var telephone = this.properties.telephone;
@@ -196,7 +196,7 @@ function getOrgAdminList(){
                         ops = '<li class="dropdown all-camera-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">操作<b class="caret"></b></a>'+
                             '<ul class="dropdown-menu">'+'<li data-filter-camera-type="all"><a href="javascript:disConnAdminAndOrg(\''+username+'\')">移出管理员</a></li>';
                     } else {
-                        ops = '当前登录账户禁止操作';
+                        ops = $.i18n.prop('admin_list_table_currentUser_disable');
                     }
 
                     selectOptions += '<tr>'+
@@ -215,7 +215,6 @@ function getOrgAdminList(){
                 });
                 $('#tr_loading').remove();
                 $('#orgadminsBody').append(selectOptions);
-                // 无数据
                 var tbody = document.getElementsByTagName("tbody")[0];
                 if(!tbody.hasChildNodes()){
                     var option = '<tr><td class="text-center" colspan="9">无数据!</td></tr>';
@@ -237,9 +236,9 @@ function disConnAdminAndOrg(adminUserName){
     } else {
         if(adminUserName != ''){
             if(loginUser == adminUserName){
-                alert('当前登录账户禁止操作');
+                alert($.i18n.prop('admin_list_table_currentUser_disable'));
             } else {
-                if(confirm("确定要移出该管理员吗?")){
+                if(confirm($.i18n.prop('admin_list_table_disConnUser_confirm'))){
                     $.ajax({
                         url:baseUrl　+　'/management/users/' + adminUserName + '/orgs/' + orgName,
                         type:'DELETE',
@@ -250,16 +249,16 @@ function disConnAdminAndOrg(adminUserName){
                         error: function(respData, textStatus, jqXHR) {
                             var error_description = jQuery.parseJSON(respData.responseText).error_description;
                             if('Organizations must have at least one member.' == error_description){
-                                alert('企业管理员至少要有一个!!');
+                                alert($.i18n.prop('admin_list_table_disConnUser_oneAtLeast'));
                             } else {
-                                alert('移出管理员失败!');
+                                alert($.i18n.prop('admin_list_table_disConnUser_failed'));
                             }
                         },
                         success: function(respData, textStatus, jqXHR) {
                             var orgname = respData.data.name;
                             if(orgName == orgname){
-                                alert('移出管理员成功!');
-                                window.location.href = '../../../org_admin_list.html';
+                                alert($.i18n.prop('admin_list_table_disConnUser_succ'));
+                                EasemobCommon.disPatcher.toPageOrgAdminList();
                             }
                         }
                     });
@@ -378,7 +377,7 @@ function saveNewAdminUserSubmit(adminUsername, adminPassword, adminEmail, adminC
         EasemobCommon.disPatcher.sessionTimeOut();
     } else {
         if(createAdminUserFormValidate()){
-            if(confirm("确定提交?")) {
+            if(confirm($.i18n.prop('admin_create_form_confirm'))) {
                 var data ={
                     username:adminUsername,
                     password:adminPassword,
@@ -409,7 +408,7 @@ function saveNewAdminUserSubmit(adminUsername, adminPassword, adminEmail, adminC
                             $('#adminEmailOMsg').hide();
                             $('#adminEmailEMsg').hide();
                         } else {
-                            alert('添加APP管理员失败!');
+                            alert($.i18n.prop('admin_create_form_failed'));
                         }
                     },
                     success: function(respData, textStatus, jqXHR) {
@@ -425,13 +424,13 @@ function saveNewAdminUserSubmit(adminUsername, adminPassword, adminEmail, adminC
                                     'Content-Type':'application/json'
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
-                                    alert('管理员添加失败!');
+                                    alert($.i18n.prop('admin_create_form_failed'));
                                 },
                                 success: function(respData, textStatus, jqXHR) {
                                     var orgname = respData.data.name;
                                     if(orgName == orgname){
-                                        alert('添加管理员成功!\n请查收邮件并激活该账户,确保正常使用!');
-                                        window.location.href = '../../../org_admin_list.html';
+                                        alert($.i18n.porp('admin_create_form_succ'));
+                                        EasemobCommon.disPatcher.toPageOrgAdminList();
                                     }
                                 }
                             });
@@ -625,10 +624,6 @@ function onBlurAdminCompanyCheck() {
     $('#admin_create_adminCompanyOMsg').show();
 }
 
-function toOrgAdminUserList() {
-    window.location.href = 'org_admin_list.html';
-}
-
 // 点击返回列表,清空表单数据
 function clearNewAdminUserBox() {
     $('#admin_create_adminUserName').val('');
@@ -677,7 +672,7 @@ function saveAdminInfo() {
 
     var companyNameInputRegex = /^[0-9a-zA-Z\-_\u4e00-\u9faf]*$/;
     if (!companyNameInputRegex.test(companyNameInput)) {
-        $('#companyNameInputMsg').text('公司名称只能是汉字,字母,数字、横线、下划线及其组合!');
+        $('#companyNameInputMsg').text($.i18n.prop('admin_create_form_companyIllegal'));
         $('#companyNameInputMsg').css('color', 'red');
         return;
     }
@@ -685,7 +680,7 @@ function saveAdminInfo() {
 
     var telephoneInputRegex = /^[0-9]*$/;
     if (telephoneInput != '' && !telephoneInputRegex.test(telephoneInput)) {
-        $('#telephoneInputMsg').text('联系电话号码只能是数字！');
+        $('#telephoneInputMsg').text($.i18n.prop('admin_create_form_telephoneIllegal'));
         $('#telephoneInputMsg').css('color', 'red');
         return;
     }

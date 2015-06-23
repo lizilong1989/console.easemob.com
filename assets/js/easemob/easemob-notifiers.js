@@ -152,7 +152,7 @@ function deleteAppNotifiers(credentialId,appUuid){
     var access_token = $.cookie('access_token');
     var orgName = $.cookie('orgName');
     if(confirm($.i18n.prop('app_notifiers_delete_confirm'))){
-        var layerNum = layer.load($.i18n.prop('app_notifiers_delete_layer_pending = 正在删除...'));
+        var layerNum = layer.load($.i18n.prop('app_notifiers_delete_layer_pending'));
         $.ajax({
             url:baseUrl+'/'+ orgName +'/' + appUuid + '/notifiers/' + credentialId,
             type:'DELETE',
@@ -201,14 +201,14 @@ function changeform() {
         var passphrase = $('#passphrase').val();
         var notifierNameRegx = /^[A-Za-z0-9-_]*$/;
         if (!notifierNameRegx.test(notifierName)) {
-            alert('证书名称只能是字母数字横线下划线的组合!');
+            alert($.i18n.prop('app_notifiers_form_name_illegal'));
             return;
         }
         if (!validateSuffix($('#file').val())) {
             return;
         }
         if (passphrase == '') {
-            alert('请填写证书密码!');
+            alert($.i18n.prop('app_notifiers_form_phrase_illegal'));
             return;
         }
 
@@ -221,7 +221,7 @@ function changeform() {
             },
             success: function (data) {
                 layer.close(layerNum);
-                alert("证书添加成功!");
+                alert($.i18n.prop('app_notifiers_form_save_succ'));
                 //clear form
                 $('#name').val('');
                 $('#passphrase').val('');
@@ -230,10 +230,10 @@ function changeform() {
             },
             error: function (data) {
                 layer.close(layerNum);
-                alert("证书添加失败!");
+                alert($.i18n.prop('app_notifiers_form_save_failed'));
             }
         }
-        var layerNum = layer.load('正在上传...', 3);
+        var layerNum = layer.load($.i18n.prop('app_notifiers_layer_pending'), 3);
         $('#myForm').ajaxSubmit(ajax_option);
     }
 }
@@ -243,7 +243,7 @@ function validateSuffix(fileName) {
     var fileExt = fileName.substr(fileName.lastIndexOf(".")).toLowerCase();
     var allowExt = '.p12';
     if (allowExt != fileExt) {
-        alert("警告!\n该文件类型不允许上传。请上传'.p12'类型的文件，当前文件类型为" + fileExt);
+        alert($.i18n.prop('app_notifiers_layer_typeError') + fileExt);
         return false;
     }
     return true;

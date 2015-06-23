@@ -12,7 +12,7 @@ function sendUserMessages(){
     var messageContent = $('#messegeContent').val().trim();
     var target = users.split(',');
     if ( messageContent ==''){
-        alert('消息不能为空');
+        alert($.i18n.prop('app_chatgroups_form_sendMsg_contentEmpty'));
     }else{
         var d = {
             "target_type" : "chatgroups",
@@ -22,24 +22,22 @@ function sendUserMessages(){
                 "type" : "txt",
                 "msg" : messageContent
             }
-        }
-        var layerNum = layer.load('正在发送...');
+        };
+        var layerNum = layer.load($.i18n.prop('app_chatgroups_form_sendMsg_pending'));
         $.ajax({
-            url:baseUrl+'/'+ orgName + "/" + appUuid + '/messages',
+            url:baseUrl + '/' + orgName + "/" + appUuid + '/messages',
             type:'POST',
             headers:{
-                'Authorization':'Bearer '+token,
+                'Authorization':'Bearer ' + token,
                 'Content-Type':'application/json'
             },
             data:JSON.stringify(d),
             error:function(respData){
                 layer.close(layerNum);
-                //alert('发送失败');
             },
             success:function(respData){
                 layer.close(layerNum);
                 $('#closeButn').click();
-                //alert('发送成功');
             }
         });
     }
@@ -62,10 +60,10 @@ function sendUserImgMessages(){
             "msg" : {
                 "type":"img","filename":str[0], "secret": str[1],"url":$('#imgUuid').val()
             }
-        }
+        };
         var layerNum = layer.load($.i18n.prop('app_chatgroups_sendMsg_layer_sending'));
         $.ajax({
-            url:baseUrl+'/'+ orgName + "/" + appUuid + '/messages',
+            url:baseUrl + '/' + orgName + "/" + appUuid + '/messages',
             type:'POST',
             headers:{
                 'Authorization':'Bearer '+token,
@@ -199,7 +197,7 @@ function getAppChatgroups(appUuid, groupid, pageAction){
         } else if('next' == pageAction){
             pageNo -= 1;
         }
-        var loading = '<tr id="tr_loading"><td class="text-center" colspan="4"><img src ="assets/img/loading.gif">&nbsp;&nbsp;&nbsp;<span>正在读取数据...</span></td></tr>';
+        var loading = '<tr id="tr_loading"><td class="text-center" colspan="4"><img src ="/assets/img/loading.gif">&nbsp;&nbsp;&nbsp;' + $.i18n.prop('app_chatgroups_table_loading') + '</td></tr>';
         $('#appChatroomBody').empty();
         $('#appChatroomBody').append(loading);
         $.ajax({
@@ -259,10 +257,6 @@ function getAppChatgroups(appUuid, groupid, pageAction){
         });
     }
 
-}
-// 查看群组成员
-function togroupaddAppAdminuserusers(appUuid,groupid){
-    window.location.href = 'app_chatgroup_users.html?appUuid=' + appUuid + '&groupid=' + groupid;
 }
 
 // 获取群组成员列表
@@ -371,7 +365,7 @@ function deleteAppChatroom(appUuid,groupuuid){
             },
             success:function(respData){
                 alert($.i18n.prop('app_chatgroups_delete_succ'));
-                window.location.href = 'app_chatgroups.html?appUuid=' + appUuid;
+                EasemobCommon.disPatcher.toPageAppChatGroups();
             }
         });
     }
@@ -394,7 +388,7 @@ function deleteAppChatroomUsers(appUuid,groupuuid,usersname){
             },
             success:function(respData){
                 alert($.i18n.prop('app_chatgroups_users_delete_confirm'));
-                location.replace(location.href);
+                EasemobCommon.disPatcher.refreshCurrentPage();
             }
         });
     }
@@ -430,7 +424,7 @@ function addChatgroupMember(appUuid, groupid, newmember) {
                         },
                         success: function(respData, textStatus, jqXHR) {
                             alert($.i18n.prop('app_chatgroups_add_succ'));
-                            location.replace(location.href);
+                            EasemobCommon.disPatcher.refreshCurrentPage();
                         }
                     });
                 }else{
@@ -500,7 +494,7 @@ function createNewChatgroups(appUuid,qunzuname,qunzumiaosu,approval,publics,qunz
             },
             success: function(respData, textStatus, jqXHR) {
                 $('#qunzuguanSpan').text('');
-                location.replace(location.href);
+                EasemobCommon.disPatcher.refreshCurrentPage();
             }
         });
     }
@@ -543,7 +537,7 @@ function deleteAppChatgroupsCheckBox(appUuid){
                     deleteAppChatrooms(appUuid, checkbox[i].value);
                 }
             }
-            location.replace(location.href);
+            EasemobCommon.disPatcher.refreshCurrentPage();
         }
     }else{
         alert($.i18n.prop('app_chatgroups_delete_deleteNoteItem'));
@@ -631,14 +625,10 @@ function addChatgroupMemberPre() {
         $('#newmemberEMsg').text('');
         addChatgroupMember(appUuid, groupid, newmember)
     } else {
-        $('#newmemberEMsg').text('抱歉，该群已满，不能继续添加成员');
+        $('#newmemberEMsg').text($.i18n.prop('app_chatgroups_table_overLoad'));
     }
 }
 
-// 去除字符串中所有空格
-function removeAllSpace(str) {
-    return str.replace(/\s+/g, "");
-}
 //发送消息
 function showSendMessge() {
     sendMessge(appUuid);
@@ -659,14 +649,6 @@ function deleteAppChatgroupBox() {
     deleteAppChatgroupsCheckBox(appUuid);
 }
 
-// 去除字符串中所有空格
-function removeAllSpace(str) {
-    return str.replace(/\s+/g, "");
-}
-//发送消息
-function showSendMessge() {
-    sendMessge(appUuid);
-}
 
 function checkAll() {
     var ischeck = document.getElementById('checkAll');
@@ -686,12 +668,13 @@ function checkAll() {
 function sendMessage() {
     var uploadResspan = $('#uploadresspan').text();
     var messageContent = $('#messegeContent').val();
-    if (uploadResspan == '等待上传图片' && messageContent == '') {
-    } else if (uploadResspan != '等待上传图片' && messageContent == '') {
+    var pending = $.i18n.prop('app_chatgroups_sendMsg_label_wait');
+    if (uploadResspan == pending && messageContent == '') {
+    } else if (uploadResspan != pending && messageContent == '') {
         sendUserImgMessages();
-    } else if (uploadResspan == '等待上传图片' && messageContent != '') {
+    } else if (uploadResspan == pending && messageContent != '') {
         sendUserMessages();
-    } else if (uploadResspan != '等待上传图片' && messageContent != '') {
+    } else if (uploadResspan != pending && messageContent != '') {
         sendUserMessages();
         sendUserImgMessages();
     }
@@ -743,7 +726,7 @@ function approvals() {
 
 
 function imgMessage() {
-    $('#uploadresspan').text('图片上传中...');
+    $('#uploadresspan').text($.i18n.prop('app_chatgroups_sendMsg_label_uploading'));
     var img = $('#file').val().substr($('#file').val().lastIndexOf('.') + 1);
     img = img.toLowerCase();
     if (img == 'jpg' || img == 'png' || img == 'bmp' || img == 'gif' || img == 'jpeg') {
@@ -758,22 +741,22 @@ function imgMessage() {
                 'Authorization': 'Bearer ' + access_token,
             },
             success: function (respData) {
-                $('#uploadresspan').text('图片上传成功 !');
+                $('#uploadresspan').text($.i18n.prop('app_chatgroups_alert_upload_picture_saved'));
                 var str = $('#file').val() + "," + respData.entities[0]['share-secret'];
                 $('#share-secret').val(str);
                 $('#imgUuid').val(baseUrl + '/' + orgName + '/' + appUuid + '/chatfiles/' + respData.entities[0].uuid);
             },
             error: function (respData) {
             }
-        }
+        };
 
         $('#myForm').ajaxSubmit(ajax_option);
     } else {
-        alert('您要上传的文件不是图片！请选择图片!');
+        alert($.i18n.prop('app_chatgroups_alert_upload_picture_wrongtype'));
     }
 
 }
 
 function clsupSpan() {
-    $('#uploadresspan').text('等待上传图片');
+    $('#uploadresspan').text($.i18n.prop('app_chatgroups_sendMsg_label_wait'));
 }

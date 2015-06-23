@@ -8,7 +8,7 @@ var Console = Console || {};
 
 // 初始化加载
 $(function() {
-    // 支持Crossdomain
+    // support crossDomain
     $.support.cors = true;
 
     // 显示已登录用户nd
@@ -34,37 +34,6 @@ function getQueryString(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);
     if (r != null) return unescape(r[2]); return null;
-}
-
-
-
-
-// 设置新密码
-function resetPasswdReq(token,uuid){
-    var password1=$('#password1').val();
-    var	password2=$('#password2').val();
-    var d = {
-        'password1':password1,
-        'password2':password2,
-        'token':token
-    };
-    if(resetPasswdReqFormValidate()){
-        $.ajax({
-            url:baseUrl + '/management/users/'+uuid+'/resetpw',
-            type:'POST',
-            data:JSON.stringify(d),
-            headers:{
-                'Content-Type':'multipart/form-data'
-            },
-            success:function(respData){
-                alert('提示!\n重置密码成功!');
-                EasemobCommon.disPatcher.toPageIndex();
-            },
-            error:function(data){
-                alert('提示!\n重置密码失败!');
-            }
-        });
-    }
 }
 
 
@@ -219,8 +188,14 @@ var EasemobCommon = function() {
         },
 
         disPatcher: {
+            refreshCurrentPage: function(){
+                location.replace(location.href);
+            },
             toPageIndex: function () {
                 window.location.href = 'index.html';
+            },
+            toPageIndexRegistOrgSuccess: function(mailSuffix, regEmail) {
+                window.location.href = 'index_regist_org_success.html?mailSuffix='+mailSuffix+'&regEmail='+regEmail;
             },
             toPageAppList: function() {
                 window.location.href = "app_list.html";

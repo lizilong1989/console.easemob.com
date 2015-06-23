@@ -613,7 +613,7 @@ function sendUserImgMessage(){
 
     var shareSecret = $('#share-secret').val();
     if( shareSecret == '' || shareSecret == null){
-        alert('请先选择图片');
+        alert($.i18n.prop('app_users_sendMessage_selectPicture'));
     } else {
         var users = document.getElementById('usernameMessage').value;
         var appUuid = document.getElementById('appUuidMessage').value;
@@ -731,7 +731,7 @@ function deleteAppIMFriend(appUuid, owner_username, friend_username){
                 error: function(jqXHR, textStatus, errorThrown) {
                 },
                 success: function(respData, textStatus, jqXHR) {
-                    location.replace(location.href);
+                    EasemobCommon.disPatcher.refreshCurrentPage();
                 }
             });
         }
@@ -784,7 +784,7 @@ function addIMFriend(){
                     success: function(respData, textStatus, jqXHR) {
                         layer.close(layerNum);
                         alert($.i18n.prop('app_users_contacts_add_note_addContactDone'));
-                        location.replace(location.href);
+                        EasemobCommon.disPatcher.refreshCurrentPage();
                     }
                 });
             }
@@ -798,8 +798,6 @@ function addIMFriend(){
 
 // 好友分页条更新
 function updateIMPageStatus(owner_username){
-    var pageLi = $('#paginau').find('li');
-
     // 获取token
     var access_token = $.cookie('access_token');
     var cuser = $.cookie('cuser');
