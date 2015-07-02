@@ -52,7 +52,7 @@
         var counterNameUsers = 'application.collection.users';
         var counterNameChatmessages = 'application.collection.chatmessages';
 
-        var chartTileUsers = 'IM用户数趋势图';
+        var chartTileUsers = '注册用户数趋势图';
         var chartTileChatmessages = '消息发送量趋势图';
         var chartTileDailyActiveUser = '每日活跃用户数趋势图';
         var chartTileDailyNewActiveUser = '每日新增活跃用户数趋势图';
@@ -85,11 +85,11 @@
 
         function applyCountersAndDraw(selector) {
             var counterType = $(selector).children("option:selected").val();
-            $('#drawCountersChartsType').val(counterType);
+            var drawCountersChartsTypeObj = $('#drawCountersChartsType');
+            drawCountersChartsTypeObj.val(counterType);
 
-            var drawCountersChartsType = $('#drawCountersChartsType').val();
             var chartTitle = $('#chartTitle');
-            switch(drawCountersChartsType){
+            switch(counterType){
                 case 'daily_active_users':
                     chartTitle.text(chartTileDailyActiveUser);
                     break;
@@ -99,7 +99,8 @@
                 case 'daily_new_active_users':
                     chartTitle.text(chartTileDailyNewActiveUser);
                     break;
-                default:
+                case 'register_users':
+                    chartTitle.text(chartTileUsers);
                     break;
             }
 
