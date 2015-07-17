@@ -234,7 +234,7 @@ function onBlurCheckLoginPassword() {
 function onBlurCheckResetEmail() {
     var resetEmail = $('#email').val();
     if ('' == resetEmail) {
-        $('#emailEMsg').text($.i18n.prop('index_alert_register_email_empty'));
+        $('#emailEMsg').text($.i18n.prop('index_alert_register_username_empty'));
         return false;
     }
 
@@ -446,12 +446,13 @@ function createNewOrgAndAdminUserFormValidate() {
         $('#regUserNameEMsgHidden').val('illegal');
         return false;
     }
-    var regUserNameRegex = /^[a-zA-Z0-9_\-./]*$/;
+    var regUserNameRegex = /^[a-zA-Z0-9_\-]*$/;
     if (!regUserNameRegex.test(regUserName)) {
         regUserNameObj.focus();
+        $('#regUserNameSMsg').css('display', 'none');
+        $('#regUserNameEMsg').css('display', 'block');
         $('#regUserNameEMsg').text($.i18n.prop('index_alert_register_regUserName_regix'));
         $('#regUserNameEMsgHidden').val('illegal');
-        $('#regUserNameEMsg').css('display', 'block');
         return false;
     }
     if (regUserName != '' && regUserName.length < 1) {

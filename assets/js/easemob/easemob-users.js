@@ -13,7 +13,7 @@ function onBlurCheckIMUsername(imUsername) {
         imUsernameMsgTypeObj.val('empty');
         return false;
     }
-    if (!imUsernameReg.test(imUsername)) {
+    if (!imUsernameReg.test(imUsername)  || '.' == imUsername || '..' == imUsername) {
         imUsernameMsgObj.text($.i18n.prop('app_users_form_username_error_illegal'));
         imUsernameMsgTypeObj.val('illegal');
         return false;
