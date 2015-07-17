@@ -2,21 +2,18 @@
  * Created by kenshinn on 15-6-10.
  */
 
-
 // 登录用户信息
-function loginAdminInfo(){
-    // get org admin token
-    var access_token = $.cookie('access_token');
-    var cuser = $.cookie('cuser');
+function loginAdminInfo() {
+    var accessToken = $.cookie('access_token');
     var orgName = $.cookie('orgName');
+    var loginAdminUser = $.cookie('cuser');
     var companyName = $.cookie('companyName');
     var telephone = $.cookie('telephone');
     var email = $.cookie('email');
-    if(!access_token || access_token==''){
-        alert('提示\n\n会话已失效,请重新登录!');
-        window.location.href = 'index.html';
+    if (!accessToken || accessToken == '') {
+        EasemobCommon.disPatcher.sessionTimeOut();
     } else {
-        $('#username').text(cuser);
+        $('#username').text(loginAdminUser);
         $('#email').text(email);
         $('#companyName').text(companyName);
         $('#telephone').text(telephone);
@@ -24,42 +21,40 @@ function loginAdminInfo(){
 }
 
 
-
 // 修改登录用户信息
-function updateAdminInfo(username, companyName, telephone){
-    // get org admin token
-    var access_token = $.cookie('access_token');
-    var cuser = $.cookie('cuser');
+function updateAdminInfo(username, companyName, telephone) {
+    var accessToken = $.cookie('access_token');
     var orgName = $.cookie('orgName');
-    var d = {};
-    if(companyName != '' && companyName != null){
-        d.companyName = companyName;
+    var requestData = {};
+    if (companyName != '' && companyName != null) {
+        requestData.companyName = companyName;
     }
-    if(telephone != '' && telephone != null){
-        d.telephone = telephone;
+    if (telephone != '' && telephone != null) {
+        requestData.telephone = telephone;
     }
 
-    if(!access_token || access_token==''){
-        alert('提示\n\n会话已失效,请重新登录!');
-        window.location.href = 'index.html';
+    if (!accessToken || accessToken == '') {
+        EasemobCommon.disPatcher.sessionTimeOut();
     } else {
         $.ajax({
             url: baseUrl + '/management/users/' + username,
-            type:'PUT',
-            data:JSON.stringify(d),
-            headers:{
-                'Authorization':'Bearer ' + access_token,
-                'Content-Type':'application/json'
+            type: 'PUT',
+            data: JSON.stringify(requestData),
+            headers: {
+                'Authorization': 'Bearer ' + accessToken,
+                'Content-Type': 'application/json'
             },
-            error:function(respData, textStatus, jqXHR){
+            error: function (respData, textStatus, jqXHR) {
             },
-            success:function(respData, textStatus, jqXHR){
-                alert('修改成功!');
+            success: function () {
+                layer.msg($.i18n.prop('admin_home_update_succ'), 3, 1);
 
-                $('#companyNameInput').val('');
-                $('#telephoneInput').val('');
-                $('#companyNameInput').hide();
-                $('#telephoneInput').hide();
+                var companyNameInputObj = $('#companyNameInput');
+                var telephoneInputObj = $('#telephoneInput');
+                companyNameInputObj.val('');
+                telephoneInputObj.val('');
+                companyNameInputObj.hide();
+                telephoneInputObj.hide();
                 $('#showEditBtn').show();
                 $('#saveAdminInfoBtn').hide();
                 $('#cancelSaveAdminInfoBtn').hide();
@@ -68,8 +63,8 @@ function updateAdminInfo(username, companyName, telephone){
 
                 var date = new Date();
                 date.setTime(date.getTime() + (7 * 24 * 60 * 60 * 1000));
-                $.cookie('companyName', companyName,{path:'/',expires:date});
-                $.cookie('telephone', telephone,{path:'/',expires:date});
+                $.cookie('companyName', companyName, {path: '/', expires: date});
+                $.cookie('telephone', telephone, {path: '/', expires: date});
 
                 loginAdminInfo();
             }
@@ -78,81 +73,106 @@ function updateAdminInfo(username, companyName, telephone){
 }
 
 // 修改登录用户密码表单校验
-function updateAdminPasswdFormValidate(){
-    // 表单校验
-    var oldpassword = $('#oldpassword').val();
-    var newpassword = $('#newpassword').val();
-    var renewpassword = $('#renewpassword').val();
+function updateAdminPasswdFormValidate() {
+    var oldPasswordObj = $('#oldpassword');
+    var newPasswordObj = $('#newpassword');
 
-    if('' == oldpassword){
-        $('#oldpasswordEMsg').text('原密码不能为空！');
-        $('#oldpassword').focus();
-        return false;
-    }
-    $('#oldpasswordEMsg').text('');
-    if('' == newpassword){
-        $('#newpasswordEMsg').text('新密码不能为空！');
-        $('#newpassword').focus();
-        return false;
-    }
+    var oldPassword = oldPasswordObj.val();
+    var newPassword = newPasswordObj.val();
+    var reNewPassword = $('#renewpassword').val();
 
-    if(newpassword.length < 6 || newpassword.length > 20){
-        $('#newpasswordEMsg').text('新密码长度在6-20个字符之间！');
-        $('#newpassword').focus();
-        return false;
-    }
-    $('#newpasswordEMsg').text('');
-    if(renewpassword != newpassword){
-        $('#renewpasswordEMsg').text('两次新密码不一致');
+    var oldPasswordHiddenObj = $('#oldpasswordHidden');
+    var oldPasswordEMsgObj = $('#oldpasswordEMsg');
+    if ('' == oldPassword) {
+        oldPasswordEMsgObj.text($.i18n.prop('admin_home_password_form_passwordEmpty'));
+        oldPasswordObj.focus();
+        oldPasswordHiddenObj.val('passwordEmpty');
         return false;
     }
 
-    $('#renewpasswordEMsg').text('');
+    oldPasswordHiddenObj.val('');
+    oldPasswordEMsgObj.text('');
+
+    var newPasswordHiddenObj = $('#newpasswordHidden');
+    var newPasswordEMsgObj = $('#newpasswordEMsg');
+    if ('' == newPassword) {
+        newPasswordEMsgObj.text($.i18n.prop('admin_home_password_form_newPasswordEmpty'));
+        newPasswordObj.focus();
+        newPasswordHiddenObj.val('newPasswordEmpty');
+        return false;
+    }
+
+    newPasswordHiddenObj.val('');
+    if (newPassword.length < 6) {
+        newPasswordEMsgObj.text($.i18n.prop('admin_home_password_form_newPasswordIllegal'));
+        newPasswordObj.focus();
+        newPasswordHiddenObj.val('newPasswordIllegal');
+        return false;
+    }
+    newPasswordHiddenObj.val('');
+    newPasswordEMsgObj.text('');
+
+    var reNewPasswordEMsgObj = $('#renewpasswordEMsg');
+    var reNewPasswordHiddenObj = $('#renewpasswordHidden');
+    if (reNewPassword != newPassword) {
+        reNewPasswordEMsgObj.text($.i18n.prop('admin_home_password_form_passwordNotMatch'));
+        reNewPasswordHiddenObj.val('passwordNotMatch');
+        return false;
+    }
+
+    reNewPasswordHiddenObj.val('');
+    reNewPasswordEMsgObj.text('');
     return true;
 }
 
 // 修改登录用户密码
 validateAccessToken = '';
 function updateAdminPasswd() {
-    var access_token = $.cookie('access_token');
-    var oldpassword = $('#oldpassword').val();
-    var	newpassword = $('#newpassword').val();
+    var oldPassword = $('#oldpassword').val();
+    var newPassword = $('#newpassword').val();
     var username = $.cookie('cuser');
-    var d = {
-        'oldpassword':oldpassword,
-        'newpassword':newpassword
-    }
-    var dtoken = {
-        'grant_type':'password',
-        'username':username,
-        'password':oldpassword
-    }
-    if(updateAdminPasswdFormValidate()){
+
+    var fetchTokenData = {
+        'grant_type': 'password',
+        'username': username,
+        'password': oldPassword
+    };
+    if (updateAdminPasswdFormValidate()) {
         //校验旧密码
         $.ajax({
-            url:baseUrl+'/management/token',
-            type:'POST',
-            data:JSON.stringify(dtoken),
-            error: function(jqXHR, textStatus, errorThrown) {
-                $('#oldpasswordEMsg').text('原密码不正确!');
+            url: baseUrl + '/management/token',
+            type: 'POST',
+            data: JSON.stringify(fetchTokenData),
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#oldpasswordHidden').val('oldPasswordInCorrect');
+                $('#oldpasswordEMsg').text($.i18n.prop('admin_home_password_form_oldPasswordInCorrect'));
             },
-            success: function(respData, textStatus, jqXHR) {
-                if(respData.access_token == ''){
-                    return ;
+            success: function (respData, textStatus, jqXHR) {
+                if (respData.access_token == '') {
+                    return;
                 }
 
+                var resetPasswordData = {
+                    'oldpassword': oldPassword,
+                    'newpassword': newPassword
+                };
+
                 $.ajax({
-                    url:baseUrl + '/management/users/' + username + '/password',
-                    type:'POST',
-                    data:JSON.stringify(d),
-                    headers:{
-                        'Content-Type':'application/json'
+                    url: baseUrl + '/management/users/' + username + '/password',
+                    type: 'POST',
+                    data: JSON.stringify(resetPasswordData),
+                    headers: {
+                        'Content-Type': 'application/json'
                     },
-                    success:function(respData){
-                        alert('提示!\n密码修改成功!');
+                    success: function () {
+                        layer.msg($.i18n.prop('admin_home_password_form_succ'), 3, 1);
+
+                        $('#oldpassword').val('');
+                        $('#newpassword').val('');
+                        $('#renewpassword').val('');
                     },
-                    error:function(data){
-                        alert('提示!\n密码修改失败!');
+                    error: function () {
+                        layer.msg($.i18n.prop('admin_home_password_form_failed'), 3, 5);
                     }
                 });
             }
@@ -163,68 +183,77 @@ function updateAdminPasswd() {
 
 
 // 获取orgadmin列表
-function getOrgAdminList(){
-    // 获取token
-    var access_token = $.cookie('access_token');
+function getOrgAdminList() {
+    var accessToken = $.cookie('access_token');
     var orgName = $.cookie('orgName');
     var loginUser = $.cookie('cuser');
-    if(!access_token || access_token==''){
-        alert('提示\n\n会话已失效,请重新登录!');
-        window.location.href = 'index.html';
+
+    if (!accessToken || accessToken == '') {
+        EasemobCommon.disPatcher.sessionTimeOut();
     } else {
-        var loading = '<tr id="tr_loading"><td class="text-center" colspan="9"><img src ="assets/img/loading.gif">&nbsp;&nbsp;&nbsp;<span>正在读取数据...</span></td></tr>';
-        $('#orgadminsBody').empty();
-        $('#orgadminsBody').append(loading);
+        var loading = '<tr id="tr_loading"><td class="text-center" colspan="9"><img src ="/assets/img/loading.gif">&nbsp;&nbsp;&nbsp;<span id="admin_list_table_loading">' + $.i18n.prop('admin_list_table_loading') + '</span></td></tr>';
+
+        var orgAdminsBodyObj = $('#orgadminsBody');
+        orgAdminsBodyObj.empty();
+        orgAdminsBodyObj.append(loading);
 
         $.ajax({
-            url:baseUrl+'/management/organizations/'+ orgName +'/users',
-            type:'GET',
-            headers:{
-                'Authorization':'Bearer ' + access_token,
-                'Content-Type':'application/json'
+            url: baseUrl + '/management/organizations/' + orgName + '/users',
+            type: 'GET',
+            async: false,
+            headers: {
+                'Authorization': 'Bearer ' + accessToken,
+                'Content-Type': 'application/json'
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function (jqXHR, textStatus, errorThrown) {
             },
-            success: function(respData, textStatus, jqXHR) {
+            success: function (respData, textStatus, jqXHR) {
                 $('tbody').html('');
                 var selectOptions = '';
-                $(respData.data).each(function(){
+                var orgAdminListOrder = 0;
+                $(respData.data).each(function () {
+                    orgAdminListOrder = orgAdminListOrder + 1;
                     var username = this.username;
-                    var confirmedStr = (this.confirmed == true) ? "已激活" : "未激活";
+                    var confirmedStr = (this.confirmed == true) ? $.i18n.prop('admin_list_table_confirmed') : $.i18n.prop('admin_list_table_unConfirmed');
                     var email = this.email;
                     var companyName = this.properties.companyName;
                     var telephone = this.properties.telephone;
 
                     var ops = '';
-                    if(username != loginUser){
-                        ops = '<li class="dropdown all-camera-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">操作<b class="caret"></b></a>'+
-                            '<ul class="dropdown-menu">'+'<li data-filter-camera-type="all"><a href="javascript:disConnAdminAndOrg(\''+username+'\')">移出管理员</a></li>';
+                    var isCurrentUser = false;
+                    if (username != loginUser) {
+                        ops = '<li class="dropdown all-camera-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="admin_list_table_operation_' + orgAdminListOrder + '">' + $.i18n.prop('admin_list_table_operation') + '</span><b class="caret"></b></a>' +
+                            '<ul class="dropdown-menu">' + '<li data-filter-camera-type="all"><a onclick="disConnAdminAndOrg(\'' + username + '\')" href="javascript:void(0);"><span id="admin_list_table_remove_' + orgAdminListOrder + '">' + $.i18n.prop('admin_list_table_remove') + '</span></a></li>';
                     } else {
-                        ops = '当前登录账户禁止操作';
+                        isCurrentUser = true;
+                        ops = $.i18n.prop('admin_list_table_currentUser_disable');
                     }
 
-                    selectOptions += '<tr>'+
-                        '<td class="text-center">'+username+'</td>'+
-                        '<td class="text-center">'+email+'</td>'+
-                        '<td class="text-center">'+companyName+'</td>'+
-                        '<td class="text-center">'+telephone+'</td>'+
-                        '<td class="text-center">'+confirmedStr+'</td>'+
-                        '<td class="text-center">'+
-                        '<ul class="nav-pills" style="list-style-type:none">'+ ops
-                    '</ul>'+
-                    '</li>'+
-                    '</ul>'+
-                    '</td>'+
+                    selectOptions += '<tr>' +
+                        '<td class="text-center">' + username + '</td>' +
+                        '<td class="text-center">' + email + '</td>' +
+                        '<td class="text-center">' + companyName + '</td>' +
+                        '<td class="text-center">' + telephone + '</td>' +
+                        '<input type="hidden" id="adminListConfirmed_' + orgAdminListOrder + '" isCurrentUser="' + isCurrentUser + '" value="' + this.confirmed + '">' +
+                        '<td class="text-center" id="adminListConfirmedStr_' + orgAdminListOrder + '">' + confirmedStr + '</td>' +
+                        '<td class="text-center">' +
+                        '<ul class="nav-pills" style="list-style-type:none" id="adminListConfirmedStrOps_' + orgAdminListOrder + '">' + ops
+                    '</ul>' +
+                    '</li>' +
+                    '</ul>' +
+                    '</td>' +
                     '</tr>';
                 });
+
+                $('#orgAdminListOrder').val(orgAdminListOrder);
+
                 $('#tr_loading').remove();
-                $('#orgadminsBody').append(selectOptions);
-                // 无数据
+                orgAdminsBodyObj.append(selectOptions);
                 var tbody = document.getElementsByTagName("tbody")[0];
-                if(!tbody.hasChildNodes()){
-                    var option = '<tr><td class="text-center" colspan="9">无数据!</td></tr>';
+                if (!tbody.hasChildNodes()) {
+                    var option = '<tr><td class="text-center" colspan="9">' + $.i18n.prop('table_data_nodata') + '</td></tr>';
                     $('#tr_loading').remove();
-                    $('#orgadminsBody').append(option);
+                    orgAdminsBodyObj.append(option);
                 }
             }
         });
@@ -232,223 +261,530 @@ function getOrgAdminList(){
 }
 
 // remove user from organization
-function disConnAdminAndOrg(adminUserName){
-    var access_token = $.cookie('access_token');
+function disConnAdminAndOrg(adminUserName) {
+    var accessToken = $.cookie('access_token');
     var orgName = $.cookie('orgName');
     var loginUser = $.cookie('cuser');
-    if(!access_token || access_token==''){
-        alert('提示\n\n会话已失效,请重新登录!');
-        window.location.href = 'index.html';
+    if (!accessToken || accessToken == '') {
+        EasemobCommon.disPatcher.sessionTimeOut();
     } else {
-        if(adminUserName != ''){
-            if(loginUser == adminUserName){
-                alert('当前登录账户禁止操作');
-                return;
+        if (adminUserName != '') {
+            if (loginUser == adminUserName) {
+                layer.msg($.i18n.prop('admin_list_table_currentUser_disable'), 3, 5);
             } else {
-                if(confirm("确定要移出该管理员吗?")){
+                var confirmOk = $.i18n.prop('confirm_ok');
+                var confirmCancel = $.i18n.prop('confirm_cancel');
+                Modal.confirm({
+                    msg: $.i18n.prop('admin_list_table_disConnUser_confirm'),
+                    title: "",
+                    btnok: confirmOk,
+                    btncl: confirmCancel
+                }).on(function () {
                     $.ajax({
-                        url:baseUrl　+　'/management/users/' + adminUserName + '/orgs/' + orgName,
-                        type:'DELETE',
-                        headers:{
-                            'Authorization':'Bearer ' + access_token,
-                            'Content-Type':'application/json'
+                        url: baseUrl + '/management/users/' + adminUserName + '/orgs/' + orgName,
+                        type: 'DELETE',
+                        headers: {
+                            'Authorization': 'Bearer ' + accessToken,
+                            'Content-Type': 'application/json'
                         },
-                        error: function(respData, textStatus, jqXHR) {
+                        error: function (respData, textStatus, jqXHR) {
                             var error_description = jQuery.parseJSON(respData.responseText).error_description;
-                            if('Organizations must have at least one member.' == error_description){
-                                alert('企业管理员至少要有一个!!');
+                            if ('Organizations must have at least one member.' == error_description) {
+                                layer.msg($.i18n.prop('admin_list_table_disConnUser_oneAtLeast'), 3, 5);
                             } else {
-                                alert('移出管理员失败!');
+                                layer.msg($.i18n.prop('admin_list_table_disConnUser_failed'), 3, 5);
                             }
                         },
-                        success: function(respData, textStatus, jqXHR) {
+                        success: function (respData, textStatus, jqXHR) {
                             var orgname = respData.data.name;
-                            if(orgName == orgname){
-                                alert('移出管理员成功!');
-                                window.location.href = 'admin_list.html';
+                            if (orgName == orgname) {
+                                layer.msg($.i18n.prop('admin_list_table_disConnUser_succ'), 3, 1);
+                                getOrgAdminList();
                             }
                         }
                     });
-                }
-            }
-        }
-    }
-}
-
-// 增加orgadminuser表单校验
-function createAdminUserFormValidate(){
-    // 表单校验
-    $('#adminUserName').val($('#adminUserName').val().trim());
-    var adminUserName = $('#adminUserName').val();
-    if(adminUserName == ''){
-        $('#adminUserNameMsg').hide();
-        $('#adminUserNameEEMsg').hide();
-        $('#adminUserNameEMsg').show();
-        $('#adminUserNameOMsg').hide();
-        return false;
-    }
-    var adminUserNameRegex = /^[0-9a-zA-Z]*$/;
-    if(adminUserName != '' && !adminUserNameRegex.test(adminUserName)){
-        $('#adminUserNameMsg').hide();
-        $('#adminUserNameOMsg').hide();
-        $('#adminUserNameEEMsg').hide();
-        $('#adminUserNameEMsg').show();
-        return false;
-    }
-
-    $('#adminPassword').val($('#adminPassword').val().trim());
-    var adminPassword = $('#adminPassword').val();
-    if(adminPassword == ''){
-        $('#adminPasswordMsg').show();
-        $('#adminPasswordOMsg').hide();
-        return false;
-    }
-
-    $('#adminRePassword').val($('#adminRePassword').val().trim());
-    var adminRePassword = $('#adminRePassword').val();
-    var adminPassword = $('#adminPassword').val();
-
-    if(adminRePassword == ''){
-        $('#adminRePasswordMsg').hide();
-        $('#adminRePasswordEMsg').show();
-        $('#adminRePasswordEMsg').show();
-        return false;
-    }
-    if('' != adminRePassword && adminPassword != adminRePassword){
-        $('#adminRePasswordMsg').hide();
-        $('#adminRePasswordEMsg').show();
-        $('#adminRePasswordOMsg').hide();
-        return false;
-    }
-
-    $('adminEmail').val($('#adminEmail').val().trim());
-    var adminEmail = $('#adminEmail').val();
-    if(adminEmail == ''){
-        $('#adminEmailMsg').show();
-        $('#adminEmailEMsg').hide();
-        $('#adminEmailEEMsg').hide();
-        $('#adminEmailOMsg').hide();
-        return false;
-    }
-    var adminEmailRegex = /^([a-zA-Z0-9]+[_|\_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z0-9]{1,10}$/;
-    if(adminEmail != '' && !adminEmailRegex.test(adminEmail)){
-        $('#adminEmailMsg').hide();
-        $('#adminEmailEMsg').show();
-        $('#adminEmailEEMsg').hide();
-        $('#adminEmailOMsg').hide();
-        return false;
-    }
-
-    var adminCompany = $('#adminCompany').val();
-    if(adminCompany == ''){
-        $('#adminCompanyMsg').show();
-        $('#adminCompanyEMsg').hide();
-        $('#adminCompanyOMsg').hide();
-        return false;
-    }
-    var adminCompanyRegex = /^[0-9a-zA-Z\-_\u4e00-\u9faf]*$/;
-    if (adminCompany != '' && !adminCompanyRegex.test(adminCompany)) {
-        $('#adminCompanyMsg').hide();
-        $('#adminCompanyEMsg').show();
-        $('#adminCompanyOMsg').hide();
-        return false;
-    }
-
-    $('#adminTel').val($('#adminTel').val().trim());
-    var regTel = $('#adminTel').val();
-    if(regTel == ''){
-        $('#adminTelMsg').show();
-        $('#adminTelEMsg').hide();
-        $('#adminTelOMsg').hide();
-        return false;
-    }
-
-    if(regTel != '' && !checkTel(regTel)){
-        $('#adminTelMsg').hide();
-        $('#adminTelEMsg').show();
-        $('#adminTelOMsg').hide();
-        return false;
-    }
-
-    return true;
-}
-
-// 添加企业管理员
-function saveNewAdminUserSubmit(adminUsername, adminPassword, adminEmail, adminCompany, adminTel){
-    var access_token = $.cookie('access_token');
-    var orgName = $.cookie('orgName');
-
-    if(!access_token || access_token=='') {
-        alert('提示\n\n会话已失效,请重新登录!');
-        window.location.href = 'index.html';
-    } else {
-        if(createAdminUserFormValidate()){
-            if(confirm("确定提交?")) {
-                var data ={
-                    username:adminUsername,
-                    password:adminPassword,
-                    email:adminEmail,
-                    companyName:adminCompany,
-                    telephone:adminTel,
-                    category:'admin_append'
-                };
-
-                // 创建管理员用户
-                $.ajax({
-                    url:baseUrl+'/management/users',
-                    type:'POST',
-                    headers:{
-                        'Authorization':'Bearer ' + access_token,
-                        'Content-Type':'application/json'
-                    },
-                    async:false,
-                    data:JSON.stringify(data),
-                    error: function(respData, textStatus, errorThrown) {
-                        var error_description = jQuery.parseJSON(respData.responseText).error_description;
-                        if(error_description.indexOf("Entity user requires that property named username be unique") > -1) {
-                            $('#adminUserNameEEMsg').show();
-                            $('#adminUserNameEMsg').hide();
-                            $('#adminUserNameOMsg').hide();
-                        } else if(error_description.indexOf("Entity user requires that property named email be unique") > -1) {
-                            $('#adminEmailEEMsg').show();
-                            $('#adminEmailOMsg').hide();
-                            $('#adminEmailEMsg').hide();
-                        } else {
-                            alert('添加APP管理员失败!');
-                        }
-                    },
-                    success: function(respData, textStatus, jqXHR) {
-                        clearNewAdminUserBox();
-                        var adminUserName = respData.data.username;
-                        if(adminUserName != '') {
-                            //　建立关系
-                            $.ajax({
-                                url:baseUrl　+　'/management/users/' + adminUserName + '/orgs/' + orgName,
-                                type:'PUT',
-                                headers:{
-                                    'Authorization':'Bearer ' + access_token,
-                                    'Content-Type':'application/json'
-                                },
-                                error: function(jqXHR, textStatus, errorThrown) {
-                                    alert('管理员添加失败!');
-                                },
-                                success: function(respData, textStatus, jqXHR) {
-                                    var orgname = respData.data.name;
-                                    if(orgName == orgname){
-                                        alert('添加管理员成功!\n请查收邮件并激活该账户,确保正常使用!');
-                                        window.location.href = 'admin_list.html';
-                                    }
-                                }
-                            });
-                        }
-                    }
                 });
             }
         }
     }
 }
 
+// create new admin user form validation
+function createAdminUserFormValidate() {
+    var adminCreateAdminUserNameObj = $('#admin_create_adminUserName');
+    adminCreateAdminUserNameObj.val(adminCreateAdminUserNameObj.val().trim());
+    var adminUserName = adminCreateAdminUserNameObj.val();
+
+    if (adminUserName == '') {
+        $('#admin_create_adminUserNameMsg').hide();
+        $('#admin_create_adminUserNameEEMsg').hide();
+        $('#admin_create_adminUserNameEMsg').show();
+        $('#admin_create_adminUserNameOMsg').hide();
+        return false;
+    }
+
+    var adminUserNameRegex = /^[0-9a-zA-Z]*$/;
+    if (adminUserName != '' && !adminUserNameRegex.test(adminUserName)) {
+        $('#admin_create_adminUserNameMsg').hide();
+        $('#admin_create_adminUserNameOMsg').hide();
+        $('#admin_create_adminUserNameEEMsg').hide();
+        $('#admin_create_adminUserNameEMsg').show();
+        return false;
+    }
+
+    var adminCreateAdminPasswordObj = $('#admin_create_adminPassword');
+    adminCreateAdminPasswordObj.val(adminCreateAdminPasswordObj.val().trim());
+    var adminPassword = adminCreateAdminPasswordObj.val();
+    if (adminPassword == '') {
+        $('#admin_create_adminPasswordMsg').hide();
+        $('#admin_create_adminPasswordEMsg').show();
+        $('#admin_create_adminPasswordOMsg').hide();
+        return false;
+    }
+
+    var adminCreateAdminRePasswordObj = $('#admin_create_adminRePassword');
+    adminCreateAdminRePasswordObj.val(adminCreateAdminRePasswordObj.val().trim());
+    var adminRePassword = adminCreateAdminRePasswordObj.val();
+    if (adminRePassword == '') {
+        $('#admin_create_adminRePasswordMsg').hide();
+        $('#admin_create_adminRePasswordEMsg').show();
+        $('#admin_create_adminRePasswordOMsg').hide();
+        return false;
+    }
+    if ('' != adminRePassword && adminPassword != adminRePassword) {
+        $('#admin_create_adminRePasswordMsg').hide();
+        $('#admin_create_adminRePasswordEMsg').show();
+        $('#admin_create_adminRePasswordOMsg').hide();
+        return false;
+    }
+
+    var adminCreateAdminEmailObj = $('#admin_create_adminEmail');
+    adminCreateAdminEmailObj.val(adminCreateAdminEmailObj.val().trim());
+    var adminEmail = adminCreateAdminEmailObj.val();
+    if (adminEmail == '') {
+        $('#admin_create_adminEmailMsg').show();
+        $('#admin_create_adminEmailEMsg').hide();
+        $('#admin_create_adminEmailEEMsg').hide();
+        $('#admin_create_adminEmailOMsg').hide();
+        return false;
+    }
+    var adminEmailRegex = /^([a-zA-Z0-9]+[_|\_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z0-9]{1,10}$/;
+    if (adminEmail != '' && !adminEmailRegex.test(adminEmail)) {
+        $('#admin_create_adminEmailMsg').hide();
+        $('#admin_create_adminEmailEMsg').show();
+        $('#admin_create_adminEmailEEMsg').hide();
+        $('#admin_create_adminEmailOMsg').hide();
+        return false;
+    }
+
+    var adminCompany = $('#admin_create_adminCompany').val();
+    if (adminCompany == '') {
+        $('#admin_create_adminCompanyMsg').show();
+        $('#admin_create_adminCompanyEMsg').hide();
+        $('#admin_create_adminCompanyOMsg').hide();
+        return false;
+    }
+    var adminCompanyRegex = /^[0-9a-zA-Z\-_\u4e00-\u9faf ]*$/;
+    if (adminCompany != '' && !adminCompanyRegex.test(adminCompany)) {
+        $('#admin_create_adminCompanyMsg').hide();
+        $('#admin_create_adminCompanyEMsg').show();
+        $('#admin_create_adminCompanyOMsg').hide();
+        return false;
+    }
+
+    var adminCreateAdminTelObj = $('#admin_create_adminTel');
+    adminCreateAdminTelObj.val(adminCreateAdminTelObj.val().trim());
+    var regTel = adminCreateAdminTelObj.val();
+    if (regTel == '') {
+        $('#admin_create_adminTelMsg').show();
+        $('#admin_create_adminTelEMsg').hide();
+        $('#admin_create_adminTelOMsg').hide();
+        return false;
+    }
+    if (regTel != '' && !checkTel(regTel)) {
+        $('#admin_create_adminTelMsg').hide();
+        $('#admin_create_adminTelEMsg').show();
+        $('#admin_create_adminTelOMsg').hide();
+        return false;
+    }
+
+    return true;
+}
+
+// add new organization admin user
+function saveNewAdminUserSubmit(adminUsername, adminPassword, adminEmail, adminCompany, adminTel) {
+    var accessToken = $.cookie('access_token');
+    var orgName = $.cookie('orgName');
+
+    if (!accessToken || accessToken == '') {
+        EasemobCommon.disPatcher.sessionTimeOut();
+    } else {
+        if (createAdminUserFormValidate()) {
+
+            var confirmOk = $.i18n.prop('confirm_ok');
+            var confirmCancel = $.i18n.prop('confirm_cancel');
+            Modal.confirm({
+                msg: $.i18n.prop('admin_create_form_confirm'),
+                title: "",
+                btnok: confirmOk,
+                btncl: confirmCancel
+            }).on(function () {
+                var data = {
+                    username: adminUsername,
+                    password: adminPassword,
+                    email: adminEmail,
+                    companyName: adminCompany,
+                    telephone: adminTel,
+                    category: 'admin_append',
+                    'webLocale': $.cookie('localeInfo')
+                };
+
+                // 创建管理员用户
+                $.ajax({
+                    url: baseUrl + '/management/users',
+                    type: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + accessToken,
+                        'Content-Type': 'application/json'
+                    },
+                    async: false,
+                    data: JSON.stringify(data),
+                    error: function (respData, textStatus, errorThrown) {
+                        var error_description = jQuery.parseJSON(respData.responseText).error_description;
+
+                        if (error_description.indexOf("Entity user requires that property named username be unique") > -1) {
+                            $('#admin_create_adminUserNameEEMsg').show();
+                            $('#admin_create_adminUserNameEMsg').hide();
+                            $('#admin_create_adminUserNameOMsg').hide();
+                        } else if (error_description.indexOf("Entity user requires that property named email be unique") > -1) {
+                            $('#admin_create_adminEmailEEMsg').show();
+                            $('#admin_create_adminEmailOMsg').hide();
+                            $('#admin_create_adminEmailEMsg').hide();
+                        } else {
+                            layer.msg($.i18n.prop('admin_create_form_failed'), 5, 5);
+                        }
+                    },
+                    success: function (respData, textStatus, jqXHR) {
+                        clearNewAdminUserBox();
+                        var adminUserName = respData.data.username;
+                        if (adminUserName != '') {
+                            //　建立关系
+                            $.ajax({
+                                url: baseUrl + '/management/users/' + adminUserName + '/orgs/' + orgName,
+                                type: 'PUT',
+                                headers: {
+                                    'Authorization': 'Bearer ' + accessToken,
+                                    'Content-Type': 'application/json'
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    layer.msg($.i18n.prop('admin_create_form_failed'), 5, 5);
+                                },
+                                success: function (respData, textStatus, jqXHR) {
+                                    var orgname = respData.data.name;
+                                    if (orgName == orgname) {
+                                        layer.msg($.i18n.prop('admin_create_form_succ'), 5, 1);
+                                        initOrgAminCreateForm();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+        }
+    }
+}
 
 
+function initOrgAminCreateForm() {
+    $('#admin_create_adminUserNameMsg').show();
+    $('#admin_create_adminUserNameEMsg').hide();
+    $('#admin_create_adminUserNameEEMsg').hide();
+    $('#admin_create_adminUserNameOMsg').hide();
+    $('#admin_create_adminPasswordMsg').show();
+    $('#admin_create_adminPasswordEMsg').hide();
+    $('#admin_create_adminPasswordOMsg').hide();
+    $('#admin_create_adminRePasswordMsg').show();
+    $('#admin_create_adminRePasswordEMsg').hide();
+    $('#admin_create_adminRePasswordOMsg').hide();
+    $('#admin_create_adminEmailMsg').show();
+    $('#admin_create_adminEmailEMsg').hide();
+    $('#admin_create_adminEmailEEMsg').hide();
+    $('#admin_create_adminEmailOMsg').hide();
+    $('#admin_create_adminTelMsg').show();
+    $('#admin_create_adminTelEMsg').hide();
+    $('#admin_create_adminTelOMsg').hide();
+    $('#admin_create_adminCompanyMsg').show();
+    $('#admin_create_adminCompanyEMsg').hide();
+    $('#admin_create_adminCompanyOMsg').hide();
+}
 
+
+function saveNewAdminUser() {
+    var adminUsernameInput = $('#admin_create_adminUserName').val();
+    var adminEmailInput = $('#admin_create_adminEmail').val();
+    var adminPasswordInput = $('#admin_create_adminPassword').val();
+    var adminCompanyInput = $('#admin_create_adminCompany').val();
+    var adminTelInput = $('#admin_create_adminTel').val();
+
+    saveNewAdminUserSubmit(adminUsernameInput, adminPasswordInput, adminEmailInput, adminCompanyInput, adminTelInput);
+}
+
+function check() {
+    if (count == 0) {
+        count++;
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function saveNewAdminUserPre() {
+    if (check()) {
+        count = 0;
+        saveNewAdminUser();
+    }
+}
+
+
+//　check org admin user on input field blurred
+function onBlurAdminUserNameCheck() {
+    var adminCreateAdminUserNameObj = $('#admin_create_adminUserName');
+    adminCreateAdminUserNameObj.val(adminCreateAdminUserNameObj.val().trim());
+
+    var adminUserName = adminCreateAdminUserNameObj.val();
+    if (adminUserName == '') {
+        $('#admin_create_adminUserNameMsg').show();
+        $('#admin_create_adminUserNameEEMsg').hide();
+        $('#admin_create_adminUserNameEMsg').hide();
+        $('#admin_create_adminUserNameOMsg').hide();
+        return;
+    }
+
+    var adminUserNameRegex = /^[0-9a-zA-Z]*$/;
+    if (adminUserName != '' && !adminUserNameRegex.test(adminUserName)) {
+        $('#admin_create_adminUserNameMsg').hide();
+        $('#admin_create_adminUserNameEEMsg').hide();
+        $('#admin_create_adminUserNameOMsg').hide();
+        $('#admin_create_adminUserNameEMsg').show();
+        return;
+    }
+
+    $('#admin_create_adminUserNameMsg').hide();
+    $('#admin_create_adminUserNameOMsg').show();
+    $('#admin_create_adminUserNameEEMsg').hide();
+    $('#admin_create_adminUserNameEMsg').hide();
+}
+
+//　check org admin user password on input field blurred
+function onBlurAdminPasswordCheck() {
+    var adminCreateAdminPasswordObj = $('#admin_create_adminPassword');
+    adminCreateAdminPasswordObj.val(adminCreateAdminPasswordObj.val().trim());
+
+    var adminPassword = adminCreateAdminPasswordObj.val();
+
+    var adminCreateAdminPasswordEMsgObj = $('#admin_create_adminPasswordEMsg');
+    var adminCreateAdminPasswordMsgObj = $('#admin_create_adminPasswordMsg');
+    var adminCreateAdminPasswordOMsgObj = $('#admin_create_adminPasswordOMsg');
+
+    if (adminPassword == '') {
+        adminCreateAdminPasswordEMsgObj.hide();
+        adminCreateAdminPasswordMsgObj.show();
+        adminCreateAdminPasswordOMsgObj.hide();
+        return;
+    }
+
+    adminCreateAdminPasswordEMsgObj.hide();
+    adminCreateAdminPasswordMsgObj.hide();
+    adminCreateAdminPasswordOMsgObj.show();
+}
+
+//　check org admin user confirm password on input field blurred
+function onBlurAdminRePasswordCheck() {
+    var adminCreateAdminRePasswordObj = $('#admin_create_adminRePassword');
+    adminCreateAdminRePasswordObj.val(adminCreateAdminRePasswordObj.val().trim());
+
+    var adminRePassword = adminCreateAdminRePasswordObj.val();
+    var adminPassword = $('#admin_create_adminPassword').val();
+
+
+    var adminCreateAdminRePasswordMsgObj = $('#admin_create_adminRePasswordMsg');
+    var adminCreateAdminRePasswordEMsgObj = $('#admin_create_adminRePasswordEMsg');
+    var adminCreateAdminRePasswordOMsgObj = $('#admin_create_adminRePasswordOMsg');
+
+
+    if (adminRePassword == '') {
+        if (adminPassword != '') {
+            adminCreateAdminRePasswordMsgObj.hide();
+            adminCreateAdminRePasswordEMsgObj.show();
+            adminCreateAdminRePasswordOMsgObj.hide();
+        } else {
+            adminCreateAdminRePasswordMsgObj.show();
+            adminCreateAdminRePasswordEMsgObj.hide();
+            adminCreateAdminRePasswordOMsgObj.hide();
+        }
+        return;
+    }
+
+    if ('' != adminRePassword && adminPassword != adminRePassword) {
+        adminCreateAdminRePasswordMsgObj.hide();
+        adminCreateAdminRePasswordEMsgObj.show();
+        adminCreateAdminRePasswordOMsgObj.hide();
+        return;
+    }
+
+    adminCreateAdminRePasswordMsgObj.hide();
+    adminCreateAdminRePasswordEMsgObj.hide();
+    adminCreateAdminRePasswordOMsgObj.show();
+}
+
+//　check org admin user email on input field blurreds
+function onBlurAdminEmailCheck() {
+    var adminCreateAdminEmailObj = $('#admin_create_adminEmail');
+    adminCreateAdminEmailObj.val(adminCreateAdminEmailObj.val().trim());
+    var adminEmail = adminCreateAdminEmailObj.val();
+
+
+    var adminCreateAdminEmailMsgObj = $('#admin_create_adminEmailMsg');
+    var adminCreateAdminEmailEMsgObj = $('#admin_create_adminEmailEMsg');
+    var adminCreateAdminEmailEEMsgObj = $('#admin_create_adminEmailEEMsg');
+    var adminCreateAdminEmailOMsgObj = $('#admin_create_adminEmailOMsg');
+
+    if (adminEmail == '') {
+        adminCreateAdminEmailMsgObj.show();
+        adminCreateAdminEmailEMsgObj.hide();
+        adminCreateAdminEmailEEMsgObj.hide();
+        adminCreateAdminEmailOMsgObj.hide();
+        return;
+    }
+
+    var adminEmailRegex = /^([a-zA-Z0-9]+[_|\_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z0-9]{1,10}$/;
+    if (adminEmail != '' && !adminEmailRegex.test(adminEmail)) {
+        adminCreateAdminEmailMsgObj.hide();
+        adminCreateAdminEmailEMsgObj.show();
+        adminCreateAdminEmailEEMsgObj.hide();
+        adminCreateAdminEmailOMsgObj.hide();
+        return;
+    }
+
+    adminCreateAdminEmailMsgObj.hide();
+    adminCreateAdminEmailEMsgObj.hide();
+    adminCreateAdminEmailEEMsgObj.hide();
+    adminCreateAdminEmailOMsgObj.show();
+}
+
+//　check org admin user telephone number on input field blurred
+function onBlurAdminTelCheck() {
+    var adminCreateAdminTelObj = $('#admin_create_adminTel');
+    adminCreateAdminTelObj.val(adminCreateAdminTelObj.val().trim());
+    var regTel = adminCreateAdminTelObj.val();
+    if (regTel == '') {
+        $('#admin_create_adminTelMsg').show();
+        $('#admin_create_adminTelEMsg').hide();
+        $('#admin_create_adminTelOMsg').hide();
+        return;
+    }
+
+    if (regTel != '' && !checkTel(regTel)) {
+        $('#admin_create_adminTelMsg').hide();
+        $('#admin_create_adminTelEMsg').show();
+        $('#admin_create_adminTelOMsg').hide();
+        return;
+    }
+
+    $('#admin_create_adminTelMsg').hide();
+    $('#admin_create_adminTelEMsg').hide();
+    $('#admin_create_adminTelOMsg').show();
+}
+
+//　check org admin user company name on input field blurred
+function onBlurAdminCompanyCheck() {
+    var adminCreateAdminCompanyObj = $('#admin_create_adminCompany');
+    adminCreateAdminCompanyObj.val(adminCreateAdminCompanyObj.val().trim());
+    var adminCompany = adminCreateAdminCompanyObj.val();
+
+    if (adminCompany == '') {
+        $('#admin_create_adminCompanyMsg').show();
+        $('#admin_create_adminCompanyEMsg').hide();
+        $('#admin_create_adminCompanyOMsg').hide();
+        return;
+    }
+
+    var adminCompanyRegex = /^[0-9a-zA-Z\-_\u4e00-\u9faf ]*$/;
+    if (adminCompany != '' && !adminCompanyRegex.test(adminCompany)) {
+        $('#admin_create_adminCompanyMsg').hide();
+        $('#admin_create_adminCompanyEMsg').show();
+        $('#admin_create_adminCompanyOMsg').hide();
+        return;
+    }
+
+    $('#admin_create_adminCompanyMsg').hide();
+    $('#admin_create_adminCompanyEMsg').hide();
+    $('#admin_create_adminCompanyOMsg').show();
+}
+
+//　clear the form used to add new org admin user
+function clearNewAdminUserBox() {
+    $('#admin_create_adminUserName').val('');
+    $('#admin_create_adminPassword').val('');
+    $('#admin_create_adminRePassword').val('');
+    $('#admin_create_adminEmail').val('');
+    $('#admin_create_adminTel').val('');
+    $('#admin_create_adminCompany').val('');
+}
+
+function showEdit() {
+    var companyName = $('#companyName').text();
+    var telephone = $('#telephone').text();
+    $('#showEditBtn').hide();
+    $('#companyName').hide();
+    $('#telephone').hide();
+    $('#saveAdminInfoBtn').show();
+    $('#cancelSaveAdminInfoBtn').show();
+    $('#companyNameInput').show();
+    $('#companyNameInputMsg').show();
+    $('#telephoneInput').show();
+    $('#telephoneInputMsg').show();
+
+    $('#companyNameInput').val(companyName);
+    $('#telephoneInput').val(telephone);
+}
+
+function cancelSaveAdminInfo() {
+    $('#showEditBtn').show();
+    $('#companyName').show();
+    $('#telephone').show();
+    $('#saveAdminInfoBtn').hide();
+    $('#cancelSaveAdminInfoBtn').hide();
+    $('#companyNameInput').hide();
+    $('#telephoneInput').hide();
+    $('#companyNameInput').val('');
+    $('#telephoneInput').val('');
+    $('#companyNameInputMsg').hide();
+    $('#telephoneInputMsg').hide();
+}
+
+function saveAdminInfo() {
+    var username = $('#username').text();
+    var companyNameInput = $('#companyNameInput').val();
+    var telephoneInput = $('#telephoneInput').val();
+
+    var companyNameInputRegex = /^[0-9a-zA-Z\-_\u4e00-\u9faf ]*$/;
+    if (!companyNameInputRegex.test(companyNameInput)) {
+        $('#companyNameInputMsg').text($.i18n.prop('admin_create_form_companyIllegal'));
+        $('#companyNameInputMsg').css('color', 'red');
+        return;
+    }
+    $('#companyNameInputMsg').hide();
+
+    var telephoneInputRegex = /^[0-9]*$/;
+    if (telephoneInput != '' && !telephoneInputRegex.test(telephoneInput)) {
+        $('#telephoneInputMsg').text($.i18n.prop('admin_create_form_telephoneIllegal'));
+        $('#telephoneInputMsg').css('color', 'red');
+        return;
+    }
+    $('#telephoneInputMsg').hide();
+
+    updateAdminInfo(username, companyNameInput, telephoneInput);
+}
 

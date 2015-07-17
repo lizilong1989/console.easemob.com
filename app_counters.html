@@ -1,0 +1,238 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title id="page_title">环信开发者中心</title>
+
+    <script src="/assets/js/easemob/easemob-header.js"></script>
+    <script src="/assets/js/ichart.1.2.js"></script>
+    <script src="/assets/js/Chart.min.js"></script>
+
+    <!-- 时间控件 -->
+    <script src="/assets/js/easemob/easemob-counters.js"></script>
+
+    <script src="/assets/js/Calendar3.js"></script>
+    <script src="/assets/js/My97DatePicker/WdatePicker.js" id="datePikerScript"></script>
+    <!--<script src="/assets/js/time.js"></script>-->
+
+    <script charset="utf-8">
+        var counterNameUsers = 'application.collection.users';
+        var counterNameChatmessages = 'application.collection.chatmessages';
+        var chartTileUsers = 'IM用户数趋势图';
+        var chartTileChatmessages = '消息发送量趋势图';
+        var chartTileDailyActiveUser = '每日活跃用户数趋势图';
+        var chartTileDailyNewActiveUser = '每日新增活跃用户数趋势图';
+        var chartTileDailyChatUser = '每日发送消息用户数趋势图';
+
+        $(function () {
+            EasemobCommon.init();
+//            DatePikerHandler.initDatePikerZH();
+
+            $('#showName').text($.cookie('appName'));
+
+            I18NPropsLoader.loadPropertiesCommon();
+            I18NPropsLoader.loadPropertiesForPageAppCounters();
+
+            chartTileUsers = $.i18n.prop('app_collection_counters_chartTileUsers');
+            chartTileChatmessages = $.i18n.prop('app_collection_counters_chartTileChatmessages');
+            chartTileDailyActiveUser = $.i18n.prop('app_collection_counters_chartTileDailyActiveUser');
+            chartTileDailyNewActiveUser = $.i18n.prop('app_collection_counters_chartTileDailyNewActiveUser');
+            chartTileDailyChatUser = $.i18n.prop('app_collection_counters_chartTileDailyChatUser');
+
+            // default radio check
+            $('#chartsRadio1sevendays').attr('checked', true);
+
+            DatePikerHandler.fillDatePikerInput();
+            showUsersChartTab();
+
+            // 下拉菜单变化
+            $('#userChartSelector').change(function() {
+                applyCountersAndDraw(this);
+            });
+
+            $('#chatmessagsChartSelector').change(function() {
+                applyCountersAndDraw(this);
+            });
+        });
+    </script>
+</head>
+
+<body>
+<div class="navbar navbar-inverse">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <a class="brand" href="javascript:void(0);"><img id="logo_home" src="/assets/img/logo_home_zh.png" /></a>
+
+            <div id="headhref" class="lianjie" style="width:40%; margin-left:20%;">
+                <ol>
+                    <li style="width:20%;"><a href="javascript:EasemobCommon.disPatcher.openPageWWWHome()"><h5 id="nav_index">主页</h5></a></li>
+                    <li style="width:20%;"><a href="javascript:EasemobCommon.disPatcher.openPageWWWDocs()" target="_blank"><h5 id="nav_doc">文档</h5></a></li>
+                    <li style="width:20%;"><a href="javascript:EasemobCommon.disPatcher.openPageWWWSupport()" target="_blank"><h5 id="nav_help">帮助</h5></a></li>
+                    <li style="width:20%;"><a href="javascript:EasemobCommon.disPatcher.openPageIMGeek()" target="_blank"><h5 id="nav_community">社区</h5></a></li>
+                    <li style="width:20%;"><a href="javascript:EasemobCommon.disPatcher.openPageWWWSDK()" target="_blank"><h5 id="nav_download">下载SDK</h5></a></li>
+                </ol>
+            </div>
+
+            <div style="float:right;">
+                <button type="button" class="btn btn-primary" id="i18nBtnEnglish" onclick="EasemobCommon.setLocale('en')">English</button>
+                <button type="button" class="btn btn-primary" id="i18nBtnChinese" onclick="EasemobCommon.setLocale('zh')">中文</button>
+            </div>
+
+            <ul class="nav ace-nav pull-right" style="top:5px; margin-right:0">
+                <li class="light-blue user-profile"><a class="user-menu dropdown-toggle" href="javascript:void(0);"
+                                                       data-toggle="dropdown"> <span id="user_info"></span> <i
+                        class="icon-caret-down"></i> </a>
+                    <ul id="user_menu" class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
+                        <li class="divider"></li>
+                        <li><a href="javascript:EasemobCommon.disPatcher.toPageOrgAdminHome()" target="_self"> <i class="icon-user"></i><span id="nav_account">账户</span></a></li>
+                        <li><a href="javascript:EasemobCommon.logOut()"> <i class="icon-off"></i><span id="nav_signout">退出</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="main-container" class="container-fluid"><a href="javascript:void(0);" id="menu-toggler"> <span></span> </a>
+    <div id="sidebar">
+        <div id="sidebar-shortcuts">
+            <div style="min-height: 40px;" id="sidebar-shortcuts-large"></div>
+            <div style="min-height: 40px;" id="sidebar-shortcuts-mini"></div>
+        </div>
+        <ul class="nav nav-list">
+            <li class="active"><a href="javascript:EasemobCommon.disPatcher.toPageAppList()" target="_self"><i class="icon-ambulance"></i><span id="left_nav_myapp">我的应用</span> </a></li>
+            <li><a href="javascript:EasemobCommon.disPatcher.toPageOrgAdminList()" target="_self"> <i class="icon-home"></i><span id="left_nav_orgInfo">企业信息</span></a></li>
+            <li><a href="javascript:EasemobCommon.disPatcher.toPageOrgAdminHome()" target="_self"> <i class="icon-user"></i><span id="left_nav_userInfo">个人信息</span></a></li>
+        </ul>
+        <div id="sidebar-collapse"><i class="icon-double-angle-left"></i></div>
+    </div>
+    <div class="clearfix" id="main-content">
+        <div id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li><i class="icon-home"></i>&nbsp;&nbsp;<span id="second_nav_myapp">我的应用</span><span class="divider"> <i class="icon-angle-right"></i> </span></li>
+                <li><a href="javascript:void(0);" target="_self"> <span id="showName"></span></a></li>
+            </ul>
+        </div>
+        <div class="clearfix" id="page-content">
+            <div class="row-fluid">
+                <div class="pagination pagination-left">
+                    <ul>
+                        <li><a href="javascript:EasemobCommon.disPatcher.toPageAppInfo()"><span id="third_nav_appprofile">应用概况</span></a></li>
+                    </ul>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <ul>
+                        <li><a href="javascript:EasemobCommon.disPatcher.toPageAppUsers()"><span id="third_nav_imusers">IM用户</span></a></li>
+                    </ul>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <ul>
+                        <li><a href="javascript:EasemobCommon.disPatcher.toPageAppChatGroups()"><span id="third_nav_chatgroups">群组</span></a></li>
+                    </ul>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <ul>
+                        <li><a href="javascript:EasemobCommon.disPatcher.toPageAppNotifiers()"><span id="third_nav_notifier">推送证书</span></a></li>
+                    </ul>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <ul>
+                        <li><a href="javascript:EasemobCommon.disPatcher.toPageAppCounters()"><font color="green"><span id="third_nav_counter">统计数据</span></font></a></li>
+                    </ul>
+                    <hr/>
+                </div>
+            </div>
+            <!-- Counters Tabs -->
+            <div>
+                <ul id="countersTab" class="nav nav-tabs">
+                    <li class="active"><a href="javascript:void(0)" onclick="showUsersChartTab()" data-toggle="tab" id="tabUsers"><span id="app_collection_counters_tab_user">用&nbsp;&nbsp;户</span></a></li>
+                    <li><a href="javascript:void(0)" onclick="showChatmessagsChartTab()" id="tabChatmessages" data-toggle="tab"><span id="app_collection_counters_tab_chatmessages">消&nbsp;&nbsp;息</span></a></li>
+                    <!--<li><a href="#chatgroups" onclick="javascript:showChatgroupsChartTab()" id="tabChatgroups" data-toggle="tab"><span id="app_collection_counters_tab_chatgroups">群&nbsp;&nbsp;组</span></a></li>-->
+                </ul>
+                <p/>
+                <!-- Counters Users Selectors -->
+                <div id="countersUsers" style="margin-top: 20px">
+                    <div id="countersChartType"><span id="app_collection_counters_text_dataType">数据类型</span>:
+                        <select id="userChartSelector">
+                            <option value="register_users" id="app_collection_counters_chatType_imusers">注册用户数</option>
+                            <option value="daily_active_users" id="app_collection_counters_chatType_dailyActiveUser">每日活跃用户数</option>
+                            <option value="daily_new_active_users" id="app_collection_counters_chatType_dailyNewActiveUser">每日新增活跃用户数</option>
+                            <option value="daily_chat_users" id="app_collection_counters_chatType_dailySendMsgUser">每日发送消息用户数</option>
+                        </select>
+                        <!--<select id="chatmessagsChartSelector">
+                            <option value="msg_outgoing" disabled="disabled">消息</option>
+                            <option value="msg_outgoing_chat">单聊 - 上行消息</option>
+                            <option value="msg_offline_chat">单聊 - 离线消息</option>
+                            <option value="msg_incoming_chat">单聊 - 服务器分发消息</option>
+                            <option value="msg_sent_chat">单聊 - 下行消息</option>
+                            <option value="msg_hr" disabled="disabled">-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</option>
+                            <option value="msg_outgoing_groupchat">群聊 - 上行消息</option>
+                            <option value="msg_incoming_groupchat">群聊 - 服务器分发息</option>
+                            <option value="msg_offline_groupchat">群聊 - 离线消息</option>
+                            <option value="msg_sent_groupchat">群聊 - 下行消息</option>
+                        </select>-->
+                        <!--<select id="chatgroupsChartSelector">
+                            <option value="chatgroups_total">群总数</option>
+                            <option value="chatgroups_new">新增群组数</option>
+                        </select>-->
+                    </div>
+                </div>
+
+                <div style="position:absolute;right:25%;top:195px;z-index:100;">
+                    <strong><span id="app_collection_counters_text_dateInterval">查询时间段</span></strong>：
+                    <span id="dateTimeIntervalZh">
+                        <span id="app_collection_counters_text_dateIntervalFrom">从</span>&nbsp;&nbsp;
+                        <input name="pickerStartDateEn" type="text" value="" id="pickerStartDateEn" style="width:80px;" size="10"
+                               maxlength="10" onClick="WdatePicker({dateFmt:'yyyy-MM-dd', lang:'en'})" readonly="readonly"/>
+
+                        <input name="pickerStartDateZh" type="text" value="" id="pickerStartDateZh" style="width:80px;" size="10"
+                               maxlength="10" onClick="WdatePicker({dateFmt:'yyyy-MM-dd', lang:'zh-cn'})" readonly="readonly"/>
+
+                        <span id="app_collection_counters_text_dateIntervalTo">至</span>&nbsp;&nbsp;
+
+                        <input name="pickerEndDateEn" type="text" id="pickerEndDateEn" value="" style="width:80px;" size="10" maxlength="10"
+                               onClick="WdatePicker({dateFmt:'yyyy-MM-dd', lang:'en'})" readonly="readonly"/>
+
+                        <input name="pickerEndDateZh" type="text" id="pickerEndDateZh" value="" style="width:80px;" size="10" maxlength="10"
+                               onClick="WdatePicker({dateFmt:'yyyy-MM-dd', lang:'zh-cn'})" readonly="readonly"/>
+
+                        <input type="hidden" name="pickerEndDateHide" id="pickerEndDateHide" value="" />
+                        <input type="hidden" id="pickerDateLanguage" value="" />
+                    </span>&nbsp;&nbsp;
+                    <input type="button" name="countersSearchBtn" id="countersSearchBtn" onclick="drawCountersChartsPeriodSearch()" value="查询"/>
+                    <input type="hidden" id="drawCountersChartsType" value="">
+                </div>
+
+                <div style="position:absolute;right:5%;top:185px;z-index:100;">
+                    <input type="hidden" id="dtp_input3" value=""/><br/><span class="lbl" id="app_collection_counters_text_quickSearch">快速查询</span>：
+                    <input type="radio" name="chartsRadio1" value="oneday" id="chartsRadio1oneday" onclick="drawCountersCharts('oneday')"/><span class="lbl" id="app_collection_counters_text_quickSearchOneDay">1天</span>
+                    <input type="radio" name="chartsRadio1" value="sevendays" id="chartsRadio1sevendays" onclick="drawCountersCharts('sevendays')"/><span class="lbl" id="app_collection_counters_text_quickSearchSevenDays">7天</span>
+                </div>
+                <br/><br/><br/>
+                <div  style="margin-top: 0px"><center><span id="chartTitle"></span></center></div>
+                <div id="countersTabContent" class="tab-content" style="width: 95%">
+                    <div class="tab-pane fade in active" id="counters">
+                        <canvas id="countersCharts" width="1200%" height="400"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- confirm modal window start -->
+<div id="ycf-alert" class="modal" style="display: none;width: 222px;position: absolute;top:35%;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fa fa-exclamation-circle"></i></h5>
+            </div>
+            <div class="modal-body small">
+                <p>[Message]</p>
+            </div>
+            <div class="modal-footer" >
+                <button type="button" class="btn ok" data-dismiss="modal">[BtnOk]</button>
+                <button type="button" class="btn cancel" data-dismiss="modal">[BtnCancel]</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- confirm modal window end -->
+</body>
+</html>

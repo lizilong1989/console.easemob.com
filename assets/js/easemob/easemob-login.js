@@ -2,55 +2,10 @@
  * Created by kenshinn on 15-6-10.
  */
 
-
-var loadI18NENProperties = function(){
-    return {
-        init:function(){
-            $.i18n.properties({
-                name : 'easemob-i18n',
-                path : '/assets/i18n/',
-                mode : 'map',
-                language : 'en',
-                callback : function() {
-                    $('#index_title').text($.i18n.prop('index_title'));
-                    $('#index_span_login').text($.i18n.prop('index_span_login'));
-                    $('#index_span_register').text($.i18n.prop('index_span_register'));
-                    $('#index_login_username').text($.i18n.prop('index_login_username'));
-                    $('#index_login_password').text($.i18n.prop('index_login_password'));
-                    $('#index_login_rememberme').text($.i18n.prop('index_login_rememberme'));
-                    $('#index_bnt_login').text($.i18n.prop('index_bnt_login'));
-                    $('#index_input_username').text($.i18n.prop('index_input_username'));
-                    $('#index_forgot_password_link').text($.i18n.prop('index_forgot_password_link'));
-                    $('#index_bnt_find_password').text($.i18n.prop('index_bnt_find_password'));
-                    $('#index_bnt_backtologin').text($.i18n.prop('index_bnt_backtologin'));
-                    $('#index_span_register_orgname').text($.i18n.prop('index_span_register_orgname'));
-                    $('#index_span_register_userneme').text($.i18n.prop('index_span_register_userneme'));
-                    $('#index_span_register_password').text($.i18n.prop('index_span_register_password'));
-                    $('#index_span_register_tel').text($.i18n.prop('index_span_register_tel'));
-                    $('#index_span_register_repassword').text($.i18n.prop('index_span_register_repassword'));
-                    $('#index_span_register_email').text($.i18n.prop('index_span_register_email'));
-                    $('#index_span_register_company').text($.i18n.prop('index_span_register_company'));
-                    $('#index_span_register_comefromInternet').text($.i18n.prop('index_span_register_comefromInternet'));
-                    $('#index_span_register_comefromFriends').text($.i18n.prop('index_span_register_comefromFriends'));
-                    $('#index_span_register_comefromOfficial').text($.i18n.prop('index_span_register_comefromOfficial'));
-                    $('#index_span_register_comefromExhibition').text($.i18n.prop('index_span_register_comefromExhibition'));
-                    $('#index_span_register_comefromMedia').text($.i18n.prop('index_span_register_comefromMedia'));
-                    $('#index_span_register_formSubBtn').text($.i18n.prop('index_span_register_formSubBtn'));
-                    $('#index_span_register_agree').text($.i18n.prop('index_span_register_agree'));
-                    $('#index_span_register_agree_service').text($.i18n.prop('index_span_register_agree_service'));
-                    $('#index_span_register_agree_returntilogin').text($.i18n.prop('index_span_register_agree_returntilogin'));
-                }
-            });
-        }
-    }
-}();
-
 $(function () {
-    //loadI18NENProperties.init();
-
     var browserVersion = getBrowserVersion();
     if (browserVersion != '' && browserVersion < 10) {
-        alert($.i18n.prop('index_alert_IEDisable'));
+        layer.msg($.i18n.prop('index_alert_IEDisable'), 3, 5);
     }
 
     //读取cookie
@@ -80,10 +35,10 @@ function getBrowser() {
     if (navigator.userAgent.indexOf("MSIE") > 0) {
         return "MSIE";
     }
-    if (isFirefox = navigator.userAgent.indexOf("Firefox") > 0) {
+    if (navigator.userAgent.indexOf("Firefox") > 0) {
         return "Firefox";
     }
-    if (isChrome = navigator.userAgent.indexOf("Chrome") > 0) {
+    if (navigator.userAgent.indexOf("Chrome") > 0) {
         return "Chrome";
     }
 }
@@ -125,18 +80,15 @@ function keyLogin() {
         return;
     }
     if (getBrowser() == 'Firefox') {
-        //判断IE还是火狐浏览器;
         $("html").die().live("keydown", function (event) {
             if (event.keyCode == 13) {
-                //调用登陆方法;
-                $('#loginBtn').click();//调用登录按钮的登录事件
+                $('#loginBtn').click();
                 $('#loginBtn').attr('disable', 'true');
             }
         });
     } else if (getBrowser() == 'MSIE' || getBrowser() == 'Chrome') {
         if (event.keyCode == 13) {
-            //调用登陆方法;
-            $('#loginBtn').click();//调用登录按钮的登录事件
+            $('#loginBtn').click();
         }
     }
 }
@@ -148,12 +100,12 @@ function onBlurRegOrgNameCheck() {
     var regOrgNameRegex = /^(?!-)(?!.*?-$)[a-zA-Z0-9-]+$/;
     if (regOrgName != '' && !regOrgNameRegex.test(regOrgName)) {
         $('#regOrgNameSMsg').css('display', 'none');
-        $('#regOrgNameEMsg').text('只能使用数字,字母,横线,且不能以横线开头和结尾！');
+        $('#regOrgNameEMsg').text($.i18n.prop('index_alert_register_regOrgName_regix'));
         return;
     }
     if (regOrgName != '' && regOrgName.length < 1) {
         $('#regOrgNameSMsg').css('display', 'none');
-        $('#regOrgNameEMsg').text('企业ID长度在至少一个字符！');
+        $('#regOrgNameEMsg').text($.i18n.prop('index_alert_register_regOrgName_regix'));
         return;
     }
 
@@ -170,12 +122,12 @@ function onBlurRegUserNameCheck() {
     var regUserNameRegex = /^[0-9a-zA-Z]*$/;
     if (regUserName != '' && !regUserNameRegex.test(regUserName)) {
         $('#regUserNameSMsg').css('display', 'none');
-        $('#regUserNameEMsg').text('只能使用字母,数字或字母数字组合！');
+        $('#regUserNameEMsg').text($.i18n.prop('index_alert_register_regUserName_regix'));
         return;
     }
     if (regUserName != '' && regUserName.length < 1) {
         $('#regUserNameSMsg').css('display', 'none');
-        $('#regUserNameEMsg').text('用户长度在至少一个字符！');
+        $('#regUserNameEMsg').text($.i18n.prop('index_alert_register_regUserName_regix'));
         return;
     }
 
@@ -191,7 +143,7 @@ function onBlurRegPasswordCheck() {
 
     if (regPassword != '' && regPassword.length < 1) {
         $('#regPasswordSMsg').css('display', 'none');
-        $('#regPasswordEMsg').text('密码长度在至少一个字符！');
+        $('#regPasswordEMsg').text($.i18n.prop('index_alert_register_regPassword_regix'));
         return;
     }
 
@@ -206,7 +158,7 @@ function onBlurRegRePasswordCheck() {
     var regRePassword = $('#regRePassword').val();
     var regPassword = $('#regPassword').val();
     if ('' != regPassword && regPassword != regRePassword) {
-        $('#regRePasswordEMsg').text('两次输入密码不一致！');
+        $('#regRePasswordEMsg').text($.i18n.prop('index_alert_register_regRePassword_regix'));
         return;
     }
 
@@ -220,7 +172,7 @@ function onBlurRegEmailCheck() {
     var emailReg = /^([a-zA-Z0-9]+[_|\_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z0-9]{1,10}$/;
     if (regEmail != '' && !emailReg.test(regEmail)) {
         $('#regEmailSEMsg').css('display', 'none');
-        $('#regEmailEMsg').text('请输入有效的邮箱！');
+        $('#regEmailEMsg').text($.i18n.prop('index_alert_register_regEmail_regix'));
         return;
     } else if (regEmail == '') {
         $('#regEmailSEMsg').css('display', 'none');
@@ -236,7 +188,6 @@ function onBlurRegCompanyNameCheck() {
     if (regCompanyName != '') {
         $('#regCompanyNameSEMsg').css('display', 'none');
         $('#regCompanyNameEMsg').text('');
-        return;
     }
 
 }
@@ -247,13 +198,14 @@ function onBlurRegTelCheck() {
     var regTel = $('#regTel').val();
     if (regTel != '' && !checkTel(regTel)) {
         $('#regTelSEMsg').css('display', 'none');
-        $('#regTelEMsg').text('电话号码格式不正确！');
+        $('#regTelEMsg').text($.i18n.prop('index_alert_register_regTel_regix'));
         return;
     } else if (regTel == '') {
         $('#regTelSEMsg').css('display', 'none');
         $('#regTelEMsg').text('');
         return;
     }
+
     $('#regTelEMsg').text('');
 }
 
@@ -262,7 +214,7 @@ function onBlurCheckLoginUsername() {
 
     var loginUserName = $('#username').val();
     if ('' == loginUserName) {
-        $('#usernameEMsg').text('用户名不能为空！');
+        $('#usernameEMsg').text($.i18n.prop('index_alert_register_username_empty'));
         return false;
     }
 
@@ -272,7 +224,7 @@ function onBlurCheckLoginUsername() {
 function onBlurCheckLoginPassword() {
     var loginPassword = $('#password').val();
     if ('' == loginPassword) {
-        $('#passwordEMsg').text('密码不能为空！');
+        $('#passwordEMsg').text($.i18n.prop('index_alert_register_password_empty'));
         return false;
     }
 
@@ -282,31 +234,16 @@ function onBlurCheckLoginPassword() {
 function onBlurCheckResetEmail() {
     var resetEmail = $('#email').val();
     if ('' == resetEmail) {
-        $('#emailEMsg').text('用户名不能为空！');
+        $('#emailEMsg').text($.i18n.prop('index_alert_register_email_empty'));
         return false;
     }
 
     $('#emailEMsg').text('');
 }
 
-function login() {
-    orgAdminLogin();
-}
-
-function app_org() {
-    var adminType = $('#loginRole').find('option:selected').val();
-    if (adminType == 'app') {
-        $('#qiyeid').show();
-        $('#yingyongname').show();
-        //appAdminLogin();
-    } else if (adminType == 'org') {
-        $('#qiyeid').hide();
-        $('#yingyongname').hide();
-    }
-}
 
 // 点击返回登录清空注册数据
-function clearBox() {
+function clearRegisterBox() {
     $('#regOrgName').val('');
     $('#regUserName').val('');
     $('#regPassword').val('');
@@ -326,58 +263,59 @@ function clearBox() {
 
 
 // 显示不同窗口
-function show_box(boxId){
+function show_box(boxId) {
     // 登录
-    if('login-box' == boxId){
+    if ('login-box' == boxId) {
         $('#login-box').addClass('visible');
 
         var oldSignupClassVal = $('#signup-box').attr('class');
-        if(oldSignupClassVal.indexOf("visible") > -1){
+        if (oldSignupClassVal.indexOf("visible") > -1) {
             $('#signup-box').removeClass('visible');
         }
 
         var oldForgotClassVal = $('#forgot-box').attr('class');
-        if(oldForgotClassVal.indexOf("visible") > -1){
+        if (oldForgotClassVal.indexOf("visible") > -1) {
             $('#forgot-box').removeClass('visible');
         }
+
     }
     // 注册
-    if('signup-box' == boxId){
+    if ('signup-box' == boxId) {
         $('#signup-box').addClass('visible');
 
         var oldLoginClassVal = $('#login-box').attr('class');
-        if(oldLoginClassVal.indexOf("visible") > -1){
+        if (oldLoginClassVal.indexOf("visible") > -1) {
             $('#login-box').removeClass('visible');
         }
 
         var oldForgotClassVal = $('#forgot-box').attr('class');
-        if(oldForgotClassVal.indexOf("visible") > -1){
+        if (oldForgotClassVal.indexOf("visible") > -1) {
             $('#forgot-box').removeClass('visible');
         }
     }
     // 找回密码
-    if('forgot-box' == boxId){
+    if ('forgot-box' == boxId) {
         $('#forgot-box').addClass('visible');
 
         var oldLoginClassVal = $('#login-box').attr('class');
-        if(oldLoginClassVal.indexOf("visible") > -1){
+        if (oldLoginClassVal.indexOf("visible") > -1) {
             $('#login-box').removeClass('visible');
         }
 
         var oldSignupClassVal = $('#signup-box').attr('class');
-        if(oldSignupClassVal.indexOf("visible") > -1){
+        if (oldSignupClassVal.indexOf("visible") > -1) {
             $('#signup-box').removeClass('visible');
         }
+
     }
 }
 
 // 找回密码表单校验
-function resetPasswdFormValidate(){
-    // 表单校验
+function resetPasswdFormValidate() {
     var email = $('#email').val();
 
-    if('' == email){
-        $('#emailEMsg').text('请填写正确的企业管理员用户名！');
+    if ('' == email) {
+        $('#emailEMsg').text($.i18n.prop('index_alert_getpassword_empty'));
         $('#email').focus();
         return false;
     }
@@ -387,62 +325,64 @@ function resetPasswdFormValidate(){
 }
 
 // 找回密码
-function resetPasswd(){
+function resetOrgAdminPasswordRequest() {
     var email = $('#email').val();
-    var orgName = $('#orgName').val();
 
-    if(resetPasswdFormValidate()){
+    if (resetPasswdFormValidate()) {
         $.ajax({
-            url:baseUrl + '/management/users/' + email + '/resetpw',
-            type:'PUT',
-            data:{},
-            crossDomain:true,
-            success:function(respData){
-                if(respData.status && respData.status == 'ok') {
-                    alert('提示!\n\n邮件已发送,请前往邮箱继续找回密码.');
+            url: baseUrl + '/management/users/' + email + '/resetpw',
+            type: 'PUT',
+            headers: {'Content-Type': 'application/json' },
+            data: JSON.stringify({
+                'webLocale': $.cookie('localeInfo')
+            }),
+            crossDomain: true,
+            success: function (respData) {
+                if (respData.status && respData.status == 'ok') {
+                    layer.msg($.i18n.prop('index_alert_getpassword_sendalert'), 3, 1);
                 }
             },
-            error:function(respData){
-                var str = JSON.stringify(respData.responseText).replace('}','').replace('{','').split(',');
-                var tmpArr = new Array();
+            error: function (respData) {
+                var str = JSON.stringify(respData.responseText).replace('}', '').replace('{', '').split(',');
+                var tmpArr = [];
                 var errorMsg = '';
-                for(var i = 0; i < str.length; i++) {
-                    tmpArr.push(str[i].replace(/\\/g,'').replace(/\"/g,'').split(':'));
+                for (var i = 0; i < str.length; i++) {
+                    tmpArr.push(str[i].replace(/\\/g, '').replace(/\"/g, '').split(':'));
                 }
-                for(var i = 0; i < tmpArr.length; i++) {
-                    if('error_description' == tmpArr[i][0]){
-                        if(tmpArr[i][1].indexOf("Could not find organization for email") > -1 || tmpArr[i][1].indexOf("Could not find organization for username") > -1) {
-                            errorMsg = '该邮箱未注册过环信!';
-                        } else if(tmpArr[i][1].indexOf("username") > -1) {
-                            errorMsg = '请联系系统管理员 !';
+                for (var i = 0; i < tmpArr.length; i++) {
+                    if ('error_description' == tmpArr[i][0]) {
+                        if (tmpArr[i][1].indexOf("Could not find organization for email") > -1 || tmpArr[i][1].indexOf("Could not find organization for username") > -1) {
+                            errorMsg = $.i18n.prop('index_alert_getpassword_noaccount');
+                        } else if (tmpArr[i][1].indexOf("username") > -1) {
+                            errorMsg = $.i18n.prop('index_alert_getpassword_contactme');
                         }
                     }
                 }
 
-                alert('提示\n\n' + errorMsg);
+                layer.msg(errorMsg, 3, 5);
             }
         });
     }
 }
 
 // 找回密码表单校验
-function resetPasswdReqFormValidate(){
+function resetPasswdReqFormValidate() {
     // 表单校验
     var password1 = $('#password1').val();
     var password2 = $('#password2').val();
 
-    if('' == password1){
-        alert('提示\n\n密码不能为空！');
+    if ('' == password1) {
+        layer.msg($.i18n.prop('index_alert_register_password_empty'), 3, 5);
         $('#password1').focus();
         return false;
     }
-    if(password1.length < 6 || password1.length > 20){
+    if (password1.length < 6) {
         $('#password1').focus();
-        alert('提示\n\n密码长度在6-20个字符之间！');
+        layer.msg($.i18n.prop('index_alert_register_regPassword_regix'), 3, 5);
         return false;
     }
-    if(password2 != password1){
-        alert('提示\n\n两次输入密码不一致！');
+    if (password2 != password1) {
+        layer.msg($.i18n.prop('index_alert_register_regRePassword_regix'), 3, 5);
         $('#password2').focus();
         return false;
     }
@@ -451,108 +391,170 @@ function resetPasswdReqFormValidate(){
 }
 
 // 注册表单校验
-function regsFormValidate(){
-    // 表单校验
-    var regOrgName = $('#regOrgName').val();
-    var regUserName = $('#regUserName').val();
-    var regEmail = $('#regEmail').val();
-    var regPassword = $('#regPassword').val();
-    var regRePassword = $('#regRePassword').val();
-    var regCompanyName = $('#regCompanyName').val();
-    var regTel = $('#regTel').val();
-    var comefrom = $('input:radio[name="comefrom"]:checked').val();
+function createNewOrgAndAdminUserFormValidate() {
+    var regOrgNameObj = $('#regOrgName');
+    var regUserNameObj = $('#regUserName');
+    var regEmailObj = $('#regEmail');
+    var regPasswordObj = $('#regPassword');
+    var regRePasswordObj = $('#regRePassword');
+    var regCompanyNameObj = $('#regCompanyName');
+    var regTelObj = $('#regTel');
 
-    if('' == regOrgName){
-        $('#regOrgNameSMsg').css('display','none');
-        $('#regOrgNameEMsg').text('企业ID名不能为空！');
+    var regOrgName = regOrgNameObj.val();
+    var regUserName = regUserNameObj.val();
+    var regEmail = regEmailObj.val();
+    var regPassword = regPasswordObj.val();
+    var regRePassword = regRePasswordObj.val();
+    var regCompanyName = regCompanyNameObj.val();
+    var regTel = regTelObj.val();
+    var comeFrom = $('input:radio[name="comefrom"]:checked').val();
+
+    if ('' == regOrgName) {
+        regOrgNameObj.focus();
+        $('#regOrgNameSMsg').css('display', 'none');
+        $('#regOrgNameEMsg').css('display', 'block');
+        $('#regOrgNameEMsg').text($.i18n.prop('index_alert_register_regOrgName_regix'));
+        $('#regOrgNameEMsgHidden').val('illegal');
         return false;
     }
     var regOrgNameRegex = /^(?!-)(?!.*?-$)[a-zA-Z0-9-]+$/;
-    if(!regOrgNameRegex.test(regOrgName)){
-        $('#regOrgNameSMsg').css('display','none');
-        $('#regOrgNameEMsg').text('只能使用数字,字母,横线,且不能以横线开头和结尾！');
+    if (!regOrgNameRegex.test(regOrgName)) {
+        regOrgNameObj.focus();
+        $('#regOrgNameSMsg').css('display', 'none');
+        $('#regOrgNameEMsg').css('display', 'block');
+        $('#regOrgNameEMsg').text($.i18n.prop('index_alert_register_regOrgName_regix'));
+        $('#regOrgNameEMsgHidden').val('illegal');
         return false;
     }
-    if(regOrgName != '' && regOrgName.length < 1){
-        $('#regOrgNameSMsg').css('display','none');
-        $('#regOrgNameEMsg').text('企业ID长度至少一个字符！');
+    if (regOrgName != '' && regOrgName.length < 1) {
+        regOrgNameObj.focus();
+        $('#regOrgNameSMsg').css('display', 'none');
+        $('#regOrgNameEMsg').css('display', 'block');
+        $('#regOrgNameEMsg').text($.i18n.prop('index_alert_register_regOrgName_regix'));
+        $('#regOrgNameEMsgHidden').val('illegal');
         return false;
     }
-    $('#regOrgNameSMsg').css('display','block');
+    $('#regOrgNameSMsg').css('display', 'block');
+    $('#regOrgNameEMsg').css('display', 'none');
+    $('#regOrgNameEMsgHidden').val('');
 
-    if('' == regUserName){
-        $('#regUserNameSMsg').css('display','none');
-        $('#regUserNameEMsg').text('用户名不能为空！');
+    if ('' == regUserName) {
+        regUserNameObj.focus();
+        $('#regUserNameSMsg').css('display', 'none');
+        $('#regUserNameEMsg').css('display', 'block');
+        $('#regUserNameEMsg').text($.i18n.prop('index_alert_register_regUserName_regix'));
+        $('#regUserNameEMsgHidden').val('illegal');
         return false;
     }
     var regUserNameRegex = /^[a-zA-Z0-9_\-./]*$/;
-    if(!regUserNameRegex.test(regUserName)){
-        $('#regUserNameEMsg').text('用户名至少一个字符，包括[字母,数字,下划线,横线,斜线,英文点]');
+    if (!regUserNameRegex.test(regUserName)) {
+        regUserNameObj.focus();
+        $('#regUserNameEMsg').text($.i18n.prop('index_alert_register_regUserName_regix'));
+        $('#regUserNameEMsgHidden').val('illegal');
+        $('#regUserNameEMsg').css('display', 'block');
         return false;
     }
-    if(regUserName != '' && regUserName.length < 1){
-        $('#regUserNameSMsg').css('display','none');
-        $('#regUserNameEMsg').text('用户长度至少一个字符！');
+    if (regUserName != '' && regUserName.length < 1) {
+        regUserNameObj.focus();
+        $('#regUserNameSMsg').css('display', 'none');
+        $('#regUserNameEMsg').css('display', 'block');
+        $('#regUserNameEMsg').text($.i18n.prop('index_alert_register_regUserName_regix'));
+        $('#regUserNameEMsgHidden').val('illegal');
         return false;
     }
-    $('#regUserNameSMsg').css('display','block');
-    if('' == regPassword){
-        $('#regPasswordSMsg').css('display','none');
-        $('#regPasswordEMsg').text('密码不能为空！');
+    $('#regUserNameSMsg').css('display', 'block');
+    $('#regUserNameEMsg').css('display', 'none');
+    $('#regUserNameEMsgHidden').val('');
+
+    if ('' == regPassword) {
+        regPasswordObj.focus();
+        $('#regPasswordEMsg').text($.i18n.prop('index_alert_register_regPassword_regix'));
+        $('#regPasswordEMsgHidden').val('illegal');
         return false;
     }
-    if(regPassword.length < 1){
-        $('#regPasswordEMsg').text('密码长度至少一个字符！');
+    if (regPassword.length < 1) {
+        regPasswordObj.focus();
+        $('#regPasswordEMsg').text($.i18n.prop('index_alert_register_regPassword_regix'));
+        $('#regPasswordEMsgHidden').val('illegal');
         return false;
     }
-    $('#regPasswordSMsg').css('display','block');
-    if('' == regRePassword){
-        $('#regRePasswordEMsg').text('请再次输入密码！');
+    $('#regPasswordEMsg').text('');
+    $('#regPasswordEMsgHidden').val('');
+
+    if ('' == regRePassword) {
+        regRePasswordObj.focus();
+        $('#regRePasswordEMsg').text($.i18n.prop('index_alert_register_regRePassword_regix'));
+        $('#regRePasswordEMsgHidden').val('illegal');
         return false;
     }
-    if('' != regRePassword && regPassword != regRePassword){
-        $('#regRePasswordEMsg').text('两次密码不一致!');
+    if ('' != regRePassword && regPassword != regRePassword) {
+        regRePasswordObj.focus();
+        $('#regRePasswordEMsg').text($.i18n.prop('index_alert_register_regRePassword_regix'));
+        $('#regRePasswordEMsgHidden').val('illegal');
         return false;
     }
+    $('#regRePasswordEMsg').text('');
+    $('#regRePasswordEMsgHidden').val('');
+
     var emailReg = /^([a-zA-Z0-9]+[_|\_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z0-9]{1,10}$/;
-    if('' == regEmail){
-        $('#regEmailEMsg').text('请输入邮箱！');
+    if ('' == regEmail) {
+        regEmailObj.focus();
+        $('#regEmailEMsg').text($.i18n.prop('index_alert_register_regEmail_regix'));
+        $('#regEmailEMsgHidden').val('illegal');
         return false;
     }
-    if(regEmail != '' && !emailReg.test(regEmail)){
-        $('#regEmailEMsg').text('请输入有效的邮箱！');
+    if (regEmail != '' && !emailReg.test(regEmail)) {
+        regEmailObj.focus();
+        $('#regEmailEMsg').text($.i18n.prop('index_alert_register_regEmail_regix'));
+        $('#regEmailEMsgHidden').val('illegal');
         return false;
     }
+    $('#regEmailEMsg').text('')
+    $('#regEmailEMsgHidden').val('');
 
-    if('' == regCompanyName){
-        $('#regCompanyNameSEMsg').css('display','none');
-        $('#regCompanyNameEMsg').text('请输入企业名称！');
+    if ('' == regCompanyName) {
+        regCompanyNameObj.focus();
+        $('#regCompanyNameSEMsg').css('display', 'none');
+        $('#regCompanyNameEMsg').text($.i18n.prop('index_alert_register_regCompanyName_empty'));
+        $('#regCompanyNameEMsgHidden').val('illegal');
         return false;
     }
+    $('#regCompanyNameEMsg').text('')
+    $('#regCompanyNameEMsgHidden').val('');
 
-    if('' == regTel){
-        $('#regTelSEMsg').css('display','none');
-        $('#regTelEMsg').text('请输入联系电话！');
+    if ('' == regTel) {
+        regTelObj.focus();
+        $('#regTelSEMsg').css('display', 'none');
+        $('#regTelEMsg').text($.i18n.prop('index_alert_register_regTel_regix'));
+        $('#regTelEMsgHidden').val('illegal');
         return false;
     }
-    if(!checkTel(regTel)){
-        $('#regTelSEMsg').css('display','none');
-        $('#regTelEMsg').text('电话号码格式不正确！');
+    if (!checkTel(regTel)) {
+        regTelObj.focus();
+        $('#regTelSEMsg').css('display', 'none');
+        $('#regTelEMsg').text($.i18n.prop('index_alert_register_regTel_regix'));
+        $('#regTelEMsgHidden').val('illegal');
         return false;
     }
+    $('#regTelSEMsg').css('display', 'none');
+    $('#regTelEMsg').text('');
+    $('#regTelEMsgHidden').val('');
 
-    if(typeof(comefrom) == 'undefined'){
-        $('#comeFromEMsg').text('请选择获知渠道！');
+    if (typeof(comeFrom) == 'undefined') {
+        $('#comeFromEMsg').text($.i18n.prop('index_alert_register_comeFromEMsg'));
+        $('#comeFromEMsgHidden').val('illegal');
         return false;
     }
-    $('#comeFromEMsg').css('display','none');
+    $('#comeFromEMsg').css('display', 'none');
+    $('#comeFromEMsgHidden').val('');
     $('#comeFromEMsg').text('');
 
-    if(!$("#agreeCBox").prop("checked")) {
-        $('#agreeCBoxEMsg').text('请先同意环信开发者平台服务协议！');
+    if (!$("#agreeCBox").prop("checked")) {
+        $('#agreeCBoxEMsg').text($.i18n.prop('index_alert_register_agreeCBox'));
+        $('#agreeCBoxEMsgHidden').val('illegal');
         return false;
     }
-
+    $('#agreeCBoxEMsgHidden').val('');
 
     $('#regOrgNameEMsg').text('');
     $('#regUserNameEMsg').text('');
@@ -568,7 +570,7 @@ function regsFormValidate(){
 
 
 //注册表单清空
-function resetForm(){
+function resetForm() {
     $('#regOrgName').val('');
     $('#regUserName').val('');
     $('#regPassword').val('');
@@ -586,85 +588,132 @@ function resetForm(){
     $('#regTelEMsg').text('');
 }
 
-// 注册
-function formSubmit(){
+// 注册ORG
+function createNewOrgAndAdminUser() {
     var regOrgName = $('#regOrgName').val();
     var regUserName = $('#regUserName').val();
     var regEmail = $('#regEmail').val();
     var regPassword = $('#regPassword').val();
     var regCompanyName = $('#regCompanyName').val();
     var regTel = $('#regTel').val();
-    //var comefrom = $('#comefrom').val();
-    var mailSuffix = regEmail.substring(regEmail.indexOf('@')+1);
-    var comefrom = $('input:radio[name="comefrom"]:checked').val();
+    var mailSuffix = regEmail.substring(regEmail.indexOf('@') + 1);
+    var comeFrom = $('input:radio[name="comefrom"]:checked').val();
 
-
-    var d = {
-        organization:regOrgName,
-        username:regUserName,
-        email:regEmail,
-        password:regPassword,
-        companyName:regCompanyName,
-        telephone:regTel,
-        comefrom:comefrom
+    var requestData = {
+        organization: regOrgName,
+        username: regUserName,
+        email: regEmail,
+        password: regPassword,
+        companyName: regCompanyName,
+        telephone: regTel,
+        comefrom: comeFrom,
+        'webLocale': $.cookie('localeInfo')
     };
 
-    if(regsFormValidate()){
+    if (createNewOrgAndAdminUserFormValidate()) {
         // 注册用户信息
         $.ajax({
-            url:baseUrl + '/management/organizations',
-            type:'POST',
-            crossDomain:true,
-            headers:{
-                'Content-Type':'application/json'
+            url: baseUrl + '/management/organizations',
+            type: 'POST',
+            crossDomain: true,
+            headers: {
+                'Content-Type': 'application/json'
             },
-            data:JSON.stringify(d),
-            success: function(respData, textStatus, jqXHR) {
+            data: JSON.stringify(requestData),
+            success: function (respData, textStatus, jqXHR) {
                 $('#signup-box').removeClass('visible');
                 $('#login-box').addClass('visible');
                 $('#username').val(regUserName);
 
-                window.location.href = 'regist_org_success.html?mailSuffix='+mailSuffix+'&regEmail='+regEmail;
+                EasemobCommon.disPatcher.toPageIndexRegistOrgSuccess(mailSuffix, regEmail);
             },
-            error: function(respData, textStatus, jqXHR) {
-                var str = JSON.stringify(respData.responseText).replace('}','').replace('{','').split(',');
-                var tmpArr = new Array();
-                var errorMsg = '';
-                for(var i = 0; i < str.length; i++) {
-                    tmpArr.push(str[i].replace(/\\/g,'').replace(/\"/g,'').split(':'));
+            error: function (respData, textStatus, jqXHR) {
+                var str = JSON.stringify(respData.responseText).replace('}', '').replace('{', '').split(',');
+                var tmpArr = [];
+                var errorMsg = $.i18n.prop('index_alert_login_failed_syserror');;
+                for (var i = 0; i < str.length; i++) {
+                    tmpArr.push(str[i].replace(/\\/g, '').replace(/\"/g, '').split(':'));
                 }
-                for(var i = 0; i < tmpArr.length; i++) {
-                    if('error_description' == tmpArr[i][0]){
-                        if(tmpArr[i][1].indexOf("path") > -1) {
-                            errorMsg = '企业ID重复！';
+                for (var i = 0; i < tmpArr.length; i++) {
+                    if ('error_description' == tmpArr[i][0]) {
+                        if (tmpArr[i][1].indexOf("path") > -1) {
+                            errorMsg = $.i18n.prop('index_alert_register_duplicate_orgid');
                         }
-                        if(tmpArr[i][1].indexOf("username") > -1) {
-                            errorMsg = '用户名重复 !';
+                        if (tmpArr[i][1].indexOf("username") > -1) {
+                            errorMsg = $.i18n.prop('index_alert_register_duplicate_username');
                         }
-                        if(tmpArr[i][1].indexOf("email") > -1) {
-                            errorMsg = '邮箱账户重复 !';
+                        if (tmpArr[i][1].indexOf("email") > -1) {
+                            errorMsg = $.i18n.prop('index_alert_register_duplicate_email');
                         }
                     }
                 }
-                alert('注册失败!\n\n' + errorMsg);
+
+                layer.msg(errorMsg, 3, 5);
             }
         });
     }
 }
 
 
+// 设置新密码
+function resetPasswdReq(token, uuid) {
+    var password1 = $('#password1').val();
+    var password2 = $('#password2').val();
+    var requestData = {
+        'password1': password1,
+        'password2': password2,
+        'token': token
+    };
+    if (resetPasswdReqFormValidate()) {
+        $.ajax({
+            url: baseUrl + '/management/users/' + uuid + '/resetpw',
+            type: 'POST',
+            data: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            success: function (respData) {
+                layer.msg($.i18n.prop('index_alert_resetPassword_succ'), 3, 1);
+                clearRegisterBox();
+                show_box('login-box');
+            },
+            error: function (data) {
+                layer.msg($.i18n.prop('index_alert_resetPassword_failed'), 3, 5);
+            }
+        });
+    }
+}
+
+
+function onBlurCheckLoginUserName() {
+    var loginUserName = $('#username').val();
+    if ('' == loginUserName) {
+        $('#usernameEMsg').text('');
+    }
+}
+
+
+function onBlurCheckLoginPassword() {
+    var loginPassword = $('#password').val();
+    if ('' == loginPassword) {
+        $('#passwordEMsg').text('');
+    }
+}
+
+
 // 登录表单校验
-function loginFormValidate(){
+function loginFormValidate() {
     // 表单校验
     var loginUserName = $('#username').val();
     var loginPassword = $('#password').val();
-    if('' == loginUserName){
-        $('#usernameEMsg').text('用户名不能为空！');
+    if ('' == loginUserName) {
+        $('#usernameEMsg').text($.i18n.prop('index_alert_register_username_empty'));
         $('#username').focus();
         return false;
     }
-    if('' == loginPassword){
-        $('#passwordEMsg').text('密码不能为空！');
+    $('#usernameEMsg').text('');
+    if ('' == loginPassword) {
+        $('#passwordEMsg').text($.i18n.prop('index_alert_register_password_empty'));
         $('#password').focus();
         return false;
     }
@@ -674,58 +723,60 @@ function loginFormValidate(){
     return true;
 }
 
+
 // ORG管理员登录
 function orgAdminLogin() {
     var loginUser = $('#username').val();
-    var d = {
-        'grant_type':'password',
-        'username':loginUser,
-        'password':$('#password').val()
+    var requestData = {
+        'grant_type': 'password',
+        'username': loginUser,
+        'password': $('#password').val()
     };
-    if($('#rememberme:checked').length>0){
-        $.cookie('tvs-cookies-userName',$('#username').val());
-        $.cookie('tvs-cookies-password',$('#password').val());
-    }else{
-        $.cookie('tvs-cookies-userName','');
-        $.cookie('tvs-cookies-password','');
+    if ($('#rememberme:checked').length > 0) {
+        $.cookie('tvs-cookies-userName', $('#username').val());
+        $.cookie('tvs-cookies-password', $('#password').val());
+    } else {
+        $.cookie('tvs-cookies-userName', '');
+        $.cookie('tvs-cookies-password', '');
     }
-    if(loginFormValidate()){
-        $('#cont').text('登录中...');
-        $('#loginBtn').attr("disabled",true);
+    if (loginFormValidate()) {
+        $('#cont').text($.i18n.prop('index_alert_login_pending'));
+        $('#loginBtn').attr("disabled", true);
 
         // 登录获取token
         $.ajax({
-            url:baseUrl+'/management/token',
-            type:'POST',
-            data:JSON.stringify(d),
-            headers:{
-                'Content-Type':'application/json'
+            url: baseUrl + '/management/token',
+            type: 'POST',
+            data: JSON.stringify(requestData),
+            headers: {
+                'Content-Type': 'application/json'
             },
-            crossDomain:true,
-            error: function(respData, textStatus, errorThrown) {
-                $('#cont').text('登录');
-                $('#loginBtn').attr("disabled",false);
+            crossDomain: true,
+            error: function (respData, textStatus, errorThrown) {
+                $('#cont').text($.i18n.prop('index_text_login'));
+                $('#loginBtn').attr("disabled", false);
 
-                var str = JSON.stringify(respData.responseText).replace('}','').replace('{','').split(',');
-                var tmpArr = new Array();
-                var errorMsg = '';
-                for(var i = 0; i < str.length; i++) {
-                    tmpArr.push(str[i].replace(/\\/g,'').replace(/\"/g,'').split(':'));
+                var str = JSON.stringify(respData.responseText).replace('}', '').replace('{', '').split(',');
+                var tmpArr = [];
+                var errorMsg = $.i18n.prop('index_alert_login_failed_syserror');
+                for (var i = 0; i < str.length; i++) {
+                    tmpArr.push(str[i].replace(/\\/g, '').replace(/\"/g, '').split(':'));
                 }
-                for(var i = 0; i < tmpArr.length; i++) {
-                    if('error_description' == tmpArr[i][0]){
-                        if(tmpArr[i][1].indexOf("User must be confirmed to authenticate") > -1) {
-                            errorMsg = '登陆失败，账户未激活!';
-                        }
-                        if(tmpArr[i][1].indexOf("invalid username or password") > -1) {
-                            errorMsg = '登陆失败，用户名或者密码错误!';
+                for (var i = 0; i < tmpArr.length; i++) {
+                    if ('error_description' == tmpArr[i][0]) {
+                        if (tmpArr[i][1].indexOf("User must be confirmed to authenticate") > -1) {
+                            errorMsg = $.i18n.prop('index_alert_login_failed_unConfirm');
+                        } else if (tmpArr[i][1].indexOf("invalid username or password") > -1) {
+                            errorMsg = $.i18n.prop('index_alert_login_failed_wrongparams');
                         }
                     }
                 }
-                alert(errorMsg);
+
+
+                layer.msg(errorMsg, 3, 5);
             },
-            success: function(respData, textStatus, jqXHR) {
-                var access_token = respData.access_token;
+            success: function (respData, textStatus, jqXHR) {
+                var accessToken = respData.access_token;
                 var cuser = respData.user.username;
                 var cuserName = respData.user.username;
                 var email = respData.user.email;
@@ -734,31 +785,29 @@ function orgAdminLogin() {
                 var orgName = '';
                 var orgs = respData.user.organizations;
 
-                $.each(orgs, function(i) {
+                $.each(orgs, function (i) {
                     orgName = i;
                 });
 
-                if(orgName == '') {
-                    alert('抱歉,系统找不到该用户对应的企业ID.\n请联系系统管理员!');
-                    window.location.href = 'index.html';
+                if (orgName == '') {
+                    layer.msg($.i18n.prop('index_text_login_notFound'), 3, 5);
                 } else {
                     var date = new Date();
                     date.setTime(date.getTime() + (7 * 24 * 60 * 60 * 1000));
-                    $.cookie('access_token', access_token,{path:'/',expires:date});
-                    $.cookie('cuser', cuser,{path:'/',expires:date});
-                    $.cookie('cuserName', cuserName,{path:'/',expires:date});
-                    $.cookie('email', email,{path:'/',expires:date});
-                    $.cookie('orgName', orgName,{path:'/',expires:date});
-                    $.cookie('companyName', companyName,{path:'/',expires:date});
-                    $.cookie('telephone', telephone,{path:'/',expires:date});
+                    $.cookie('access_token', accessToken, {path: '/', expires: date});
+                    $.cookie('cuser', cuser, {path: '/', expires: date});
+                    $.cookie('cuserName', cuserName, {path: '/', expires: date});
+                    $.cookie('email', email, {path: '/', expires: date});
+                    $.cookie('orgName', orgName, {path: '/', expires: date});
+                    $.cookie('companyName', companyName, {path: '/', expires: date});
+                    $.cookie('telephone', telephone, {path: '/', expires: date});
 
-                    window.location.href = 'app_list.html';
-                    location.replace('app_list.html');
+                    EasemobCommon.disPatcher.toPageAppList();
                 }
             }
         });
     } else {
-        $('#cont').text('登录');
-        $('#loginBtn').attr("disabled",false);
+        $('#cont').text($.i18n.prop('index_text_login'));
+        $('#loginBtn').attr("disabled", false);
     }
 }

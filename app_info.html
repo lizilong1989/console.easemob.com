@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title id="page_title">环信开发者中心</title>
+
+    <script src="/assets/js/easemob/easemob-header.js"></script>
+    <script src="/assets/js/easemob/easemob-app.js"></script>
+    <script charset="utf-8">
+        var appName = getQueryString('appName');
+        var appNameCookie = $.cookie('appName');
+        if (appName != null && appName != "") {
+            $.cookie('appName', appName);
+        } else if (appNameCookie != null && appNameCookie != "") {
+            $.cookie('appName', appNameCookie);
+        } else {
+            EasemobCommon.disPatcher.toPageAppList();
+        }
+        $(function () {
+            $('#showName').text(appName);
+
+            EasemobCommon.init();
+
+            I18NPropsLoader.loadPropertiesCommon();
+            I18NPropsLoader.loadPropertiesForPageAppProfile();
+
+            getAppOverView(appName);
+        });
+    </script>
+</head>
+
+<body>
+<div class="navbar navbar-inverse">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <a class="brand" href="javascript:void(0);"><img id="logo_home" src="/assets/img/logo_home_zh.png" /></a>
+            <div id="headhref" class="lianjie" style="width:40%; margin-left:20%;">
+                <ol>
+                    <li style="width:20%;"><a href="javascript:EasemobCommon.disPatcher.openPageWWWHome()"><h5 id="nav_index">主页</h5></a></li>
+                    <li style="width:20%;"><a href="javascript:EasemobCommon.disPatcher.openPageWWWDocs()" target="_blank"><h5 id="nav_doc">文档</h5></a></li>
+                    <li style="width:20%;"><a href="javascript:EasemobCommon.disPatcher.openPageWWWSupport()" target="_blank"><h5 id="nav_help">帮助</h5></a></li>
+                    <li style="width:20%;"><a href="javascript:EasemobCommon.disPatcher.openPageIMGeek()" target="_blank"><h5 id="nav_community">社区</h5></a></li>
+                    <li style="width:20%;"><a href="javascript:EasemobCommon.disPatcher.openPageWWWSDK()" target="_blank"><h5 id="nav_download">下载SDK</h5></a></li>
+                </ol>
+            </div>
+
+            <div style="float:right;">
+                <button type="button" class="btn btn-primary" id="i18nBtnEnglish" onclick="EasemobCommon.setLocale('en')">English</button>
+                <button type="button" class="btn btn-primary" id="i18nBtnChinese" onclick="EasemobCommon.setLocale('zh')">中文</button>
+            </div>
+
+            <ul class="nav ace-nav pull-right" style="top:5px; margin-right:0">
+                <li class="light-blue user-profile"><a class="user-menu dropdown-toggle" href="javascript:void(0);"
+                                                       data-toggle="dropdown"> <span id="user_info"></span> <i
+                        class="icon-caret-down"></i> </a>
+                    <ul id="user_menu" class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
+                        <li class="divider"></li>
+                        <li><a href="javascript:EasemobCommon.disPatcher.toPageOrgAdminHome()" target="_self"> <i class="icon-user"></i><span id="nav_account">账户</span></a></li>
+                        <li><a href="javascript:EasemobCommon.logOut()"> <i class="icon-off"></i><span id="nav_signout">退出</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="main-container" class="container-fluid"><a href="javascript:void(0);" id="menu-toggler"> <span></span> </a>
+
+    <div id="sidebar">
+        <div id="sidebar-shortcuts">
+            <div style="min-height: 40px;" id="sidebar-shortcuts-large"></div>
+            <div style="min-height: 40px;" id="sidebar-shortcuts-mini"></div>
+        </div>
+        <ul class="nav nav-list">
+            <li class="active"><a href="javascript:EasemobCommon.disPatcher.toPageAppList()" target="_self"><i class="icon-ambulance"></i><span id="left_nav_myapp">我的应用</span> </a></li>
+            <li><a href="javascript:EasemobCommon.disPatcher.toPageOrgAdminList()" target="_self"> <i class="icon-home"></i><span id="left_nav_orgInfo">企业信息</span></a></li>
+            <li><a href="javascript:EasemobCommon.disPatcher.toPageOrgAdminHome()" target="_self"> <i class="icon-user"></i><span id="left_nav_userInfo">个人信息</span></a></li>
+        </ul>
+        <div id="sidebar-collapse"><i class="icon-double-angle-left"></i></div>
+    </div>
+    <div class="clearfix" id="main-content">
+        <div id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li><i class="icon-home"></i>&nbsp;&nbsp;<span id="second_nav_myapp">我的应用</span><span class="divider"> <i class="icon-angle-right"></i> </span></li>
+                <li><a href="javascript:void(0);" target="_self"> <span id="showName"></span></a></li>
+            </ul>
+        </div>
+        <div class="clearfix" id="page-content">
+            <div class="row-fluid">
+                <div class="pagination pagination-left">
+                    <ul>
+                        <li><a href="javascript:EasemobCommon.disPatcher.toPageAppInfo()"><font color="green"><span id="third_nav_appprofile">应用概况</span></font></a></li>
+                    </ul>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <ul>
+                        <li><a href="javascript:EasemobCommon.disPatcher.toPageAppUsers()"><span id="third_nav_imusers">IM用户</span></a></li>
+                    </ul>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <ul>
+                        <li><a href="javascript:EasemobCommon.disPatcher.toPageAppChatGroups()"><span id="third_nav_chatgroups">群组</span></a></li>
+                    </ul>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <ul>
+                        <li><a href="javascript:EasemobCommon.disPatcher.toPageAppNotifiers()"><span id="third_nav_notifier">推送证书</span></a></li>
+                    </ul>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <ul>
+                        <li><a href="javascript:EasemobCommon.disPatcher.toPageAppCounters()"><span id="third_nav_counter">统计数据</span></a></li>
+                    </ul>
+                    <hr/>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="apply" style="background:#FFF">
+                        <table class="table table-striped table-bordered table-hover" style="width:500px;">
+                            <tr>
+                                <td align="right" width="150px;"><strong id="app_profile_text_appkey">应用标识(AppKey)</strong>:</td>
+                                <td width="160px;"><span id="appKey"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right" width="150px"><strong id="app_profile_text_created">创建时间</strong>:</td>
+                                <td width="150px;"><span id="created"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right" width="150px"><strong id="app_profile_text_modified">最后修改时间</strong>:</td>
+                                <td width="150px;"><span id="modified"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right" width="150px"><strong id="app_profile_text_model">用户注册模式</strong>:</td>
+                                <td width="150px;"><span id="allowOpen"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+                                        onClick="changeAllowOpen();" class="btn btn-mini btn-info"><span id="app_profile_btn_change">切换</span></a></td>
+                                <input type="hidden" id="allowOpenHdd" name="allowOpenHdd" value=""/>
+                            </tr>
+                            <tr>
+                                <td align="right" width="150px"><strong>client_id</strong>:</td>
+                                <td width="150px;"><span id="client_id"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right" width="150px"><strong>client_secret</strong>:</td>
+                                <td width="150px;"><span id="client_secret"></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right" width="150px"><strong id="app_profile_text_thumbnail">缩略图大小</strong>:</td>
+                                <td width="150px;">
+                                    <span id="image_thumbnail_height"></span>&nbsp;&nbsp;*&nbsp;&nbsp;
+                                    <span id="image_thumbnail_width"></span>(<span id="app_profile_text_thumbnail_height">长</span> * <span id="app_profile_text_thumbnail_width">宽</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+                                        onClick="showImage();" class="btn btn-mini btn-info"><span id="app_profile_btn_update">修改</span></a></td>
+                                <a style="display:none" href="#updateImage" id="showUpdateImage" data-toggle="modal"
+                                   role="button"></a>
+                            </tr>
+                        </table>
+                    </div>
+                    <p>
+
+                    <div class="apply"><font size="3"><span id="app_profile_text_quickIntegration">快速集成</span></font>
+                    </div>
+                    <li id="androidTab"><a href="http://www.easemob.com/docs/android/" target="_blank">Android</a>&nbsp;&nbsp;<i
+                            class="icon-hand-left"></i><span id="app_profile_text_android">安卓</span>
+                    </li>
+                    <li id="iosTab"><a href="http://www.easemob.com/docs/ios/" target="_blank">IOS</a>&nbsp;&nbsp;<i
+                            class="icon-hand-left"></i><span id="app_profile_text_ios">IOS</span>
+                    </li>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--修改缩略图大小-->
+    <div id="updateImage" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-header">
+            <button id="closeButn" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="app_profile_text_modifyThumbnail">修改缩略图大小</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="control-group">
+                        <div class="controls">
+                            <span id="app_profile_form_thumbnail_height">长</span>：<input type="text" id="imageHeight" name="imageHeight" value=""/>&nbsp;px
+                            <input type="hidden" id="imageHeightHide" name="imageHeightHide" value=""/>
+                            <input type="hidden" id="usernameMessage" name="usernameMessage" value=""/>
+                            <input type="hidden" id="appNameMessage" name="appNameMessage" value=""/>
+                            <span style="color: red;" id="imageHeightSpan"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="control-group">
+                        <div class="controls">
+                            <span id="app_profile_form_thumbnail_width">宽</span>：<input type="text" id="imageWidth" name="imageWidth" value=""/>&nbsp;px
+                            <input type="hidden" id="imageWidthHide" name="imageWidthHide" value=""/>
+                            <span style="color: red;" id="imageWidthSpan"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn" onClick="updateImageHTML();" href="javascript:void(0);"><span id="app_profile_text_thumbnail_confirm">确定</span></a>
+                <button id="messageCloseBtn" class="btn" data-dismiss="modal" onClick="clsSpan()" aria-hidden="true">
+                    <span id="app_profile_text_thumbnail_cancel">关闭</span>
+                </button>
+            </div>
+        </div>
+        <!--修改缩略图大小end-->
+        </div>
+    </div>
+</body>
+
+<!-- confirm modal window start -->
+<div id="ycf-alert" class="modal" style="display: none;width: 222px;position: absolute;top:35%;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fa fa-exclamation-circle"></i></h5>
+            </div>
+            <div class="modal-body small">
+                <p>[Message]</p>
+            </div>
+            <div class="modal-footer" >
+                <button type="button" class="btn ok" data-dismiss="modal">[BtnOk]</button>
+                <button type="button" class="btn cancel" data-dismiss="modal">[BtnCancel]</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- confirm modal window end -->
+
+</html>

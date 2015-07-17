@@ -486,8 +486,8 @@ jQuery.extend({
 			return false;
 		}
 
-		// Own properties are enumerated firstly, so to speed up,
-		// if last one is own, then all properties are own.
+		// Own resources are enumerated firstly, so to speed up,
+		// if last one is own, then all resources are own.
 
 		var key;
 		for ( key in obj ) {}
@@ -1737,7 +1737,7 @@ jQuery.extend({
 	expando: "jQuery" + ( core_version + Math.random() ).replace( /\D/g, "" ),
 
 	// The following elements throw uncatchable exceptions if you
-	// attempt to add expando properties to them.
+	// attempt to add expando resources to them.
 	noData: {
 		"embed": true,
 		// Ban all objects except for Flash (which handle expandos)
@@ -2443,7 +2443,7 @@ jQuery.extend({
 		var ret, hooks, notxml,
 			nType = elem.nodeType;
 
-		// don't get/set properties on text, comment and attribute nodes
+		// don't get/set resources on text, comment and attribute nodes
 		if ( !elem || nType === 3 || nType === 8 || nType === 2 ) {
 			return;
 		}
@@ -2510,7 +2510,7 @@ boolHook = {
 						elem[ jQuery.camelCase( "default-" + name ) ] :
 						!!attr :
 
-				// fetch an attribute node for properties not recognized as boolean
+				// fetch an attribute node for resources not recognized as boolean
 				elem.getAttributeNode( name );
 
 		return detail && detail.value !== false ?
@@ -3111,7 +3111,7 @@ jQuery.event = {
 					for ( i = 0; i < delegateCount; i++ ) {
 						handleObj = handlers[ i ];
 
-						// Don't conflict with Object.prototype properties (#13203)
+						// Don't conflict with Object.prototype resources (#13203)
 						sel = handleObj.selector + " ";
 
 						if ( matches[ sel ] === undefined ) {
@@ -3143,7 +3143,7 @@ jQuery.event = {
 			return event;
 		}
 
-		// Create a writable copy of the event object and normalize some properties
+		// Create a writable copy of the event object and normalize some resources
 		var i, prop, copy,
 			type = event.type,
 			originalEvent = event,
@@ -3350,7 +3350,7 @@ jQuery.Event = function( src, props ) {
 		this.type = src;
 	}
 
-	// Put explicitly provided properties onto the event object
+	// Put explicitly provided resources onto the event object
 	if ( props ) {
 		jQuery.extend( this, props );
 	}
@@ -3853,7 +3853,7 @@ function createCache() {
 		keys = [];
 
 	return (cache = function( key, value ) {
-		// Use (key + " ") to avoid collision with native prototype properties (see Issue #157)
+		// Use (key + " ") to avoid collision with native prototype resources (see Issue #157)
 		if ( keys.push( key += " " ) > Expr.cacheLength ) {
 			// Only keep the most recent entries
 			delete cache[ keys.shift() ];
@@ -4888,7 +4888,7 @@ Expr = Sizzle.selectors = {
 			return elem === document.activeElement && (!document.hasFocus || document.hasFocus()) && !!(elem.type || elem.href || ~elem.tabIndex);
 		},
 
-		// Boolean properties
+		// Boolean resources
 		"enabled": function( elem ) {
 			return elem.disabled === false;
 		},
@@ -6594,7 +6594,7 @@ jQuery.extend({
 
 						delete cache[ id ];
 
-						// IE does not allow us to delete expando properties from nodes,
+						// IE does not allow us to delete expando resources from nodes,
 						// nor does it have a removeAttribute function on Document nodes;
 						// we must handle all of these cases
 						if ( deleteExpando ) {
@@ -6777,7 +6777,7 @@ jQuery.extend({
 		}
 	},
 
-	// Exclude the following css properties to add px
+	// Exclude the following css resources to add px
 	cssNumber: {
 		"columnCount": true,
 		"fillOpacity": true,
@@ -6790,7 +6790,7 @@ jQuery.extend({
 		"zoom": true
 	},
 
-	// Add in properties whose names you wish to fix before
+	// Add in resources whose names you wish to fix before
 	// setting or getting the value
 	cssProps: {
 		// normalize float css property
@@ -6831,7 +6831,7 @@ jQuery.extend({
 				return;
 			}
 
-			// If a number was passed in, add 'px' to the (except for certain CSS properties)
+			// If a number was passed in, add 'px' to the (except for certain CSS resources)
 			if ( type === "number" && !jQuery.cssNumber[ origName ] ) {
 				value += "px";
 			}
@@ -6897,7 +6897,7 @@ jQuery.extend({
 		return val;
 	},
 
-	// A method for quickly swapping in/out CSS properties to get correct calculations
+	// A method for quickly swapping in/out CSS resources to get correct calculations
 	swap: function( elem, options, callback, args ) {
 		var ret, name,
 			old = {};
@@ -7025,7 +7025,7 @@ function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
 	var i = extra === ( isBorderBox ? "border" : "content" ) ?
 		// If we already have the right measurement, avoid augmentation
 		4 :
-		// Otherwise initialize for horizontal or vertical properties
+		// Otherwise initialize for horizontal or vertical resources
 		name === "width" ? 1 : 0,
 
 		val = 0;
@@ -7266,7 +7266,7 @@ if ( jQuery.expr && jQuery.expr.filters ) {
 	};
 }
 
-// These hooks are used by animate to expand properties
+// These hooks are used by animate to expand resources
 jQuery.each({
 	margin: "",
 	padding: "",
@@ -8463,7 +8463,7 @@ jQuery.ajaxSettings.xhr = window.ActiveXObject ?
 	// For all other browsers, use the standard XMLHttpRequest object
 	createStandardXHR;
 
-// Determine support properties
+// Determine support resources
 xhrSupported = jQuery.ajaxSettings.xhr();
 jQuery.support.cors = !!xhrSupported && ( "withCredentials" in xhrSupported );
 xhrSupported = jQuery.support.ajax = !!xhrSupported;
@@ -8529,7 +8529,7 @@ if ( xhrSupported ) {
 					callback = function( _, isAbort ) {
 						var status, responseHeaders, statusText, responses;
 
-						// Firefox throws exceptions when accessing properties
+						// Firefox throws exceptions when accessing resources
 						// of an xhr when a network error occurred
 						// http://helpful.knobs-dials.com/index.php/Component_returned_failure_code:_0x80040111_(NS_ERROR_NOT_AVAILABLE)
 						try {
@@ -9072,7 +9072,7 @@ Tween.propHooks = {
 		},
 		set: function( tween ) {
 			// use step hook for back compat - use cssHook if its there - use .style if its
-			// available and use plain properties where available
+			// available and use plain resources where available
 			if ( jQuery.fx.step[ tween.prop ] ) {
 				jQuery.fx.step[ tween.prop ]( tween );
 			} else if ( tween.elem.style && ( tween.elem.style[ jQuery.cssProps[ tween.prop ] ] != null || jQuery.cssHooks[ tween.prop ] ) ) {

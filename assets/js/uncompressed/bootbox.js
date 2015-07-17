@@ -300,11 +300,11 @@ var bootbox = window.bootbox || (function(document, $) {
                 var propCount = 0,      // condensed will only match if this == 1
                     property  = null;   // save the last property we found
 
-                // be nicer to count the properties without this, but don't think it's possible...
+                // be nicer to count the resources without this, but don't think it's possible...
                 for (var j in handlers[i]) {
                     property = j;
                     if (++propCount > 1) {
-                        // forget it, too many properties
+                        // forget it, too many resources
                         break;
                     }
                 }

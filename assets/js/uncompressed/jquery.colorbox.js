@@ -185,7 +185,7 @@
 		}
 	}
 
-	// Assigns function results to their respective properties
+	// Assigns function results to their respective resources
 	function makeSettings() {
 		var i,
 			data = $.data(element, colorbox);

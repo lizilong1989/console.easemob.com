@@ -4,8 +4,28 @@
     <meta charset="utf-8">
     <title id="page_title"></title>
     <script src="/assets/js/easemob/easemob-header.js"></script>
-    <script src="assets/js/easemob/easemob-login.js"></script>
 
+    <!-- For email auto fill -->
+    <style type="text/css">
+        .out_box {
+            border: 1px solid #ccc;
+            background: #fff;
+            font: 12px/20px Tahoma;
+        }
+        .list_box {
+            border-bottom: 1px solid #eee;
+            padding: 0 5px;
+            cursor: pointer;
+        }
+        .focus_box {
+            background: #f0f3f9;
+        }
+        .mark_box {
+            color: #c00;
+        }
+    </style>
+
+    <!-- 邮箱提示 -->
     <style type="text/css">
         .login-layout {
             background: #29b6f6 url("/assets/img/bj.png") top center no-repeat;
@@ -92,6 +112,10 @@
         }
     </style>
 
+    <!-- 邮箱提示 -->
+    <script src="assets/js/email.js"></script>
+    <script src="assets/js/easemob/easemob-login.js"></script>
+
     <script charset="utf-8">
         $(function(){
             //读取cookie
@@ -104,7 +128,7 @@
     </script>
 </head>
 
-<body class="login-layout" onkeydown="keyLogin();">
+<body class="login-layout">
 <div id="main-container" class="container-fluid">
     <div id="main-content">
         <div class="row-fluid">
@@ -120,58 +144,40 @@
                             </h1>
                         </div>
                         <div class="azen-right">
-                            <a href="javascript:void(0);" onclick="EasemobCommon.disPatcher.toPageIndexLogin()" class="current"><span id="index_span_login"></span></a>
+                            <a href="javascript:void(0);" onclick="clearRegisterBox();EasemobCommon.disPatcher.toPageIndexLogin()" class="current"><span id="index_span_login"></span></a>
                             <a href="javascript:void(0);" id="btnRegist" onClick="EasemobCommon.disPatcher.toPageIndexRegister()"
                                class="forgot-password-link"><span id="index_span_register"></span></a>
                         </div>
                     </div>
                     <div class="row-fluid">
                         <div class="position-relative">
-                            <!-- ORG管理员登录 -->
-                            <div class="visible widget-box no-border" id="login-box">
+                            <!-- ORG管理员找回密码 -->
+                            <div class="visible widget-box no-border" id="forgot-box">
                                 <div class="widget-body">
                                     <div class="widget-main">
                                         <div class="space-6"></div>
                                         <fieldset>
-                                            <!-- 用户名 -->
                                             <label>
                                                 <span class="block input-icon input-icon-right">
-                                                    <i class="azen-locations"><span id="index_login_username"></span>:</i>
-                                                    <input type="text" placeholder="" datatype="*" class="span10" onblur="onBlurCheckLoginUserName()" name="username" id="username" onClick="keyLogin()"/>
-                                                    <i class=""></i>
-                                                    <span class="Validform_checktip"></span>
-                                                </span>
-                                                <span id="usernameEMsg" style="font-size:12px;color:red;padding-left:72px;"></span>
+                                                    <i class="azen-locations"><span id="index_forgot_username"></span>：</i>
+                                                    <input type="text" id="email" name="email" placeholder="" onBlur="onBlurCheckResetEmail()" class="span10" value="" />
+                                                 </span>
+                                                <span id="emailEMsg" style="font-size:12px;color:red; padding-left:72px;"></span>
                                             </label>
-                                            <!-- 密码 -->
-                                            <label>
-                                                <span class="block input-icon input-icon-right">
-                                                    <i class="azen-locations"><span id="index_login_password"></span>:</i>
-                                                    <input type="password" placeholder="" class="span10" onblur="onBlurCheckLoginPassword()" name="password" id="password" onClick="keyLogin()"/>
-                                                    <i class=""></i>
-                                                    <span class="Validform_checktip"></span>
-                                                </span>
-                                                <span id="passwordEMsg" style="font-size:12px;color:red; padding-left:72px;"></span>
-                                            </label>
+                                            <div class="space"></div>
+                                            <div class="space"></div>
                                             <div class="row-fluid">
-                                                <div class="span8" style="padding-left:75px;">
-                                                    <input type="checkbox" checked="true" name="rememberme" id="rememberme" />
-                                                    <span class="lbl" id="index_login_rememberme"></span>
-                                                </div>
-                                                <div class="span3">
-                                                    <span class="lbl" style="float:right;">
-                                                        <a href="javascript:void(0);" onClick="EasemobCommon.disPatcher.toPageIndexForgotPwd()" class="forgot-password-link"><span id="index_forgot_password_link"></span></a>
-                                                    </span>
+                                                <div class="span12 btn btn-small btn-primary">
+                                                    <a class="azen-getback" onClick="resetOrgAdminPasswordRequest();"><span id="index_forgot_btn_password"></span></a>
                                                 </div>
                                             </div>
+
+                                            <div class="span4" style="float:right; text-align:right; padding-top:10px;">
+                                                <a href="javascript:void(0);" onclick="clearRegisterBox();EasemobCommon.disPatcher.toPageIndexLogin()" class=""><span id="index_bnt_backtologin"></span></a>
+                                            </div>
+                                            <div style="height:180px;"></div>
                                         </fieldset>
                                     </div>
-                                    <div class="toolbar clearfix">
-                                        <div id="loginBtn" class="span4 btn btn-small btn-primary" onClick="orgAdminLogin();">
-                                            <span id="index_bnt_login"></span>
-                                        </div>
-                                    </div>
-                                    <div style="height:80px;"></div>
                                 </div>
                             </div>
                         </div>

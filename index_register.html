@@ -1,0 +1,321 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title id="page_title"></title>
+    <script src="/assets/js/easemob/easemob-header.js"></script>
+
+    <!-- For email auto fill -->
+    <style type="text/css">
+        .out_box {
+            border: 1px solid #ccc;
+            background: #fff;
+            font: 12px/20px Tahoma;
+        }
+        .list_box {
+            border-bottom: 1px solid #eee;
+            padding: 0 5px;
+            cursor: pointer;
+        }
+        .focus_box {
+            background: #f0f3f9;
+        }
+        .mark_box {
+            color: #c00;
+        }
+    </style>
+
+    <!-- 邮箱提示 -->
+    <style type="text/css">
+        .login-layout {
+            background: #29b6f6 url("/assets/img/bj.png") top center no-repeat;
+        }
+        .login-layout .widget-box {
+            background-color: #e5e5e5;
+            border-bottom: 0 none;
+            box-shadow: none;
+            overflow: hidden;
+            padding: 2px;
+            position: absolute;
+            transform: scale(0, 1) translate(-150px);
+            visibility: hidden;
+            width: 100%;
+            border-radius: 10px;
+        }
+        .azen-right {
+            float: right;
+            padding-top: 90px;
+        }
+        .azen-right a {
+            color: #fff;
+            font-size: 20px;
+            padding: 0 5px;
+        }
+        .azen-right a:hover {
+            color: #fff;
+            font-size: 20px;
+            text-decoration: none;
+        }
+        .azen-right .current {
+            color: #d7d7d7;
+            border-right: 1px solid #8ed8fa;
+            display: inline-block;
+            float: left;
+        }
+        .azen-getback {
+            color: #fff;
+            font-size: 20px;
+        }
+        .azen-getback:hover {
+            color: #fff;
+            font-size: 20px;
+            text-decoration: none;
+        }
+        #signup-box .widget-main-clear {
+            padding: 40px 80px 36px;
+        }
+        .azen-location {
+            position: absolute;
+            left: 10px;
+            top: 7px;
+            padding-right: 10px;
+            color: #5b5652;
+            font-size: 14px;
+            font-style: normal;
+            font-family: 微软雅黑;
+        }
+        .azen-locations {
+            width: 57px;
+            text-align: right;
+            display: inline-block;
+            padding-right: 10px;
+            color: #5b5652;
+            font-size: 14px;
+            font-style: normal;
+            font-family: 微软雅黑;
+        }
+        .azen-renchi {
+            float: left;
+            padding-right: 10px;
+        }
+        #formbuttons .azen-buttons {
+            width: 100%;
+            background-color: #00aadd;
+            color: #fff;
+            border: none;
+            font-size: 20px;
+            padding: 6px 0;
+            border-radius: 3px;
+        }
+        #signup-box .span10 {
+            margin-left: 15px;
+        }
+    </style>
+
+    <!-- 邮箱提示 -->
+    <script src="assets/js/email.js"></script>
+    <script src="assets/js/easemob/easemob-login.js"></script>
+
+    <script charset="utf-8">
+        $(function(){
+            //读取cookie
+            if($('#rememberme:checked').length > 0){
+                $('#username').val($.cookie('tvs-cookies-userName'));
+                $('#password').val($.cookie('tvs-cookies-password'));
+            }
+            EasemobCommon.initLocale();
+
+            $('#regOrgNameSMsg').css('display', 'block');
+            $('#regOrgNameEMsg').text('');
+            $('#regOrgNameEMsg').css('display', 'block');
+
+
+            $('#regUserNameSMsg').css('display', 'block');
+            $('#regUserNameEMsg').text('');
+            $('#regUserNameEMsg').css('display', 'block');
+        })
+    </script>
+</head>
+
+<body class="login-layout">
+<div id="main-container" class="container-fluid">
+    <div id="main-content">
+        <div class="row-fluid">
+            <div style="float:right;">
+                <button type="button" class="btn btn-primary" id="i18nBtnEnglish" onclick="EasemobCommon.setLocale('en')">English</button>
+                <button type="button" class="btn btn-primary" id="i18nBtnChinese" onclick="EasemobCommon.setLocale('zh')">中文</button>
+            </div>
+            <div class="span12"><p>
+                <div class="login-container">
+                    <div class="row-fluid">
+                        <div class="center" style="float:left;">
+                            <h1 style="margin-top: 40px;" class="blue"><img border="0" style="height:78px;" id="logo_index" src="" alt="">
+                            </h1>
+                        </div>
+                        <div class="azen-right">
+                            <a href="javascript:void(0);" onclick="clearRegisterBox();EasemobCommon.disPatcher.toPageIndexLogin()" class="current"><span id="index_span_login"></span></a>
+                            <a href="javascript:void(0);" id="btnRegist" onClick="EasemobCommon.disPatcher.toPageIndexRegister()"
+                               class="forgot-password-link"><span id="index_span_register"></span></a>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="position-relative">
+                            <!-- ORG管理员注册 -->
+                            <div class="visible widget-box no-border" id="signup-box">
+                                <div class="widget-body">
+                                    <div class="widget-main widget-main-clear">
+                                        <div class="space-6"></div>
+                                        <fieldset>
+                                            <label>
+                                                <span class="block input-icon input-icon-right">
+                                                    <span style="color:red; float:left; font-size:24px; display:block; padding-right:60px; padding-top:12px;">*</span>
+                                                    <i class="azen-location"><span id="index_span_register_orgname"></span>：</i>
+			                                        <input type="text" id="regOrgName" name="regOrgName" placeholder="" class="span10"
+                                                           value="" onKeyUp="value=value.replace(/[\uFF00-\uFFFF]/g,'')"
+                                                           onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\uFF00-\uFFFF]/g,''))"/>
+                                                </span>
+                                                <span id="regOrgNameSMsg" style="font-size:12px; padding-left:85px; color:#5c5753;"></span>
+                                                <span id="regOrgNameEMsg" style="font-size:12px;color:red; padding-left:85px;"></span>
+                                                <input id="regOrgNameEMsgHidden" type="hidden" value=""/>
+                                            </label>
+
+                                            <label>
+                                                <span class="block input-icon input-icon-right">
+			                                        <span style="color:red;float:left; font-size:24px; display:block; padding-right:60px;padding-top:12px;">*</span>
+                                                    <i class="azen-location"><span id="index_span_register_userneme"></span>：</i>
+                                                    <input type="text" id="regUserName" placeholder="" class="span10"
+                                                           name="regUserName" value="" />
+                                                </span>
+                                                <span id="regUserNameSMsg" style="font-size:12px;padding-left:85px; color:#5c5753;"></span>
+                                                <span id="regUserNameEMsg" style="font-size:12px;color:red; padding-left:85px;"></span>
+                                                <input id="regUserNameEMsgHidden" type="hidden" value=""/>
+                                            </label>
+
+                                            <label>
+                                                <span class="block input-icon input-icon-right">
+			                                        <span style="color:red; float:left; font-size:24px; display:block; padding-right:60px; padding-top:12px;">*</span>
+                                                    <i class="azen-location"><span id="index_span_register_password"></span>：</i>
+                                                    <input type="password" id="regPassword" placeholder="" class="span10" name="regPassword" value="" />
+                                                </span>
+                                                <span id="regPasswordEMsg" style="font-size:12px;color:red; padding-left:85px;"></span>
+                                                <input id="regPasswordEMsgHidden" type="hidden" value=""/>
+                                            </label>
+
+                                            <label>
+                                                <span class="block input-icon input-icon-right">
+			                                        <span style="color:red; float:left; font-size:24px; display:block; padding-right:60px; padding-top:12px;">*</span>
+                                                    <i class="azen-location"><span id="index_span_register_repassword"></span>：</i>
+                                                    <input type="password" id="regRePassword" placeholder="" class="span10"
+                                                        name="regRePassword" value="" />
+                                                </span>
+                                                <span id="regRePasswordEMsg" style="font-size:12px;color:red; padding-left:85px;"></span>
+                                                <input id="regRePasswordEMsgHidden" type="hidden" value=""/>
+                                            </label>
+
+                                            <label>
+                                                <span class="block input-icon input-icon-right">
+			                                        <span style="color:red; float:left; font-size:24px; display:block; padding-right:60px; padding-top:12px;">*</span>
+                                                    <i class="azen-location"><span id="index_span_register_email"></span>：</i>
+                                                    <input type="text" id="regEmail" placeholder="" class="span10" style="width:410px;"
+                                                        name="regEmail" value="" />
+                                                </span>
+                                                <span id="regEmailSEMsg" style="font-size:12px;"></span>
+                                                <span id="regEmailEMsg" style="font-size:12px;color:red; padding-left:85px;"></span>
+                                                <input id="regEmailEMsgHidden" type="hidden" value=""/>
+                                            </label>
+                                            <script type="text/javascript">
+                                                $("#regEmail").mailAutoComplete({
+                                                    boxClass: "out_box",
+                                                    listClass: "list_box",
+                                                    focusClass: "focus_box",
+                                                    markCalss: "mark_box",
+                                                    autoClass: false,
+                                                    textHint: true
+                                                });
+                                            </script>
+
+                                            <label>
+                                                <span class="block input-icon input-icon-right">
+			                                        <span style="color:red; float:left; font-size:24px; display:block; padding-right:60px; padding-top:12px;">*</span>
+                                                    <i class="azen-location"><span id="index_span_register_company"></span>：</i>
+                                                    <input type="text" id="regCompanyName" placeholder="" class="span10" name="regCompanyName"
+                                                        value="">
+                                                </span>
+                                                <span id="regCompanyNameSEMsg" style="font-size:12px;"></span>
+                                                <span id="regCompanyNameEMsg" style="font-size:12px;color:red; padding-left:85px;"></span>
+                                                <input id="regCompanyNameEMsgHidden" type="hidden" value=""/>
+                                            </label>
+
+                                            <label>
+                                                <span class="block input-icon input-icon-right">
+			                                        <span style="color:red; float:left; font-size:24px; display:block; padding-right:60px; padding-top:12px;">*</span>
+                                                    <i class="azen-location"><span id="index_span_register_tel"></span>：</i>
+                                                    <input type="text" id="regTel" placeholder="" class="span10" name="regTel" value="" />
+                                                </span>
+                                                <span id="regTelSEMsg" style="font-size:12px;"></span>
+                                                <span id="regTelEMsg" style="font-size:12px;color:red; padding-left:85px;"></span>
+                                                <input id="regTelEMsgHidden" type="hidden" value="" />
+                                            </label>
+
+                                            <label>
+                                            <span style="color:red; float:left; font-size:24px; display:block; padding-top:5px;">*</span><span id="index_span_register_comeFromNote"></span><span
+                                                    id="comeFromEMsg" style="font-size:12px;color:red; padding-left:85px;"></span></p>
+                                            <input id="comeFromEMsgHidden" type="hidden" value=""/>
+                                            <div>
+                                                <div class="azen-renchi">
+                                                    <input type="radio" name="comefrom" value="internet-search" />
+                                                    <span class="lbl" id="index_span_register_comefromInternet"></span>
+                                                </div>
+                                                <div class="azen-renchi">
+                                                    <input type="radio" name="comefrom" value="friends" />
+                                                    <span class="lbl" id="index_span_register_comefromFriends"></span>
+                                                </div>
+                                                <div class="azen-renchi">
+                                                    <input type="radio" name="comefrom" value="official" />
+                                                    <span class="lbl" id="index_span_register_comefromOfficial"></span>
+                                                </div>
+                                                <div class="azen-renchi">
+                                                    <input type="radio" name="comefrom" value="exhibition" />
+                                                    <span class="lbl" id="index_span_register_comefromExhibition"></span>
+                                                </div>
+                                                <div class="azen-renchi">
+                                                    <input type="radio" name="comefrom" vallue="media-report" />
+                                                    <span class="lbl" id="index_span_register_comefromMedia"></span>
+                                                </div>
+                                            </div>
+
+                                            <label>
+                                                <input type="checkbox" id="agreeCBox" checked="checked" onclick="checkBoxStatus()" />
+                                                <span class="lbl">
+                                                    <span id="index_span_register_agree"></span>
+                                                    <a href="http://www.easemob.com/hx/about/terms.html" target="_blank">
+                                                        <span id="index_span_register_agree_service"></span></a>
+                                                </span>
+                                                <span id="agreeCBoxEMsg" style="font-size:12px;color:red"></span>
+                                            </label>
+
+                                            <div id="formbuttons">
+                                                <button class="azen-buttons" id="index_span_register_formSubBtn" onClick="createNewOrgAndAdminUser();"></button>
+                                            </div>
+                                            </label>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<!-- Baidu counters -->
+<script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F3e5b3453fdcff1e4dec124ea22f1e189' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</html>

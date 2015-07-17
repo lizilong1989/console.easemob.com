@@ -24,7 +24,7 @@
 
   /**
    * Utility function to create elements. If no tag name is given,
-   * a DIV is created. Optionally properties can be passed.
+   * a DIV is created. Optionally resources can be passed.
    */
   function createEl(tag, prop) {
     var el = document.createElement(tag || 'div')
@@ -98,7 +98,7 @@
   }
 
   /**
-   * Sets multiple style properties at once.
+   * Sets multiple style resources at once.
    */
   function css(el, prop) {
     for (var n in prop)

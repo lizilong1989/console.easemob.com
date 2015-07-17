@@ -66,7 +66,7 @@ $.widget = function( name, base, prototype ) {
 			this._createWidget( options, element );
 		}
 	};
-	// extend with the existing constructor to carry over any static properties
+	// extend with the existing constructor to carry over any static resources
 	$.extend( constructor, existingConstructor, {
 		version: prototype.version,
 		// copy the object used to create the prototype in case we need to
@@ -474,7 +474,7 @@ $.Widget.prototype = {
 		// so we need to reset the target on the new event
 		event.target = this.element[ 0 ];
 
-		// copy original event properties over to the new event
+		// copy original event resources over to the new event
 		orig = event.originalEvent;
 		if ( orig ) {
 			for ( prop in orig ) {

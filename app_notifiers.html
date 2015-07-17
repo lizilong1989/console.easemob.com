@@ -2,182 +2,26 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>环信开发者中心</title>
+    <title id="page_title">环信开发者中心</title>
 
-    <link href="assets/css/bootstrap-2.3.2.min.css" rel="stylesheet" type="text/css" media="screen"/>
-    <link href="assets/css/bootstrap-responsive-2.3.2.min.css" rel="stylesheet" type="text/css" media="screen"/>
-    <link href="assets/css/font-awesome-3.1.0.min.css" rel="stylesheet" type="text/css" media="screen"/>
-    <!--[if IE 7]>
-    <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css"/>
-    <![endif]-->
-    <!--fonts-->
-    <!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" /> -->
-    <!--ace styles-->
-
-    <link href="assets/css/ace.min.css" rel="stylesheet" type="text/css" media="screen"/>
-    <link href="assets/css/ace-responsive.min.css" rel="stylesheet" type="text/css" media="screen"/>
-    <link href="assets/css/ace-skins.min.css" rel="stylesheet" type="text/css" media="screen"/>
-    <!--[if lte IE 8]>
-    <link rel="stylesheet" href="assets/css/ace-ie.min.css"/>
-    <![endif]-->
-
-    <link href="assets/css/management.css" rel="stylesheet" type="text/css" media="screen"/>
-    <link href="assets/css/manage.css" rel="stylesheet" type="text/css" media="screen"/>
-
-    <script src="assets/js/jquery-1.7.2.min.js"></script>
-    <script src="assets/js/jquery.cookie-1.3.js"></script>
-    <script src="assets/js/bootstrap-2.3.2.min.js"></script>
-    <script src="assets/js/json2.js"></script>
-    <script src="assets/js/ace-elements.min.js"></script>
-    <script src="assets/js/ace.min.js"></script>
-    <script src="assets/js/jquery.form.js"></script>
-    <script src="assets/js/management.js"></script>
-    <script src="assets/js/easemob/easemob-notifiers.js"></script>
-    <script src="assets/js/layer/layer.min.js"></script>
-    <script tyep="text/javascript">
-        var appUuid = getQueryString('appUuid');
-        var Application = $.cookie('Application');
+    <script src="/assets/js/easemob/easemob-header.js"></script>
+    <script src="/assets/js/jquery.form.js"></script>
+    <script src="/assets/js/easemob/easemob-notifiers.js"></script>
+    <script src="/assets/js/layer/layer.min.js"></script>
+    <script charset="utf-8">
         var count = 0;
         $(function () {
             count = 0;
-            $('#showName').text(Application);
-            $('#fileAppKey').text(Application);
-            $('#certificate').hide();//页面加载时隐藏掉推送证书
-            if (!getToken() || getToken() == '') {
-                logout();
-            }
-
-            getAppNotifiers(appUuid);
-        });
-        // 上一页数据
-        function getPrevAppNotifiers() {
-            getAppNotifiers(appUuid, 'forward');
-        }
-        // 下一页数据
-        function getNextAppNotifiers() {
-            getAppNotifiers(appUuid, 'next');
-        }
-        function check() {
-            if (count == 0) {
-                count++;
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        function changeform() {
-            if (check()) {
-                var access_token = $.cookie('access_token');
-                var orgName = $.cookie('orgName');
-
-                var notifierName = $('#name').val();
-                var passphrase = $('#passphrase').val();
-                var notifierNameRegx = /^[A-Za-z0-9-_]*$/;
-                if (!notifierNameRegx.test(notifierName)) {
-                    alert('证书名称只能是字母数字横线下划线的组合!');
-                    return;
-                }
-                if (!validateSuffix($('#file').val())) {
-                    return;
-                }
-                if (passphrase == '') {
-                    alert('请填写证书密码!');
-                    return;
-                }
-
-                var ajax_option = {
-                    url: baseUrl + '/' + orgName + '/' + appUuid + '/notifiers',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Accept-Encoding': 'gzip,deflate',
-                        'Authorization': 'Bearer ' + access_token,
-                    },
-                    success: function (data) {
-                        layer.close(layerNum);
-                        alert("证书添加成功!");
-                        //clear form
-                        $('#name').val('');
-                        $('#passphrase').val('');
-
-                        getAppNotifiers(appUuid);
-                    },
-                    error: function (data) {
-                        layer.close(layerNum);
-                        alert("证书添加失败!");
-                    }
-                }
-                var layerNum = layer.load('正在上传...', 3);
-                $('#myForm').ajaxSubmit(ajax_option);
-            }
-        }
-
-        // 文件后缀校验
-        function validateSuffix(fileName) {
-            var fileExt = fileName.substr(fileName.lastIndexOf(".")).toLowerCase();
-            var allowExt = '.p12';
-            if (allowExt != fileExt) {
-                alert("警告!\n该文件类型不允许上传。请上传'.p12'类型的文件，当前文件类型为" + fileExt);
-                return false;
-            }
-            return true;
-        }
-        // 应用概述页
-        function toApppofile() {
-            window.location.href = 'app_profile.html?appUuid=' + appUuid;
-        }
-
-        // 用户管理页
-        function toAppUsersPage() {
-            window.location.href = 'app_users.html?appUuid=' + appUuid;
-        }
-
-        // 群组页面
-        function toAppGroups() {
-            window.location.href = 'app_chatgroups.html?appUuid=' + appUuid;
-        }
-
-        // 推送证书管理页
-        function toAppNotifierPage() {
-            window.location.href = 'app_notifiers.html?appUuid=' + appUuid;
-        }
-
-        // 数据统计页面
-        function toAppCollectionCounters() {
-            window.location.href = 'app_collection_counters.html?appUuid=' + appUuid;
-        }
-
-        // 应用管理员创建页面
-        function toCreateAppAdmin() {
-            window.location.href = 'app_admin_create.html?appUuid=' + appUuid;
-        }
-
-        // APP管理员列表页面
-        function toAppUserAdmin() {
-            window.location.href = 'app_users_admin.html?appUuid=' + appUuid;
-        }
-        //显示制作证书按钮
-        function displayCertificate() {
-            $('#certificate').show();
-            document.getElementById("div").style.width = 240 + "px";
-        }
-        //隐藏制作证书按钮
-        function hideCertificate() {
+            $('#showName').text($.cookie('appName'));
             $('#certificate').hide();
-            document.getElementById("div").style.width = 80 + "px";
-        }
-        window.onresize = window.onload = function () {
-            var w, h;
-            if (!!(window.attachEvent && !window.opera)) {
-                h = document.documentElement.clientHeight;
-                w = document.documentElement.clientWidth;
-            } else {
-                h = window.innerHeight;
-                w = window.innerWidth;
-            }
-            $("#headerlogo").width(w / 6.5);
-            $("#headerlogo").height(h / 16)
-        }
+
+            EasemobCommon.init();
+
+            I18NPropsLoader.loadPropertiesCommon();
+            I18NPropsLoader.loadPropertiesForPageAppNotifiers();
+
+            showAndroidPushCertificateTab();
+        });
     </script>
 </head>
 
@@ -185,28 +29,30 @@
 <div class="navbar navbar-inverse">
     <div class="navbar-inner">
         <div class="container-fluid">
-            <a class="brand" href="javascript:void(0);"><img id="headerlogo" src="assets/images/home_logo.png"
-                                                             alt="管理后台"/></a>
-
+            <a class="brand" href="javascript:void(0);"><img id="logo_home" src="/assets/img/logo_home_zh.png" /></a>
             <div id="headhref" class="lianjie" style="width:40%; margin-left:20%;">
                 <ol>
-                    <li style="width:20%;"><a href="http://www.easemob.com" target="_blank"><h5>主页</h5></a></li>
-                    <li style="width:20%;"><a href="http://www.easemob.com/docs/gettingstart" target="_blank"><h5>
-                        文档</h5></a></li>
-                    <li style="width:20%;"><a href="http://www.easemob.com/Support" target="_blank"><h5>帮助</h5></a></li>
-                    <li style="width:20%;"><a href="http://www.imgeek.org/forum.php" target="_blank"><h5>社区</h5></a>
-                    </li>
-                    <li style="width:20%;"><a href="http://www.easemob.com/sdk" target="_blank"><h5>下载SDK</h5></a></li>
+                    <li style="width:20%;"><a href="javascript:EasemobCommon.disPatcher.openPageWWWHome()"><h5 id="nav_index">主页</h5></a></li>
+                    <li style="width:20%;"><a href="javascript:EasemobCommon.disPatcher.openPageWWWDocs()" target="_blank"><h5 id="nav_doc">文档</h5></a></li>
+                    <li style="width:20%;"><a href="javascript:EasemobCommon.disPatcher.openPageWWWSupport()" target="_blank"><h5 id="nav_help">帮助</h5></a></li>
+                    <li style="width:20%;"><a href="javascript:EasemobCommon.disPatcher.openPageIMGeek()" target="_blank"><h5 id="nav_community">社区</h5></a></li>
+                    <li style="width:20%;"><a href="javascript:EasemobCommon.disPatcher.openPageWWWSDK()" target="_blank"><h5 id="nav_download">下载SDK</h5></a></li>
                 </ol>
             </div>
+
+            <div style="float:right;">
+                <button type="button" class="btn btn-primary" id="i18nBtnEnglish" onclick="EasemobCommon.setLocale('en')">English</button>
+                <button type="button" class="btn btn-primary" id="i18nBtnChinese" onclick="EasemobCommon.setLocale('zh')">中文</button>
+            </div>
+
             <ul class="nav ace-nav pull-right" style="top:5px; margin-right:0">
                 <li class="light-blue user-profile"><a class="user-menu dropdown-toggle" href="javascript:void(0);"
                                                        data-toggle="dropdown"> <span id="user_info"></span> <i
                         class="icon-caret-down"></i> </a>
                     <ul id="user_menu" class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
                         <li class="divider"></li>
-                        <li><a href="admin_home.html"> <i class="icon-user"></i> 账户 </a></li>
-                        <li><a onClick="logout();" href="javascript:void(0);"> <i class="icon-off"></i> 退出 </a></li>
+                        <li><a href="javascript:EasemobCommon.disPatcher.toPageOrgAdminHome()" target="_self"> <i class="icon-user"></i><span id="nav_account">账户</span></a></li>
+                        <li><a href="javascript:EasemobCommon.logOut()"> <i class="icon-off"></i><span id="nav_signout">退出</span></a></li>
                     </ul>
                 </li>
             </ul>
@@ -221,16 +67,16 @@
             <div style="min-height: 40px;" id="sidebar-shortcuts-mini"></div>
         </div>
         <ul class="nav nav-list">
-            <li class="active"><a href="app_list.html" target="_self"><i class="icon-ambulance"></i><span>我的应用</span> </a></li>
-            <li><a href="admin_list.html" target="_self"> <i class="icon-home"></i><span>企业信息</span></a></li>
-            <li><a href="admin_home.html" target="_self"> <i class="icon-user"></i><span>个人信息</span></a></li>
+            <li class="active"><a href="javascript:EasemobCommon.disPatcher.toPageAppList()" target="_self"><i class="icon-ambulance"></i><span id="left_nav_myapp">我的应用</span> </a></li>
+            <li><a href="javascript:EasemobCommon.disPatcher.toPageOrgAdminList()" target="_self"> <i class="icon-home"></i><span id="left_nav_orgInfo">企业信息</span></a></li>
+            <li><a href="javascript:EasemobCommon.disPatcher.toPageOrgAdminHome()" target="_self"> <i class="icon-user"></i><span id="left_nav_userInfo">个人信息</span></a></li>
         </ul>
         <div id="sidebar-collapse"><i class="icon-double-angle-left"></i></div>
     </div>
     <div class="clearfix" id="main-content">
         <div id="breadcrumbs">
             <ul class="breadcrumb">
-                <li><i class="icon-home"></i> 我的应用 <span class="divider"> <i class="icon-angle-right"></i> </span></li>
+                <li><i class="icon-home"></i>&nbsp;&nbsp;<span id="second_nav_myapp">我的应用</span><span class="divider"> <i class="icon-angle-right"></i> </span></li>
                 <li><a href="javascript:void(0);" target="_self"> <span id="showName"></span></a></li>
             </ul>
         </div>
@@ -238,139 +84,220 @@
             <div class="row-fluid">
                 <div class="pagination pagination-left">
                     <ul>
-                        <li><a href="javascript:toApppofile()">应用概况</a></li>
+                        <li><a href="javascript:EasemobCommon.disPatcher.toPageAppInfo()"><span id="third_nav_appprofile">应用概况</span></a></li>
                     </ul>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <ul>
-                        <li><a href="javascript:toAppUsersPage()">IM用户</a></li>
+                        <li><a href="javascript:EasemobCommon.disPatcher.toPageAppUsers()"><span id="third_nav_imusers">IM用户</span></a></li>
                     </ul>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <ul>
-                        <li><a href="javascript:toAppGroups()">群组</a></li>
+                        <li><a href="javascript:EasemobCommon.disPatcher.toPageAppChatGroups()"><span id="third_nav_chatgroups">群组</span></a></li>
                     </ul>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <ul>
-                        <li><a href="javascript:toAppNotifiersPage()"><font color="green">推送证书</font></a></li>
-                    </ul>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <ul>
-                        <li><a href="javascript:toAppCollectionCounters()">统计数据</a></li>
-                    </ul>
-                    <hr>
 
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <ul>
+                        <li><a href="javascript:EasemobCommon.disPatcher.toPageAppNotifiers()"><font color="green"><span id="third_nav_notifier">推送证书</span></font></a></li>
+                    </ul>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <ul>
+                        <li><a href="javascript:EasemobCommon.disPatcher.toPageAppCounters()"><span id="third_nav_counter">统计数据</span></a></li>
+                    </ul>
+                    <hr/>
                 </div>
             </div>
 
+            <ul id="countersTab" class="nav nav-tabs">
+                <li class="active"><a href="javascript:void(0)" onclick="showAndroidPushCertificateTab()" data-toggle="tab" id="androidPushCertificateTab">Android</a></li>
+                <li><a href="javascript:void(0)" onclick="showIOSPushCertificateTab()" data-toggle="tab" id="iosPushCertificateTab">IOS</a></li>
+            </ul>
+
             <div class="row-fluid">
                 <div class="count">
-                    <div class="left" style="width:800px;height:320px;">
+                    <div id="tableCertificateAndroid" class="left" style="width:800px;height:320px;">
                         <div class="apply">
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <thead>
-                                <p style="background-color:white;height:30px;font-size:16px;line-height:30px;overflow:hidden;"
-                                   width="100%" align="center">证书列表</p>
+                                <p style="background-color:white;height:30px;width:100%;font-size:16px;line-height:30px;overflow:hidden;" align="center"><span id="app_notifiers_tableAndroid_title">证书列表</span></p>
                                 <tr>
-                                    <th>名称</th>
-                                    <th>类型</th>
-                                    <th>创建日期</th>
-                                    <th>最后修改日期</th>
-                                    <!--<th>证书状态</th>-->
-                                    <th>操作</th>
+                                    <th id="app_notifiers_tableAndroid_th_notifierName">证书名称</th>
+                                    <th id="app_notifiers_tableAndroid_th_notifierType">证书类型</th>
+                                    <th id="app_notifiers_tableAndroid_th_notifierPassword">证书密码</th>
+                                    <th id="app_notifiers_tableAndroid_th_created">创建日期</th>
+                                    <th id="app_notifiers_tableAndroid_th_modified">最后修改日期</th>
+                                    <th id="app_notifiers_tableAndroid_th_operation">操作</th>
                                 </tr>
                                 </thead>
-                                <tbody bgcolor="#FFFFFF" id="appCredentialBody">
+                                <tbody bgcolor="#FFFFFF" id="appCredentialBodyAndroid">
                                 </tbody>
                             </table>
                         </div>
-                        <div id="paginau" class="pagination pagination-right">
-                            <span id="pageInfo"></span>
+                        <input type="hidden" value="" id="notifiersOrder" />
+                        <div id="paginauAndroid" class="pagination pagination-right">
+                            <span id="pageInfoAndroid"></span>
                         </div>
+                        <input type="hidden" value="" id="androidCertificatesOrder">
+                    </div>
+
+                    <div id="tableCertificateIOS" class="left" style="width:800px;height:320px;">
+                        <div class="apply">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <thead>
+                                <p style="background-color:white;height:30px;width:100%;font-size:16px;line-height:30px;overflow:hidden;" align="center"><span id="app_notifiers_tableIOS_title">证书列表</span></p>
+                                <tr>
+                                    <th id="app_notifiers_tableIOS_th_notifierName">名称</th>
+                                    <th id="app_notifiers_tableIOS_th_notifierType">类型</th>
+                                    <th id="app_notifiers_tableIOS_th_created">创建日期</th>
+                                    <th id="app_notifiers_tableIOS_th_modified">最后修改日期</th>
+                                    <th id="app_notifiers_tableIOS_th_operation">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody bgcolor="#FFFFFF" id="appCredentialBodyIOS">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="paginauIOS" class="pagination pagination-right">
+                            <span id="pageInfoIOS"></span>
+                        </div>
+                        <input type="hidden" value="" id="iosCertificatesOrder">
                     </div>
                 </div>
             </div>
             <hr>
             <div class="row-fluid">
                 <div class="count">
-                    <div class="left" style="width:400px;">
-                        <div class="pagination pagination-left" id="div" onMouseOver="displayCertificate();"
-                             onMouseOut="hideCertificate();">
+                    <div id="iosCertificateDiv" class="left" style="width:500px;">
+                        <div style="margin: 0 auto;width: 500px;" class="pagination pagination-left" id="whatIsIOSCertificate" onMouseOver="displayMakeCertificateTip(true);"
+                             onMouseOut="displayMakeCertificateTip(false);">
                             <ul>
-                                <li><a href="javascript:void(0);">新增证书</a></li>
+                                <li><a href="javascript:void(0);"><span id="app_notifiers_formIOS_addNewNotifier">新增证书</span></a></li>
                             </ul>
                             <ul id="certificate">
-                                <li><a href="http://www.easemob.com/docs/ios/push/certificate/" target="_blank">>>
-                                    制作iOS推送证书</a></li>
+                                <li><a href="https://www.easemob.com/docs/ios/push/certificate/" target="_blank"><span id="app_notifiers_href_makeNotifier">制作iOS推送证书</span></a></li>
                             </ul>
                         </div>
                         <div class="apply">
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
-                                    <td align="left" width="80px"><strong>应用名称&nbsp;&nbsp;&nbsp;:</strong></td>
-                                    <td bgcolor="#FFFFFF"><span id="fileAppKey"></span></td>
+                                    <td align="right" width="150px"><strong id="app_notifiers_formIOS_appName">应用名称&nbsp;&nbsp;&nbsp;</strong>:</td>
+                                    <td bgcolor="#FFFFFF"><span id="appNameIOS"></span></td>
                                 </tr>
                             </table>
                         </div>
                         <div class="apply">
-                            <form id="myForm" method="POST" enctype="multipart/form-data" action="">
+                            <form id="certificateFormIOS" method="POST" enctype="multipart/form-data" action="">
                                 <div class="apply">
                                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                         <tr>
-                                            <td align="left" width="80px"><strong>证书名称<font color='red'>
-                                                &nbsp;*&nbsp;</font>:</strong></td>
-                                            <td bgcolor="#FFFFFF"><input type="text" name="name" id="name" value=""
-                                                                         placeholder="请输入证书名称(必填)"/></td>
+                                            <td align="right" width="150px"><strong id="app_notifiers_formIOS_notifierName">证书名称</strong>:</td>
+                                            <td bgcolor="#FFFFFF">
+                                                <input type="text" name="name" id="nameIOS" value="" placeholder="请输入证书名称(必填)"/>
+                                                <font color='red'>&nbsp;*&nbsp;</font>
+                                            </td>
                                         </tr>
                                     </table>
                                 </div>
                                 <div class="apply">
                                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                         <tr>
-                                            <td align="left" width="80px"><strong>证&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;书<font
-                                                    color='red'>&nbsp;*&nbsp;</font>:</strong></td>
+                                            <td align="right" width="150px"><strong id="app_notifiers_formIOS_notifier">证&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;书
+                                            </strong>:</td>
                                             <td bgcolor="#FFFFFF">
-                                                <!--	<input type="file" name="file" id="file" class="btn btn-mini btn-primary" value="浏览…" onchange="validateSuffix(this.value)">-->
                                                 <input type="text" readonly="readonly" id="f_file"/>
-                                                <input type="button" value="浏览..." class="btn btn-mini btn-primary"
+                                                <input type="button" id="app_notifiers_formIOS_button" value="浏览..." class="btn btn-mini btn-primary"
                                                        onClick="file.click()"/>
                                                 <input type="file" name="file" id="file"
-                                                       onChange="f_file.value=this.value;validateSuffix(this.value)"
-                                                       style="display:none">
+                                                       onChange="f_file.value=this.value;validateFileSuffix(this.value)" style="display:none">
+                                                <font color='red'>&nbsp;*&nbsp;</font>
                                             </td>
                                         </tr>
                                     </table>
                                 </div>
+
                                 <div class="apply">
                                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                         <tr>
-                                            <td align="left" width="80px;"><strong>证书密码<font color='red'>
-                                                &nbsp;*&nbsp;</font>:</strong></td>
-                                            <td bgcolor="#FFFFFF" width="280px;">
-                                                <input type="password" name="passphrase" id="passphrase" value=""
-                                                       placeholder="请输入证书密码(必填)"/>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="apply">
-                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                        <tr>
-                                            <td align="left" width="80px;"><strong>证书类型<font color='red'>
-                                                &nbsp;*&nbsp;</font>:</strong></td>
+                                            <td align="right" width="150px;"><strong id="app_notifiers_formIOS_notifierPassword">证书密码</strong>:</td>
                                             <td bgcolor="#FFFFFF">
-                                                <input type=radio value="DEVELOPMENT" name="environment"
-                                                       checked="checked"><span class="lbl">开发环境</span>
-                                                <input type=radio value="PRODUCTION" name="environment"><span
-                                                    class="lbl">生产环境</span>
+                                                <input type="password" name="passphrase" id="passphraseIOS" value="" placeholder="请输入证书密码(必填)"/>
+                                                <font color='red'>&nbsp;*&nbsp;</font>
                                             </td>
                                         </tr>
                                     </table>
                                 </div>
-                                <input type="hidden" name="provider" id="provider" value="APNS"/>
+                                <div class="apply">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td align="right" width="150px;"><strong id="app_notifiers_formIOS_notifierType">证书类型</strong>
+                                                :</td>
+                                            <td bgcolor="#FFFFFF">
+                                                <input type=radio value="DEVELOPMENT" name="environment" checked="checked"><span class="lbl" id="app_notifiers_formIOS_notifierType_dev">开发环境</span>
+                                                <input type=radio value="PRODUCTION" name="environment"><span class="lbl" id="app_notifiers_formIOS_notifierType_product">生产环境</span>
+                                                <font color='red'>&nbsp;*&nbsp;</font>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <input type="hidden" name="provider" id="providerIOS" value="APNS"/>
                                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                     <tr>
-                                        <td align="left" width="80px;"><strong></strong></td>
-                                        <td bgcolor="#FFFFFF"><input type="button" class="btn btn-mini btn-primary"
-                                                                     value="上传" onClick="changeform()"/></td>
+                                        <td align="right" width="150px;"></td>
+                                        <td bgcolor="#FFFFFF"><input type="button" id="app_notifiers_formIOS_button_upload" class="btn btn-mini btn-primary"
+                                                                     value="上传" onClick="submitIOSCertificateForm()"/></td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Android Push Certificate-->
+                    <div id="androidCertificateDiv" class="left" style="width:500px;">
+                        <div style="margin: 0 auto;width: 500px;" class="pagination pagination-left" id="whatIsCertificate" onMouseOver="displayMakeCertificateTip(true);"
+                             onMouseOut="displayMakeCertificateTip(false);">
+                            <ul>
+                                <li><a href="javascript:void(0);"><span id="app_notifiers_formAndroid_addNewNotifier">新增证书</span></a></li>
+                            </ul>
+                        </div>
+
+                        <div class="apply">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td align="right" width="150px"><strong id="app_notifiers_formAndroid_appName">应用名称&nbsp;&nbsp;&nbsp;</strong>:</td>
+                                    <td bgcolor="#FFFFFF"><span id="appNameAndroid"></span></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="apply">
+                            <form id="certificateFormAndroid" method="POST" enctype="multipart/form-data" action="">
+                                <div class="apply">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td align="right" width="150px"><strong id="app_notifiers_formAndroid_notifierName">证书名称</strong>:</td>
+                                            <td bgcolor="#FFFFFF">
+                                                <input type="text" name="name" id="nameAndroid" value="" placeholder="请输入证书名称(必填)"/>
+                                                <font color='red'>&nbsp;*&nbsp;</font>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="apply">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td align="right" width="150px;"><strong id="app_notifiers_formAndroid_notifierPassword">证书密码</strong>
+                                                :</td>
+                                            <td bgcolor="#FFFFFF">
+                                                <input type="text" name="certificate" id="certificateAndroid" value="" placeholder="请输入证书密码(必填)"/>
+                                                <input type="hidden" value="PRODUCTION" name="environment" /><font color='red'>&nbsp;*&nbsp;</font>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <input type="hidden" name="provider" id="providerAndroid" value="ANDROID"/>
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td align="right" width="150px;"><strong></strong></td>
+                                        <td bgcolor="#FFFFFF"><input type="button" id="app_notifiers_formAndroid_button_upload" class="btn btn-mini btn-primary"
+                                                                     value="添加" onClick="submitAndroidCertificateForm()"/></td>
                                     </tr>
                                 </table>
                             </form>
@@ -381,5 +308,25 @@
         </div>
     </div>
 </div>
+
+<!-- confirm modal window start -->
+<div id="ycf-alert" class="modal" style="display: none;width: 222px;position: absolute;top:35%;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fa fa-exclamation-circle"></i></h5>
+            </div>
+            <div class="modal-body small">
+                <p>[Message]</p>
+            </div>
+            <div class="modal-footer" >
+                <button type="button" class="btn ok" data-dismiss="modal">[BtnOk]</button>
+                <button type="button" class="btn cancel" data-dismiss="modal">[BtnCancel]</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- confirm modal window end -->
+
 </body>
 </html>

@@ -2,15 +2,18 @@
  * Created by kenshinn on 15-6-2.
  */
 
+var Console = Console || {};
+Console.countersHandler = {};
 
 //初始开始时间段
 //记录当前时间
 var nowTime;
 var nowTimeSec;
-var timePikerInput = function(){
 
+// 日期输入框处理
+var DatePikerHandler = function () {
     return {
-        init:function(){
+        fillDatePikerInput: function () {
             //记录计算过后的时间
             var startTime;
 
@@ -38,18 +41,57 @@ var timePikerInput = function(){
             } else {
                 startTime = new Date(Y, M - 1, D - 6).format('yyyy-MM-dd');
             }
-            $('#pickerStartDate').val(startTime);
-            $('#pickerEndDate').val(nowTime);
+
+            this.setPickerStartDate(startTime);
+            this.setPickerEndDate(nowTime);
             $('#pickerEndDateHide').val(nowTimeSec);
+        },
+        showDatePiker: function () {
+            var pickerDateLanguageVal = $('#pickerDateLanguage').val();
+            if (pickerDateLanguageVal == 'en') {
+                $('#pickerStartDateEn').show();
+                $('#pickerEndDateEn').show();
+                $('#pickerStartDateZh').hide();
+                $('#pickerEndDateZh').hide();
+            } else {
+                $('#pickerStartDateEn').hide();
+                $('#pickerEndDateEn').hide();
+                $('#pickerStartDateZh').show();
+                $('#pickerEndDateZh').show();
+            }
+        },
+        getPickerStartDate: function () {
+            var pickerDateLanguageObj = $('#pickerDateLanguage').val();
+            if (pickerDateLanguageObj == 'zh') {
+                return $('#pickerStartDateZh').val();
+            } else {
+                return $('#pickerStartDateEn').val();
+            }
+        },
+        getPickerEndDate: function () {
+            var pickerDateLanguageObj = $('#pickerDateLanguage').val();
+            if (pickerDateLanguageObj == 'zh') {
+                return $('#pickerEndDateZh').val();
+            } else {
+                return $('#pickerEndDateEn').val();
+            }
+        },
+        setPickerStartDate: function (timeValue) {
+            $('#pickerStartDateEn').val(timeValue);
+            $('#pickerStartDateZh').val(timeValue);
+        },
+        setPickerEndDate: function (timeValue) {
+            $('#pickerEndDateZh').val(timeValue);
+            $('#pickerEndDateEn').val(timeValue);
         }
     };
 }();
 
 
-// 趋势
-var drawChartFunction = function () {
+// 统计图表处理
+var StatisticsChartsHandler = function () {
     return {
-        draw: function (labels, datas) {
+        drawChart: function (labels, datas) {
             var data = {
                 labels: labels,
                 datasets: [
@@ -59,7 +101,7 @@ var drawChartFunction = function () {
                         pointColor: "rgba(151,187,205,1)",
                         pointStrokeColor: "#fff",
 
-                        data:datas
+                        data: datas
                     }
                 ]
             };
@@ -67,60 +109,60 @@ var drawChartFunction = function () {
             // 渲染
             var options = {
                 //Boolean - If we show the scale above the chart data
-                scaleOverlay : true,
+                scaleOverlay: true,
                 //Boolean - If we want to override with a hard coded scale
-                scaleOverride : false,
+                scaleOverride: false,
                 //** Required if scaleOverride is true **
                 //Number - The number of steps in a hard coded scale
-                scaleSteps : null,
+                scaleSteps: null,
                 //Number - The value jump in the hard coded scale
-                scaleStepWidth : null,
+                scaleStepWidth: null,
                 //Number - The scale starting value
-                scaleStartValue : null,
+                scaleStartValue: null,
                 //String - Colour of the scale line
-                scaleLineColor : "rgba(0,0,0,.1)",
+                scaleLineColor: "rgba(0,0,0,.1)",
                 //Number - Pixel width of the scale line
-                scaleLineWidth : 2,
+                scaleLineWidth: 2,
                 //Boolean - Whether to show labels on the scale
-                scaleShowLabels : true,
+                scaleShowLabels: true,
                 //Interpolated JS string - can access value
-                scaleLabel : "<%=value%>",
+                scaleLabel: "<%=value%>",
                 //String - Scale label font declaration for the scale label
-                scaleFontFamily : "'Arial'",
+                scaleFontFamily: "'Arial'",
                 //Number - Scale label font size in pixels
-                scaleFontSize : 12,
+                scaleFontSize: 12,
                 //String - Scale label font weight style
-                scaleFontStyle : "normal",
+                scaleFontStyle: "normal",
                 //String - Scale label font colour
-                scaleFontColor : "#666",
+                scaleFontColor: "#666",
                 ///Boolean - Whether grid lines are shown across the chart
-                scaleShowGridLines : true,
+                scaleShowGridLines: true,
                 //String - Colour of the grid lines
-                scaleGridLineColor : "rgba(0,0,0,.05)",
+                scaleGridLineColor: "rgba(0,0,0,.05)",
                 //Number - Width of the grid lines
-                scaleGridLineWidth : 1,
+                scaleGridLineWidth: 1,
                 //Boolean - Whether the line is curved between points
-                bezierCurve : false,
+                bezierCurve: false,
                 //Boolean - Whether to show a dot for each point
-                pointDot : true,
+                pointDot: true,
                 //Number - Radius of each point dot in pixels
-                pointDotRadius : 3,
+                pointDotRadius: 3,
                 //Number - Pixel width of point dot stroke
-                pointDotStrokeWidth : 1,
+                pointDotStrokeWidth: 1,
                 //Boolean - Whether to show a stroke for datasets
-                datasetStroke : true,
+                datasetStroke: true,
                 //Number - Pixel width of dataset stroke
-                datasetStrokeWidth : 2,
+                datasetStrokeWidth: 2,
                 //Boolean - Whether to fill the dataset with a colour
-                datasetFill : true,
+                datasetFill: true,
                 //Boolean - Whether to animate the chart
-                animation : true,
+                animation: true,
                 //Number - Number of animation steps
-                animationSteps : 60,
+                animationSteps: 60,
                 //String - Animation easing effect
-                animationEasing : "easeOutQuart",
+                animationEasing: "easeOutQuart",
                 //Function - Fires when the animation is complete
-                onAnimationComplete : null,
+                onAnimationComplete: null,
                 responsive: true
             };
 
@@ -140,7 +182,7 @@ function getCounterNameFromHtml() {
     var restStr = '';
     var counterType = $('#drawCountersChartsType').val();
 
-    switch(counterType){
+    switch (counterType) {
         case 'register_users':
             counterName = 'application.collection.users';
             break;
@@ -181,32 +223,32 @@ function getCounterNameFromHtml() {
 }
 
 // 快捷查询
-function drawCountersCharts(peroid) {
-    var textStartTime = $("#pickerStartDate").val();
-    var textEndTime = $("#pickerEndDate").val();
+function drawCountersCharts(period) {
+    var textStartTime = DatePikerHandler.getPickerStartDate();
+    var textEndTime = DatePikerHandler.getPickerEndDate();
 
     if (textStartTime > textEndTime || textStartTime == textEndTime) {
-        alert("请重新选择时间，开始时间必须小于结束时间");
+        layer.msg($.i18n.prop('app_collection_counters_searchAlert_startLessThanEnd'), 3, 5);
         return;
     } else if (textEndTime > nowTime) {
-        alert("请重新选择结束日期，结束日期不能大于本日日期");
+        layer.msg($.i18n.prop('app_collection_counters_searchAlert_endMustLessThanToday'), 3, 5);
         return;
     }
 
     var resolution = '';
     var type = "Y-M-D";
-    endTime = type.replace("Y", Y).replace("M", M).replace("D", D);
-    $('#pickerEndDate').val(endTime);
-    if (peroid == "oneday") {
+    var endTime = type.replace("Y", Y).replace("M", M).replace("D", D);
+    DatePikerHandler.setPickerEndDate(endTime)
+    if (period == "oneday") {
         //计算当前时间
         startTime = new Date(Y, M - 1, D - 1).format('yyyy-MM-dd');
-        $('#pickerStartDate').val(startTime);
+        DatePikerHandler.setPickerStartDate(startTime)
 
         resolution = 'six_hour';
-    } else if (peroid == "sevendays") {
+    } else if (period == "sevendays") {
         //计算当前时间
         startTime = new Date(Y, M - 1, D - 6).format('yyyy-MM-dd');
-        $('#pickerStartDate').val(startTime);
+        DatePikerHandler.setPickerStartDate(startTime)
 
         resolution = 'day';
     } else {
@@ -215,7 +257,7 @@ function drawCountersCharts(peroid) {
 
     var queryStr = getCounterNameFromHtml();
 
-    var startTimeStr = $("#pickerStartDate").val();
+    var startTimeStr = DatePikerHandler.getPickerStartDate();
     var endTimeSecStr = $("#pickerEndDateHide").val();
 
     //开始时间
@@ -227,29 +269,30 @@ function drawCountersCharts(peroid) {
     var endTimeSec = new Date(dt1Sec);
     var endTimeTimeSec = endTimeSec.getTime();
 
-    var chartDatas = applyCountersData(appUuid, queryStr.counterName, resolution, startTimeTime, endTimeTimeSec, queryStr.restStr);
-    drawChartFunction.draw(chartDatas.labels, chartDatas.datas);
+    var chartDatas = applyCountersData(queryStr.counterName, resolution, startTimeTime, endTimeTimeSec, queryStr.restStr);
+    StatisticsChartsHandler.drawChart(chartDatas.labels, chartDatas.datas);
 }
 
 // 按时间段
-function drawCountersChartsPeroidSearch() {
+function drawCountersChartsPeriodSearch() {
 
     $("input[name='chartsRadio1']").attr('checked', false);
 
-    var textStartTime = $("#pickerStartDate").val();
-    var textEndTime = $("#pickerEndDate").val();
+    var textStartTime = DatePikerHandler.getPickerStartDate();
+    var textEndTime = DatePikerHandler.getPickerEndDate();
 
     //开始时间
     var dt = Date.parse(textStartTime.replace(/-/g, "/"));
     var startTime = new Date(dt);
     var startTimeTime = startTime.getTime();
+
     //结束时间
     var dt1 = Date.parse(textEndTime.replace(/-/g, "/"));
     var endTime = new Date(dt1);
     var endTimeTime = endTime.getTime();
     var endTimeTimeSec = '';
 
-    if(formatTimeDay(endTimeTime) == formatTimeDay(nowTimeSec)){
+    if (formatTimeDay(endTimeTime) == formatTimeDay(nowTimeSec)) {
         // 结束时间是当天
         var endTimeSecStr = $("#pickerEndDateHide").val();
         //结束时间(毫秒)
@@ -264,13 +307,13 @@ function drawCountersChartsPeroidSearch() {
     var timeDifference = endTimeTime - startTimeTime;
     var days = Math.floor(timeDifference / (24 * 3600 * 1000));
     if (days > 30) {
-        alert("时间范围只能在30天之内,请重新选择时间");
+        layer.msg($.i18n.prop('app_collection_counters_searchAlert_with30days'), 3, 5);
         return;
     } else if (days == 0) {
-        alert("开始时间必须小于结束时间,请重新选择时间.");
+        layer.msg($.i18n.prop('app_collection_counters_searchAlert_startLessThanEnd'), 3, 5);
         return;
-    } else if(textEndTime > nowTime){
-        alert("结束日期不能大于本日日期,请重新选择结束日期.");
+    } else if (textEndTime > nowTime) {
+        layer.msg($.i18n.prop('app_collection_counters_searchAlert_endMustLessThanToday'), 3, 5);
         return;
     }
 
@@ -281,17 +324,17 @@ function drawCountersChartsPeroidSearch() {
         resolution = 'day';
     }
 
-    var queryStr = getCounterNameFromHtml()
-    var chartDatas = applyCountersData(appUuid, queryStr.counterName, resolution, startTimeTime, endTimeTimeSec, queryStr.restStr);
-    drawChartFunction.draw(chartDatas.labels, chartDatas.datas);
+    var queryStr = getCounterNameFromHtml();
+    var chartDatas = applyCountersData(queryStr.counterName, resolution, startTimeTime, endTimeTimeSec, queryStr.restStr);
+    StatisticsChartsHandler.drawChart(chartDatas.labels, chartDatas.datas);
 }
 
 
-function applyCountersData(appUuid, counterName, resolution, startTimeTime, endTimeMilSec, restStr) {
+function applyCountersData(counterName, resolution, startTimeTime, endTimeMilSec, restStr) {
     var applyRequest = {
         orgName: $.cookie('orgName'),
-        access_token: $.cookie('access_token'),
-        appUuid: appUuid,
+        accessToken: $.cookie('access_token'),
+        appName: $.cookie('appName'),
         start_time: '',
         end_time: '',
         pad: 'true',
@@ -303,9 +346,9 @@ function applyCountersData(appUuid, counterName, resolution, startTimeTime, endT
     applyRequest.start_time = startTimeTime;
     applyRequest.end_time = endTimeMilSec;
 
-    var tokenStr = applyRequest.access_token;
+    var tokenStr = applyRequest.accessToken;
 
-    var payloadd = {
+    var requestData = {
         'grant_type': 'client_credentials',
         'client_id': '',
         'client_secret': ''
@@ -314,27 +357,27 @@ function applyCountersData(appUuid, counterName, resolution, startTimeTime, endT
     if (counterName == 'application.collection.chatmessages') {
         // fetch credentials for app
         $.ajax({
-            url: baseUrl + '/' + applyRequest.orgName + '/' + applyRequest.appUuid + '/credentials',
+            url: baseUrl + '/' + applyRequest.orgName + '/' + applyRequest.appName + '/credentials',
             type: 'GET',
             async: false,
             headers: {
-                'Authorization': 'Bearer ' + applyRequest.access_token,
+                'Authorization': 'Bearer ' + applyRequest.accessToken,
                 'Content-Type': 'application/json'
             },
             error: function (jqXHR, textStatus, errorThrown) {
             },
             success: function (respData, textStatus, jqXHR) {
-                payloadd.client_id = respData.credentials.client_id;
-                payloadd.client_secret = respData.credentials.client_secret;
+                requestData.client_id = respData.credentials.client_id;
+                requestData.client_secret = respData.credentials.client_secret;
             }
         });
 
         // fetch apptoken
         $.ajax({
-            url: baseUrl + '/' + applyRequest.orgName + '/' + applyRequest.appUuid + '/token',
+            url: baseUrl + '/' + applyRequest.orgName + '/' + applyRequest.appName + '/token',
             type: 'POST',
             async: false,
-            data: JSON.stringify(payloadd),
+            data: JSON.stringify(requestData),
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -349,7 +392,7 @@ function applyCountersData(appUuid, counterName, resolution, startTimeTime, endT
 
     // fetch counters
     $.ajax({
-        url: baseUrl + '/' + applyRequest.orgName + '/' + applyRequest.appUuid + '/counters?counter=' + counterName
+        url: baseUrl + '/' + applyRequest.orgName + '/' + applyRequest.appName + '/counters?counter=' + counterName
         + '&start_time=' + applyRequest.start_time + '&end_time=' + applyRequest.end_time + '&pad=' + applyRequest.pad
         + '&resolution=' + applyRequest.resolution + restStr,
         type: 'GET',
@@ -361,15 +404,16 @@ function applyCountersData(appUuid, counterName, resolution, startTimeTime, endT
         success: function (respData, textStatus, jqXHR) {
             $.each(respData.counters, function () {
                 if (this.values.length == 0) {
-                    for(var i=0; i<10; i++){
+                    for (var i = 0; i < 10; i++) {
                         labels.push(0);
                         datas.push(0);
                     }
-                } if (this.values.length == 1) {
+                }
+                if (this.values.length == 1) {
                     labels.push(0);
                     datas.push(0);
                     $.each(this.values, function () {
-                        if(applyRequest.resolution == 'six_hour') {
+                        if (applyRequest.resolution == 'six_hour') {
                             labels.push(formatTimeHour(this.timestamp));
                         } else {
                             labels.push(formatTimeDay(this.timestamp));
@@ -378,7 +422,7 @@ function applyCountersData(appUuid, counterName, resolution, startTimeTime, endT
                     });
                 } else {
                     $.each(this.values, function () {
-                        if(applyRequest.resolution == 'six_hour') {
+                        if (applyRequest.resolution == 'six_hour') {
                             labels.push(formatTimeHour(this.timestamp));
                         } else {
                             labels.push(formatTimeDay(this.timestamp));
@@ -389,7 +433,7 @@ function applyCountersData(appUuid, counterName, resolution, startTimeTime, endT
             });
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert('提示\n\n数据获取失败!');
+            layer.msg($.i18n.prop('table_data_nodata'), 3, 5);
         }
     });
 
@@ -409,3 +453,76 @@ function formatTimeHour(timeST) {
     var dat = new Date(timeST);
     return (dat.getFullYear()) + "-" + (dat.getMonth() + 1) + "-" + (dat.getDate()) + " " + (dat.getHours()) + ":00:00";
 }
+
+function applyCountersAndDraw(selector) {
+    var counterType = $(selector).children("option:selected").val();
+    var drawCountersChartsTypeObj = $('#drawCountersChartsType');
+    drawCountersChartsTypeObj.val(counterType);
+
+    //var drawCountersChartsType = drawCountersChartsTypeObj.val();
+    var chartTitle = $('#chartTitle');
+    switch (counterType) {
+        case 'daily_active_users':
+            chartTitle.text($.i18n.prop('app_collection_counters_chartTileDailyActiveUser'));
+            //chartTitle.text(chartTileDailyActiveUser);
+            break;
+        case 'daily_chat_users':
+            chartTitle.text($.i18n.prop('app_collection_counters_chartTileDailyChatUser'));
+            //chartTitle.text(chartTileDailyChatUser);
+            break;
+        case 'daily_new_active_users':
+            chartTitle.text($.i18n.prop('app_collection_counters_chartTileDailyNewActiveUser'));
+            //chartTitle.text(chartTileDailyNewActiveUser);
+            break;
+        case 'register_users':
+            chartTitle.text($.i18n.prop('app_collection_counters_chartTileUsers'));
+            //chartTitle.text(chartTileDailyNewActiveUser);
+            break;
+        default:
+            break;
+    }
+
+    var period = $("input[name='chartsRadio1']:checked").val();
+    drawCountersCharts(period);
+}
+
+function preDrawCountersCharts() {
+    var peroid = $("input[name='chartsRadio1']:checked").val();
+    drawCountersCharts(peroid);
+}
+
+function showUsersChartTab() {
+    $('#tabUsers').parent().attr('class', 'active');
+    $('#tabChatmessages').parent().removeAttr('class');
+
+    $('#userChartSelector').show();
+    $('#countersChartType').show();
+//            $('#chatmessagsChartSelector').hide();
+    $('#chatgroupsChartSelector').hide();
+    $('#drawCountersChartsType').val('register_users');
+
+    var period = $("input[name='chartsRadio1']:checked").val();
+    drawCountersCharts(period);
+    $('#chartTitle').text(chartTileUsers);
+}
+
+function showChatmessagsChartTab() {
+    $('#tabChatmessages').parent().attr('class', 'active');
+    $('#tabUsers').parent().removeAttr('class');
+    $('#countersChartType').hide();
+    //$('#chatmessagsChartSelector').show();
+    $('#userChartSelector').hide();
+    $('#chatgroupsChartSelector').hide();
+    $('#drawCountersChartsType').val('msg_outgoing_chat');
+
+    var period = $("input[name='chartsRadio1']:checked").val();
+    drawCountersCharts(period);
+    $('#chartTitle').text(chartTileChatmessages);
+}
+
+//        function showChatgroupsChartTab() {
+//            $('#userChartSelector').hide();
+//            $('#chatmessagsChartSelector').hide();
+//            $('#chatgroupsChartSelector').show();
+//            $('#drawCountersChartsType').val('');
+//        }

@@ -289,7 +289,7 @@
 		 *  @param {object} oSettings dataTables settings object
 		 *  @param {string} sParam Parameter in aoColumns to look for - typically 
 		 *    bVisible or bSearchable
-		 *  @returns {array} Array of indexes with matched properties
+		 *  @returns {array} Array of indexes with matched resources
 		 *  @memberof DataTable#oApi
 		 */
 		function _fnGetColumns( oSettings, sParam )
@@ -878,7 +878,7 @@
 								a.splice( 0, i+1 );
 								innerSrc = a.join('.');
 		
-								// Traverse each entry in the array getting the properties requested
+								// Traverse each entry in the array getting the resources requested
 								for ( var j=0, jLen=data.length ; j<jLen ; j++ ) {
 									out.push( fetchData( data[j], type, innerSrc ) );
 								}
@@ -960,7 +960,7 @@
 							b.splice( 0, i+1 );
 							innerSrc = b.join('.');
 		
-							// Traverse each entry in the array setting the properties requested
+							// Traverse each entry in the array setting the resources requested
 							for ( var j=0, jLen=val.length ; j<jLen ; j++ )
 							{
 								o = {};
@@ -3323,17 +3323,17 @@
 			 */
 			
 			// Apply all styles in one pass. Invalidates layout only once because we don't read any 
-			// DOM properties.
+			// DOM resources.
 			_fnApplyToChildren( zeroOut, anHeadSizers );
 			 
 			// Read all widths in next pass. Forces layout only once because we do not change 
-			// any DOM properties.
+			// any DOM resources.
 			_fnApplyToChildren( function(nSizer) {
 				aApplied.push( _fnStringToCss( $(nSizer).width() ) );
 			}, anHeadSizers );
 			 
 			// Apply all widths in final pass. Invalidates layout only once because we do not
-			// read any DOM properties.
+			// read any DOM resources.
 			_fnApplyToChildren( function(nToSize, i) {
 				nToSize.style.width = aApplied[i];
 			}, anHeadToSize );
@@ -4752,7 +4752,7 @@
 		 * init values (such as aaSorting) since the dev wouldn't be able to override them, but
 		 * we do want to deep copy arrays.
 		 *  @param {object} oOut Object to extend
-		 *  @param {object} oExtender Object from which the properties will be applied to oOut
+		 *  @param {object} oExtender Object from which the resources will be applied to oOut
 		 *  @returns {object} oOut Reference, just for convenience - oOut === the return.
 		 *  @memberof DataTable#oApi
 		 *  @todo This doesn't take account of arrays inside the deep copied objects.
@@ -7232,7 +7232,7 @@
 		 * the addition of pagination controls by extending this object, which can then be enabled
 		 * through the <i>sPaginationType</i> initialisation parameter. Each pagination type that
 		 * is added is an object (the property name of which is what <i>sPaginationType</i> refers
-		 * to) that has two properties, both methods that are used by DataTables to update the
+		 * to) that has two resources, both methods that are used by DataTables to update the
 		 * control's state.
 		 *   <ul>
 		 *     <li>
@@ -8087,7 +8087,7 @@
 	
 		/**
 		 * Replace a DataTable which matches the given selector and replace it with 
-		 * one which has the properties of the new initialisation object passed. If no
+		 * one which has the resources of the new initialisation object passed. If no
 		 * table matches the selector, then the new DataTable will be constructed as
 		 * per normal.
 		 *  @type boolean
@@ -8941,7 +8941,7 @@
 		 * Callback which allows modification of the state to be saved. Called when the table 
 		 * has changed state a new state save is required. This method allows modification of
 		 * the state saving object prior to actually doing the save, including addition or 
-		 * other state properties or modification. Note that for plug-in authors, you should 
+		 * other state resources or modification. Note that for plug-in authors, you should
 		 * use the 'stateSaveParams' event to save parameters for a plug-in.
 		 *  @type function
 		 *  @param {object} oSettings DataTables settings object
@@ -9488,7 +9488,7 @@
 			 * All of the language information can be stored in a file on the
 			 * server-side, which DataTables will look up if this parameter is passed.
 			 * It must store the URL of the language file, which is in a JSON format,
-			 * and the object has the same properties as the oLanguage object in the
+			 * and the object has the same resources as the oLanguage object in the
 			 * initialiser object (i.e. the above parameters). Please refer to one of
 			 * the example language files to see how this works in action.
 			 *  @type string
@@ -10062,13 +10062,13 @@
 	
 		/**
 		 * This property can be used to read data from any JSON data source property,
-		 * including deeply nested objects / properties. mData can be given in a
+		 * including deeply nested objects / resources. mData can be given in a
 		 * number of different ways which effect its behaviour:
 		 *   <ul>
 		 *     <li>integer - treated as an array index for the data source. This is the
 		 *       default that DataTables uses (incrementally increased for each column).</li>
 		 *     <li>string - read an object property from the data source. Note that you can
-		 *       use Javascript dotted notation to read deep properties / arrays from the
+		 *       use Javascript dotted notation to read deep resources / arrays from the
 		 *       data source.</li>
 		 *     <li>null - the sDefaultContent option will be used for the cell (null
 		 *       by default, so you will need to specify the default content you want -
@@ -10157,7 +10157,7 @@
 		 *     <li>integer - treated as an array index for the data source. This is the
 		 *       default that DataTables uses (incrementally increased for each column).</li>
 		 *     <li>string - read an object property from the data source. Note that you can
-		 *       use Javascript dotted notation to read deep properties / arrays from the
+		 *       use Javascript dotted notation to read deep resources / arrays from the
 		 *       data source and also array brackets to indicate that the data reader should
 		 *       loop over the data source array. When characters are given between the array
 		 *       brackets, these characters are used to join the data source array together.
@@ -12031,7 +12031,7 @@
 	/**
 	 * State save event, fired when the table has changed state a new state save is required.
 	 * This method allows modification of the state saving object prior to actually doing the
-	 * save, including addition or other state properties (for plug-ins) or modification
+	 * save, including addition or other state resources (for plug-ins) or modification
 	 * of a DataTables core property.
 	 *  @name DataTable#stateSaveParams
 	 *  @event
