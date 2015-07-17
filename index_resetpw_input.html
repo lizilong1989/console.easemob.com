@@ -27,7 +27,12 @@
     <script charset="utf-8">
         token = getQueryString('token');
         uuid = getQueryString('uuid');
+        webLocale = getQueryString('webLocale');
         $(function () {
+            if (webLocale && webLocale != '' && (webLocale == 'en' || webLocale == 'zh')) {
+                EasemobCommon.setLocale(webLocale)
+            }
+
             I18NPropsLoader.loadPropertiesCommon();
             I18NPropsLoader.loadPropertiesForPageResetpwInput();
         });
