@@ -563,7 +563,7 @@ function deleteAppChatgroup(groupuuid) {
 
 
 // 批量删除群组
-function deleteAppChatgroupsCheckBox() {
+function deleteAppChatgroupsBatch() {
     var checkbox = document.getElementsByName("checkbox");
     var num = 0;
     for (var i = 0; i < checkbox.length; i++) {
@@ -608,7 +608,7 @@ function sendMessgeOne(users) {
 }
 
 //弹出发送消息
-function sendMessge() {
+function sendMessagesForChatgroups() {
     var checkbox = document.getElementsByName("checkbox");
     var num = 0;
     for (var i = 0; i < checkbox.length; i++) {
@@ -681,8 +681,8 @@ function addChatgroupMemberPre() {
 }
 
 //发送消息
-function showSendMessge() {
-    sendMessge();
+function showSendMessagesWindowForChatgroups() {
+    sendMessagesForChatgroups();
 }
 
 // 搜索群组
@@ -693,11 +693,6 @@ function searchChatgroup() {
     } else {
         searchAppChatgroupById(groupidV);
     }
-}
-
-//删除选定的群组
-function deleteAppChatgroupBox() {
-    deleteAppChatgroupsCheckBox();
 }
 
 

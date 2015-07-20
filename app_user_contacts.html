@@ -135,7 +135,7 @@
                 </div>
                 <div class="pagination pagination-left">
                     <ul>
-                        <li><a href="javascript:void(0)" onclick="showAddFriendHTML()" data-toggle="modal" role="button"><span id="app_users_contacts_bnt_addNewContacts">添加好友</span></a></li>
+                        <li><a href="javascript:void(0)" onclick="showAddIMUserContactWindow()" data-toggle="modal" role="button"><span id="app_users_contacts_bnt_addNewContacts">添加好友</span></a></li>
                         <li style="display:none"><a id="showAddFriend" href="#addFriend" data-toggle="modal" role="button"></a></li>
                     </ul>
                 </div>
@@ -180,7 +180,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <a class="btn" onClick="addIMFriend();" href="javascript:void(0);"><span id="app_users_contacts_bnt_add">添加</span></a>
+        <a class="btn" onClick="doAddIMUserContact();" href="javascript:void(0);"><span id="app_users_contacts_bnt_add">添加</span></a>
         <button id="messageCloseBtn" class="btn" data-dismiss="modal" onClick="clsSpan()" aria-hidden="true"><span id="app_users_contacts_bnt_cancel">关闭</span></button>
     </div>
 </div>

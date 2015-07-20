@@ -241,7 +241,7 @@ function getAppUserList(pageAction) {
                             '<li class="dropdown all-camera-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="app_users_selections_operation_' + appUsersListOrder + '">' + $.i18n.prop('app_users_selections_operation') + '</span><b class="caret"></b></a>' +
                             '<ul class="dropdown-menu">' +
                             '<li data-filter-camera-type="all"><a onclick="EasemobCommon.disPatcher.toPageAppUserContacts(\'' + username + '\')" href="javascript:void(0);"><span id="app_users_selections_contacts_' + appUsersListOrder + '">' + $.i18n.prop('app_users_selections_contacts') + '</span></a></li>' +
-                            '<li data-filter-camera-type="Zed"><a onclick="showUpdateInfo(\'' + username + '\')" href="javascript:void(0);"><span id="app_users_selections_modify_' + appUsersListOrder + '">' + $.i18n.prop('app_users_selections_modify') + '</span></a></li>' +
+                            '<li data-filter-camera-type="Zed"><a onclick="showUpdateIMUserInfoWindow(\'' + username + '\')" href="javascript:void(0);"><span id="app_users_selections_modify_' + appUsersListOrder + '">' + $.i18n.prop('app_users_selections_modify') + '</span></a></li>' +
                             '<li data-filter-camera-type="Zed"><a onclick="deleteAppUser(\'' + username + '\')" href="javascript:void(0);"><span id="app_users_selections_delete_' + appUsersListOrder + '">' + $.i18n.prop("app_users_selections_delete") + '</span></a></li>' +
                             '<li data-filter-camera-type="Alpha"><a href="#passwordMondify" id="passwdMod${status.index }" onclick="setUsername(\'' + username + '\');" data-toggle="modal" role="button"><span id="app_users_selections_resetpassword_' + appUsersListOrder + '">' + $.i18n.prop('app_users_selections_resetpassword') + '</span></a></li>' +
                             '<li data-filter-camera-type="Zed"><a onclick="sendMessageOneUser(\'' + username + '\')" href="javascript:void(0)"><span id="app_users_selections_sendMessages_' + appUsersListOrder + '">' + $.i18n.prop('app_users_selections_sendMessages') + '</span></a></li>' +
@@ -526,7 +526,7 @@ function deleteAppUsersBatch() {
 
 
 // 弹出发送消息
-function showSendMessageForm() {
+function showSendMessageWindowForIMUsers() {
     var checkbox = document.getElementsByName("checkbox");
     var num = 0;
     for (var i = 0; i < checkbox.length; i++) {
@@ -807,15 +807,15 @@ function deleteAppIMFriend(owner_username, friend_username) {
 }
 
 //弹出添加好友页面
-function showAddFriend(username) {
-    $('#usernameFriend').val(username);
+function showAddIMUserContactWindow() {
+    $('#usernameFriend').val(owner_username);
     $('#appNameFriend').val($.cookie('appName'));
     $('#friendUsername').val('');
     $('#showAddFriend').click();
 }
 
 //添加好友
-function addIMFriend() {
+function doAddIMUserContact() {
     var orgName = $.cookie('orgName');
     var accessToken = $.cookie('access_token');
     var owner_username = $('#usernameFriend').val();
@@ -871,7 +871,7 @@ function updateIMPageStatus(owner_username) {
     var accessToken = $.cookie('access_token');
     var cuser = $.cookie('cuser');
     var orgName = $.cookie('orgName');
-    var appName = $.cookie('orgName');
+    var appName = $.cookie('appName');
     if (!accessToken || accessToken == '') {
         EasemobCommon.disPatcher.sessionTimeOut();
     } else {
@@ -912,7 +912,7 @@ function updateIMPageStatus(owner_username) {
 
 
 //弹出修改信息框
-function showUpdateInfo(username) {
+function showUpdateIMUserInfoWindow(username) {
     // 获取token
     var accessToken = $.cookie('access_token');
     var cuser = $.cookie('cuser');
@@ -969,7 +969,7 @@ function showUpdateInfo(username) {
 }
 
 //修改信息
-function updateIMUserInfo() {
+function doUpdateIMUserInfo() {
     var accessToken = $.cookie('access_token');
     var cuser = $.cookie('cuser');
     var orgName = $.cookie('orgName');
@@ -1096,10 +1096,6 @@ function getNextAppUserList() {
 // 去除字符串中所有空格
 function removeAllSpace(str) {
     return str.replace(/\s+/g, "");
-}
-
-function showAddFriendHTML() {
-    showAddFriend(owner_username);
 }
 
 function check() {

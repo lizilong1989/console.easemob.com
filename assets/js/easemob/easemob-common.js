@@ -4,12 +4,13 @@
 
 document.write("<script src='/assets/js/easemob/config.js' language=javascript></script>");
 
+var appKeyWithSlash = $.cookie('orgName') + '/' + $('#appName').val();
+
 // 初始化加载
 $(function () {
     // support crossDomain
     $.support.cors = true;
 
-    // 显示已登录用户nd
     $('#user_info').html('<small>Welcome,</small>' + $.cookie('cuserName'));
 
     var agreeCBoxObj = $("#agreeCBox");
@@ -199,28 +200,28 @@ var EasemobCommon = function () {
 
         disPatcher: {
             openPageWWWHome: function () {
-                window.open('http://www.easemob.com')
+                window.open('https://www.easemob.com')
             },
             openPageWWWDocs: function () {
-                window.open('http://www.easemob.com/docs/gettingstart');
+                window.open('https://www.easemob.com/docs/gettingstart');
             },
             openPageWWWSupport: function () {
-                window.open('http://www.easemob.com/Support')
+                window.open('https://www.easemob.com/Support')
             },
             openPageWWWSDK: function () {
-                window.open('http://www.easemob.com/sdk')
+                window.open('https://www.easemob.com/sdk')
             },
             openPageIMGeek: function () {
-                window.open('http://www.imgeek.org')
+                window.open('https://www.imgeek.org')
+            },
+            openPageAboutTerms: function () {
+                window.open('https://www.easemob.com/hx/about/terms.html')
             },
             refreshCurrentPage: function () {
                 location.replace(location.href);
             },
             toPageIndex: function () {
                 window.location.href = 'index.html';
-            },
-            toPageIndexLogin: function () {
-                window.location.href = '../../../index.html';
             },
             toPageIndexRegister: function () {
                 window.location.href = 'index_register.html';
@@ -330,14 +331,16 @@ var EasemobCommon = function () {
 String.prototype.Trim = function () {
     var m = this.match(/^\s*(\S+(\s+\S+)*)\s*$/);
     return (m == null) ? "" : m[1];
-}
+};
+
 String.prototype.isMobile = function () {
     return (/^(?:13\d|15[89])-?\d{5}(\d{3}|\*{3})$/.test(this.Trim()));
-}
+};
+
 String.prototype.isTel = function () {
     //"兼容格式: 国家代码(2到3位)-区号(2到3位)-电话号码(7到8位)-分机号(3位)"
     return (/^(([0\+]\d{2,3}-)?(0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/.test(this.Trim()));
-}
+};
 
 $(function () {
     window.Modal = function () {

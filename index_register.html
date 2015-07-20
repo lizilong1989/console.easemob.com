@@ -153,7 +153,7 @@
                             </h1>
                         </div>
                         <div class="azen-right">
-                            <a href="javascript:void(0);" onclick="clearRegisterBox();EasemobCommon.disPatcher.toPageIndexLogin()" class="current"><span id="index_span_login"></span></a>
+                            <a href="javascript:void(0);" onclick="clearRegisterBox();EasemobCommon.disPatcher.toPageIndex()" class="current"><span id="index_span_login"></span></a>
                             <a href="javascript:void(0);" id="btnRegist" onClick="EasemobCommon.disPatcher.toPageIndexRegister()"
                                class="forgot-password-link"><span id="index_span_register"></span></a>
                         </div>
@@ -258,37 +258,38 @@
                                             </label>
 
                                             <label>
-                                            <span style="color:red; float:left; font-size:24px; display:block; padding-top:5px;">*</span><span id="index_span_register_comeFromNote"></span><span
-                                                    id="comeFromEMsg" style="font-size:12px;color:red; padding-left:85px;"></span></p>
-                                            <input id="comeFromEMsgHidden" type="hidden" value=""/>
-                                            <div>
-                                                <div class="azen-renchi">
-                                                    <input type="radio" name="comefrom" value="internet-search" />
-                                                    <span class="lbl" id="index_span_register_comefromInternet"></span>
+                                                <span style="color:red; float:left; font-size:24px; display:block; padding-top:5px;">*</span>
+                                                <span id="index_span_register_comeFromNote"></span>
+                                                <span id="comeFromEMsg" style="font-size:12px;color:red; padding-left:85px;"></span>
+                                                <input id="comeFromEMsgHidden" type="hidden" value=""/>
+                                                <div>
+                                                    <div class="azen-renchi">
+                                                        <input type="radio" name="comefrom" value="internet-search" />
+                                                        <span class="lbl" id="index_span_register_comefromInternet" style="font-size: 12px;"></span>
+                                                    </div>
+                                                    <div class="azen-renchi">
+                                                        <input type="radio" name="comefrom" value="friends" />
+                                                        <span class="lbl" id="index_span_register_comefromFriends" style="font-size: 12px;"></span>
+                                                    </div>
+                                                    <div class="azen-renchi">
+                                                        <input type="radio" name="comefrom" value="official" />
+                                                        <span class="lbl" id="index_span_register_comefromOfficial" style="font-size: 12px;"></span>
+                                                    </div>
+                                                    <div class="azen-renchi">
+                                                        <input type="radio" name="comefrom" value="exhibition" />
+                                                        <span class="lbl" id="index_span_register_comefromExhibition" style="font-size: 12px;"></span>
+                                                    </div>
+                                                    <div class="azen-renchi">
+                                                        <input type="radio" name="comefrom" value="media-report" />
+                                                        <span class="lbl" id="index_span_register_comefromMedia" style="font-size: 12px;"></span>
+                                                    </div>
                                                 </div>
-                                                <div class="azen-renchi">
-                                                    <input type="radio" name="comefrom" value="friends" />
-                                                    <span class="lbl" id="index_span_register_comefromFriends"></span>
-                                                </div>
-                                                <div class="azen-renchi">
-                                                    <input type="radio" name="comefrom" value="official" />
-                                                    <span class="lbl" id="index_span_register_comefromOfficial"></span>
-                                                </div>
-                                                <div class="azen-renchi">
-                                                    <input type="radio" name="comefrom" value="exhibition" />
-                                                    <span class="lbl" id="index_span_register_comefromExhibition"></span>
-                                                </div>
-                                                <div class="azen-renchi">
-                                                    <input type="radio" name="comefrom" vallue="media-report" />
-                                                    <span class="lbl" id="index_span_register_comefromMedia"></span>
-                                                </div>
-                                            </div>
 
                                             <label>
                                                 <input type="checkbox" id="agreeCBox" checked="checked" onclick="checkBoxStatus()" />
                                                 <span class="lbl">
                                                     <span id="index_span_register_agree"></span>
-                                                    <a href="http://www.easemob.com/hx/about/terms.html" target="_blank">
+                                                    <a href="javascript:EasemobCommon.disPatcher.openPageAboutTerms()" target="_blank">
                                                         <span id="index_span_register_agree_service"></span></a>
                                                 </span>
                                                 <span id="agreeCBoxEMsg" style="font-size:12px;color:red"></span>

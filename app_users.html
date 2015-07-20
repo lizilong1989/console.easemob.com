@@ -118,7 +118,7 @@
                     </ul>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <ul>
-                        <li><a href="javascript:void(0)" onclick="showSendMessageForm()" data-toggle="modal" role="button"><span id="app_users_fourth_nav_sendMsg">发送消息</span></a></li>
+                        <li><a href="javascript:void(0)" onclick="showSendMessageWindowForIMUsers()" data-toggle="modal" role="button"><span id="app_users_fourth_nav_sendMsg">发送消息</span></a></li>
                     </ul>
                     <ul style="display:none">
                         <li> <a href="#updateInfo" id="showUpdateInfoA" data-toggle="modal" role="button" >修改信息</a> </li>
@@ -310,7 +310,7 @@
     </div>
 
     <div class="modal-footer">
-        <a class="btn" onClick="updateIMUserInfo();" href="javascript:void(0);"><span id="app_users_infoModify_form_confirm">确定</span></a>
+        <a class="btn" onClick="doUpdateIMUserInfo();" href="javascript:void(0);"><span id="app_users_infoModify_form_confirm">确定</span></a>
         <button class="btn" data-dismiss="modal" onClick="clearFormUpdateIMUserInfo()" aria-hidden="true"><span id="app_users_infoModify_form_cancel">关闭</span></button>
     </div>
 </div>

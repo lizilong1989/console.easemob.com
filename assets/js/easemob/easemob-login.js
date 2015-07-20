@@ -376,7 +376,7 @@ function resetPasswdReqFormValidate() {
         $('#password1').focus();
         return false;
     }
-    if (password1.length < 6) {
+    if (password1.length < 1) {
         $('#password1').focus();
         layer.msg($.i18n.prop('index_alert_register_regPassword_regix'), 3, 5);
         return false;
@@ -665,6 +665,7 @@ function resetPasswdReq(token, uuid) {
         'password2': password2,
         'token': token
     };
+
     if (resetPasswdReqFormValidate()) {
         $.ajax({
             url: baseUrl + '/management/users/' + uuid + '/resetpw',
@@ -774,7 +775,7 @@ function orgAdminLogin() {
                 }
 
 
-                layer.msg(errorMsg, 3, 5);
+                layer.msg(errorMsg, 2, 5);
             },
             success: function (respData, textStatus, jqXHR) {
                 var accessToken = respData.access_token;
