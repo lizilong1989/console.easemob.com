@@ -153,9 +153,8 @@
                             </h1>
                         </div>
                         <div class="azen-right">
-                            <a href="javascript:void(0);" onclick="clearRegisterBox();EasemobCommon.disPatcher.toPageIndex()" class="current"><span id="index_span_login"></span></a>
-                            <a href="javascript:void(0);" id="btnRegist" onClick="EasemobCommon.disPatcher.toPageIndexRegister()"
-                               class="forgot-password-link"><span id="index_span_register"></span></a>
+                            <a href="javascript:void(0);" onclick="EasemobCommon.disPatcher.toPageIMCloudRegister()" class="current"><span id="index_span_title_imcloud"></span></a>
+                            <a href="javascript:void(0);" onClick="EasemobCommon.disPatcher.toPageKefuRegister()"><span id="index_span_title_kefu"></span></a>
                         </div>
                     </div>
                     <div class="row-fluid">
@@ -299,6 +298,12 @@
                                                 <button class="azen-buttons" id="index_span_register_formSubBtn" onClick="createNewOrgAndAdminUser();"></button>
                                             </div>
                                             </label>
+                                            <div class="row-fluid">
+                                                <div style="height:20px;"></div>
+                                                <span class="lbl" style="float:right; padding-right: 40%;">
+                                                    <span id="index_span_imcloud_somebody"></span>, <a href="javascript:void(0);" onClick="EasemobCommon.disPatcher.toPageIMCloudLogin()"><span id="index_span_imcloud_togologin"></span>>></a>
+                                                </span>
+                                            </div>
                                         </fieldset>
                                     </div>
                                 </div>

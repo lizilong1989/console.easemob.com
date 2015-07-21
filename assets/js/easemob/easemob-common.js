@@ -223,6 +223,24 @@ var EasemobCommon = function () {
             refreshCurrentPage: function () {
                 location.replace(location.href);
             },
+            toPageIMCloudLogin: function () {
+                window.location.href = 'index.html';
+            },
+            toPageIMCloudRegister: function () {
+                window.location.href = 'index_register.html';
+            },
+            toPageIMCloudForgotPassword: function () {
+                window.location.href = 'index_forgotpwd.html';
+            },
+            toPageKefuLogin: function () {
+                window.open('https://kefu.easemob.com');
+            },
+            toPageKefuRegister: function () {
+                window.open('https://kefu.easemob.com/register');
+            },
+            toPageKefuForgotPassword: function () {
+                window.open('https://kefu.easemob.com/forgotPassword');
+            },
             toPageIndex: function () {
                 window.location.href = 'index.html';
             },

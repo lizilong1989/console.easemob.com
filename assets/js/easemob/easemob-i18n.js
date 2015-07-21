@@ -276,6 +276,11 @@ var I18NPropsLoader = function(){
                     $('#page_title').text($.i18n.prop('page_title'));
                     $('#logo_index').attr('src', $.i18n.prop('logo_index'));
                     $('#index_span_login').text($.i18n.prop('index_span_login'));
+                    $('#index_span_title_imcloud').text($.i18n.prop('index_span_title_imcloud'));
+                    $('#index_span_title_kefu').text($.i18n.prop('index_span_title_kefu'));
+                    $('#index_span_imcloud_nobody').text($.i18n.prop('index_span_imcloud_nobody'));
+                    $('#index_span_imcloud_gotoregister').text($.i18n.prop('index_span_imcloud_gotoregister'));
+
                     $('#index_span_register').text($.i18n.prop('index_span_register'));
                     $('#index_login_username').text($.i18n.prop('index_login_username'));
                     $('#index_login_password').text($.i18n.prop('index_login_password'));
@@ -340,6 +345,10 @@ var I18NPropsLoader = function(){
                     $('#page_title').text($.i18n.prop('page_title'));
                     $('#logo_index').attr('src', $.i18n.prop('logo_index'));
                     $('#index_span_login').text($.i18n.prop('index_span_login'));
+                    $('#index_span_title_imcloud').text($.i18n.prop('index_span_title_imcloud'));
+                    $('#index_span_title_kefu').text($.i18n.prop('index_span_title_kefu'));
+                    $('#index_span_imcloud_somebody').text($.i18n.prop('index_span_imcloud_somebody'));
+                    $('#index_span_imcloud_togologin').text($.i18n.prop('index_span_imcloud_togologin'));
                     $('#index_span_register').text($.i18n.prop('index_span_register'));
                     $('#index_login_username').text($.i18n.prop('index_login_username'));
                     $('#index_login_password').text($.i18n.prop('index_login_password'));
@@ -441,6 +450,9 @@ var I18NPropsLoader = function(){
                     $('#page_title').text($.i18n.prop('page_title'));
                     $('#logo_index').attr('src', $.i18n.prop('logo_index'));
                     $('#index_span_login').text($.i18n.prop('index_span_login'));
+                    $('#index_span_title_imcloud').text($.i18n.prop('index_span_title_imcloud'));
+                    $('#index_span_title_kefu').text($.i18n.prop('index_span_title_kefu'));
+
                     $('#index_span_register').text($.i18n.prop('index_span_register'));
                     $('#index_login_username').text($.i18n.prop('index_login_username'));
                     $('#index_login_password').text($.i18n.prop('index_login_password'));

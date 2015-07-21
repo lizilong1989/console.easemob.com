@@ -120,9 +120,8 @@
                             </h1>
                         </div>
                         <div class="azen-right">
-                            <a href="javascript:void(0);" onclick="EasemobCommon.disPatcher.toPageIndex()" class="current"><span id="index_span_login"></span></a>
-                            <a href="javascript:void(0);" id="btnRegist" onClick="EasemobCommon.disPatcher.toPageIndexRegister()"
-                               class="forgot-password-link"><span id="index_span_register"></span></a>
+                            <a href="javascript:void(0);" onclick="EasemobCommon.disPatcher.toPageIMCloudLogin()" class="current"><span id="index_span_title_imcloud"></span></a>
+                            <a href="javascript:void(0);" onClick="EasemobCommon.disPatcher.toPageKefuLogin()"><span id="index_span_title_kefu"></span></a>
                         </div>
                     </div>
                     <div class="row-fluid">
@@ -167,9 +166,15 @@
                                         </fieldset>
                                     </div>
                                     <div class="toolbar clearfix">
-                                        <div id="loginBtn" class="span4 btn btn-small btn-primary" onClick="orgAdminLogin();">
+                                        <div id="loginBtn" class="span4 btn btn-small btn-primary" style="width: 420px;" onClick="orgAdminLogin();">
                                             <span id="index_bnt_login"></span>
                                         </div>
+                                    </div>
+                                    <div class="row-fluid">
+                                        <div style="height:20px;"></div>
+                                        <span class="lbl" style="float:right; padding-right: 40%;">
+                                            <span id="index_span_imcloud_nobody"></span>, <a href="javascript:void(0);" onClick="EasemobCommon.disPatcher.toPageIMCloudRegister()"><span id="index_span_imcloud_gotoregister">立即注册</span>>></a>
+                                        </span>
                                     </div>
                                     <div style="height:80px;"></div>
                                 </div>
