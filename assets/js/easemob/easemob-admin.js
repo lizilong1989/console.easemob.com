@@ -384,7 +384,7 @@ function createAdminUserFormValidate() {
         $('#admin_create_adminCompanyOMsg').hide();
         return false;
     }
-    var adminCompanyRegex = /^[0-9a-zA-Z\-_\u4e00-\u9faf ]*$/;
+    var adminCompanyRegex = /^[0-9a-zA-Z\-_.\u4e00-\u9faf ]*$/;
     if (adminCompany != '' && !adminCompanyRegex.test(adminCompany)) {
         $('#admin_create_adminCompanyMsg').hide();
         $('#admin_create_adminCompanyEMsg').show();
@@ -710,7 +710,7 @@ function onBlurAdminCompanyCheck() {
         return;
     }
 
-    var adminCompanyRegex = /^[0-9a-zA-Z\-_\u4e00-\u9faf ]*$/;
+    var adminCompanyRegex = /^[0-9a-zA-Z\-_.,\u4e00-\u9faf ]*$/;
     if (adminCompany != '' && !adminCompanyRegex.test(adminCompany)) {
         $('#admin_create_adminCompanyMsg').hide();
         $('#admin_create_adminCompanyEMsg').show();

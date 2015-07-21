@@ -695,7 +695,7 @@ var I18NPropsLoader = function(){
 
                     var newMemberEMsgTag = $('#newMemberEMsgTag').val();
                     if (newMemberEMsgTag == 'overLoad') {
-                        $('#newMemberEMsgTag').val('overLoad');
+                        $('#newmemberEMsg').text($.i18n.prop('app_chatgroups_table_overLoad'));
                     } else if(newMemberEMsgTag == 'user_invalid') {
                         $('#newmemberEMsg').text($.i18n.prop('app_chatgroups_add_alert_user_invalid'));
                     } else if(newMemberEMsgTag == 'user_notfoud') {
