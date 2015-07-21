@@ -468,7 +468,6 @@ function saveNewAdminUserSubmit(adminUsername, adminPassword, adminEmail, adminC
                         clearNewAdminUserBox();
                         var adminUserName = respData.data.username;
                         if (adminUserName != '') {
-                            //　建立关系
                             $.ajax({
                                 url: baseUrl + '/management/users/' + adminUserName + '/orgs/' + orgName,
                                 type: 'PUT',
@@ -538,6 +537,7 @@ function check() {
         return false;
     }
 }
+
 
 function saveNewAdminUserPre() {
     if (check()) {

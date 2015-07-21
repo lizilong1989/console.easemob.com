@@ -235,24 +235,20 @@ function drawCountersCharts(period) {
         return;
     }
 
-    var resolution = '';
+    var resolution = 'day';
     var type = "Y-M-D";
     var endTime = type.replace("Y", Y).replace("M", M).replace("D", D);
-    DatePikerHandler.setPickerEndDate(endTime)
+    DatePikerHandler.setPickerEndDate(endTime);
     if (period == "oneday") {
         //计算当前时间
         startTime = new Date(Y, M - 1, D - 1).format('yyyy-MM-dd');
-        DatePikerHandler.setPickerStartDate(startTime)
+        DatePikerHandler.setPickerStartDate(startTime);
 
         resolution = 'six_hour';
     } else if (period == "sevendays") {
         //计算当前时间
         startTime = new Date(Y, M - 1, D - 6).format('yyyy-MM-dd');
-        DatePikerHandler.setPickerStartDate(startTime)
-
-        resolution = 'day';
-    } else {
-        resolution = 'day';
+        DatePikerHandler.setPickerStartDate(startTime);
     }
 
     var queryStr = getCounterNameFromHtml();

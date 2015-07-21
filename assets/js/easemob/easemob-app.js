@@ -191,7 +191,7 @@ function getAppList() {
                 $('#appListBody').append(option);
                 var tbody = document.getElementsByTagName("tbody")[0];
                 if (!tbody.hasChildNodes()) {
-                    option = '<tr><td class="text-center" colspan="7">' + $.i18n.prop('table_data_nodata') + '</td></tr>';
+                    option = '<tr><td class="text-center" colspan="7" id="applist_table_nodata">' + $.i18n.prop('table_data_nodata') + '</td></tr>';
                     $('#appListBody').append(option);
                 }
             }

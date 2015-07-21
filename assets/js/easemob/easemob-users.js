@@ -205,25 +205,25 @@ function getAppUserList(pageAction) {
                         } else if (this.notification_display_style == 1) {
                             notification_display_style = $.i18n.prop('app_users_text_notification_display_style_detail');
                         } else {
-                            notification_display_style = '---'
+                            notification_display_style = '--'
                         }
                         var nickname = this.nickname;
                         if (nickname == undefined) {
-                            nickname = '';
+                            nickname = '--';
                         }
                         var notification_no_disturbing = this.notification_no_disturbing;
-                        var notification_no_disturbing_time = '----';
+                        var notification_no_disturbing_time = '--';
                         if (this.notification_no_disturbing) {
                             notification_no_disturbing = $.i18n.prop('app_users_text_notification_no_disturbing_open');
                             notification_no_disturbing_time = this.notification_no_disturbing_start + ':00' + '--' + this.notification_no_disturbing_end + ':00';
                         } else if (!this.notification_no_disturbing) {
                             notification_no_disturbing = $.i18n.prop('app_users_text_notification_no_disturbing_close');
                         } else {
-                            notification_no_disturbing = '----';
+                            notification_no_disturbing = '--';
                         }
                         var notifier_name = this.notifier_name;
                         if (notifier_name == undefined) {
-                            notifier_name = '';
+                            notifier_name = '--';
                         }
                         selectOptions += '<tr>' +
                             '<td class="text-center"><label><input style="opacity:1;" name="checkbox" type="checkbox" value="' + username + '" />&nbsp;&nbsp;&nbsp;</label></td>' +
@@ -338,19 +338,20 @@ function searchAppIMUser() {
                     }
                     var nickname = this.nickname;
                     if (nickname == undefined) {
-                        nickname = '';
+                        nickname = '--';
                     }
                     var notification_no_disturbing = this.notification_no_disturbing;
-                    var notification_no_disturbing_time = '----';
+                    var notification_no_disturbing_time = '--';
                     if (this.notification_no_disturbing) {
                         notification_no_disturbing = $.i18n.prop('app_users_search_label_mute_open');
                         notification_no_disturbing_time = this.notification_no_disturbing_start + ':00' + '--' + this.notification_no_disturbing_end + ':00';
                     } else {
                         notification_no_disturbing = $.i18n.prop('app_users_search_label_mute_close');
                     }
+
                     var notifier_name = this.notifier_name;
                     if (notifier_name == undefined) {
-                        notifier_name = '';
+                        notifier_name = '--';
                     }
                     var selectOptions = '<tr>' +
                         '<td class="text-center"><label><input style="opacity:1;" name="checkbox" type="checkbox" value="' + username + '" />&nbsp;&nbsp;&nbsp;</label></td>' +

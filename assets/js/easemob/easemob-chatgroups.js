@@ -105,7 +105,7 @@ function getAppChatgroups(pageAction) {
         if (typeof(pageAction) != 'undefined' && pageAction != '' && cursors[pageNo] != '') {
             tmp = '&cursor=' + cursors[pageNo];
         }
-        var loading = '<tr id="tr_loading"><td class="text-center" colspan="4"><img src ="/assets/img/loading.gif">&nbsp;&nbsp;&nbsp;<span id="app_chatgroups_table_loading">' + $.i18n.prop('app_chatgroups_table_loading') + '</span></td></tr>';
+        var loading = '<tr id="tr_loading"><td class="text-center" colspan="6"><img src ="/assets/img/loading.gif">&nbsp;&nbsp;&nbsp;<span id="app_chatgroups_table_loading">' + $.i18n.prop('app_chatgroups_table_loading') + '</span></td></tr>';
         $('#appChatroomBody').empty();
         $('#appChatroomBody').append(loading);
         $.ajax({
@@ -121,19 +121,31 @@ function getAppChatgroups(pageAction) {
             success: function (respData) {
 
                 $('tbody').html('');
-                statusOrder = 0;
+                var statusOrder = 0;
 
                 $(respData.data).each(function () {
-                    statusOrder = statusOrder + 1;
+                    statusOrder += 1;
 
                     var groupid = $.trim(this.groupid);
                     var groupname = $.trim(this.groupname);
                     if (groupname == '' || groupname == null) {
-                        groupname = '-';
+                        groupname = '--';
                     }
+                    var groupOwner = $.trim(this.owner);
+                    groupOwner = groupOwner.substring(groupOwner.indexOf('_') + 1);
+                    if (groupOwner == '' || groupOwner == null) {
+                        groupOwner = '--';
+                    }
+                    var groupMembers = $.trim(this.affiliations);
+                    if (groupOwner == '' || groupMembers == null) {
+                        groupMembers = '--';
+                    }
+
                     var selectOptions = '<tr>' +
                         '<td class="text-center"><label><input style="opacity:1;" name="checkbox" type="checkbox" value="' + groupid + '" />&nbsp;&nbsp;&nbsp;</label></td>' +
                         '<td class="text-center" width="222px" style="word-break:break-all">' + groupid + '</td>' +
+                        '<td class="text-center" width="222px" style="word-break:break-all">' + groupOwner + '</td>' +
+                        '<td class="text-center" width="222px" style="word-break:break-all">' + groupMembers + '</td>' +
                         '<td class="text-center" width="666px" style="word-break:break-all">' + groupname + '</td>' +
                         '<td class="text-center">' +
                         '<ul class="text-center" class="nav-pills" style="list-style-type:none">' +
@@ -155,7 +167,7 @@ function getAppChatgroups(pageAction) {
 
                 var tbody = document.getElementsByTagName("tbody")[0];
                 if (!tbody.hasChildNodes()) {
-                    var option = '<tr><td class="text-center" colspan="7"><span id="app_chatgroups_table_data_nodata">' + $.i18n.prop('table_data_nodata') + '</span></td></tr>';
+                    var option = '<tr><td class="text-center" colspan="6"><span id="app_chatgroups_table_data_nodata">' + $.i18n.prop('table_data_nodata') + '</span></td></tr>';
                     $('#appChatroomBody').append(option);
                     var pageLi = $('#pagina').find('li');
                     for (var i = 0; i < pageLi.length; i++) {
@@ -204,7 +216,7 @@ function searchAppChatgroupById(groupid, pageAction) {
         } else if ('next' == pageAction) {
             pageNo -= 1;
         }
-        var loading = '<tr id="tr_loading"><td class="text-center" colspan="4"><img src ="/assets/img/loading.gif">&nbsp;&nbsp;&nbsp;<span id="app_chatgroups_search_table_loading"></span>' + $.i18n.prop('app_chatgroups_table_loading') + '</td></tr>';
+        var loading = '<tr id="tr_loading"><td class="text-center" colspan="6"><img src ="/assets/img/loading.gif">&nbsp;&nbsp;&nbsp;<span id="app_chatgroups_search_table_loading"></span>' + $.i18n.prop('app_chatgroups_table_loading') + '</td></tr>';
         $('#appChatroomBody').empty();
         $('#appChatroomBody').append(loading);
         $.ajax({
@@ -218,7 +230,7 @@ function searchAppChatgroupById(groupid, pageAction) {
                 var error = jQuery.parseJSON(respData.responseText).error;
                 $('tbody').html('');
                 if ('service_resource_not_found' == error || 'illegal_argument' == error) {
-                    var option = '<tr><td class="text-center" colspan="4"><span id="app_chatgroups_btn_search_alert">' + $.i18n.prop('app_chatgroups_btn_search_alert') + '</span></td></tr>';
+                    var option = '<tr><td class="text-center" colspan="6"><span id="app_chatgroups_btn_search_alert">' + $.i18n.prop('app_chatgroups_btn_search_alert') + '</span></td></tr>';
                     $('#appChatroomBody').append(option);
                 }
             },
@@ -233,17 +245,28 @@ function searchAppChatgroupById(groupid, pageAction) {
                 var groupname = respData.data[0].name;
                 var errors = respData.data[0].error;
                 if (errors != null) {
-                    var option = '<tr><td class="text-center" colspan="4"><span id="app_chatgroups_btn_search_alert">' + $.i18n.prop('app_chatgroups_btn_search_alert') + '</span></td></tr>';
+                    var option = '<tr><td class="text-center" colspan="6"><span id="app_chatgroups_btn_search_alert">' + $.i18n.prop('app_chatgroups_btn_search_alert') + '</span></td></tr>';
                     $('#appChatroomBody').append(option);
                     return;
                 }
                 if (groupname == '' || groupname == null) {
-                    groupname = '-';
+                    groupname = '--';
+                }
+                var groupOwner = $.trim(respData.data[0].affiliations[0]['owner']);
+                groupOwner = groupOwner.substring(groupOwner.indexOf('_') + 1);
+                if (groupOwner == '' || groupOwner == null) {
+                    groupOwner = '--';
+                }
+                var groupMembers = $.trim(respData.data[0].affiliations_count);
+                if (groupOwner == '' || groupMembers == null) {
+                    groupMembers = '--';
                 }
 
                 var selectOptions = '<tr>' +
                     '<td class="text-center"><label><input style="opacity:1;" name="checkbox" type="checkbox" value="' + groupid + '" />&nbsp;&nbsp;&nbsp;</label></td>' +
                     '<td class="text-center">' + groupid + '</td>' +
+                    '<td class="text-center">' + groupOwner + '</td>' +
+                    '<td class="text-center">' + groupMembers + '</td>' +
                     '<td class="text-center">' + groupname + '</td>' +
                     '<td class="text-center">' +
                     '<ul class="text-center" class="nav-pills" style="list-style-type:none">' +
@@ -501,44 +524,78 @@ function createNewChatgroups(chatgroupName, chatgroupDesc, approval, publics, ch
         $('#app_chatgroups_form_add_groupOwnerSpan').text($.i18n.prop('app_chatgroups_add_alert_groupowner_null'));
         return false;
     } else {
-        $('#groupnameSpan').text('');
-        $('#app_chatgroups_form_add_groupdescSpan').text('');
-        $('#app_chatgroups_form_add_groupMaxuserSpan').text('');
-        $('#app_chatgroups_form_add_groupOwnerSpan').text('');
-        var cahtgroupData = {
-            "groupname": chatgroupName,
-            "desc": chatgroupDesc,
-            "public": publics,
-            "owner": chatgroupOwner,
-            "maxusers": parseInt(maxusers)
-        };
-        if (publics == true) {
-            cahtgroupData.approval = approval;
-        }
-        $.ajax({
-            url: baseUrl + '/' + orgName + '/' + appName + '/chatgroups',
-            type: 'POST',
-            data: JSON.stringify(cahtgroupData),
-            headers: {
-                'Authorization': 'Bearer ' + accessToken,
-                'Content-Type': 'application/json'
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                layer.msg($.i18n.prop('app_chatgroups_add_fail'), 2, 1);
-            },
-            success: function (respData, textStatus, jqXHR) {
-                $('#app_chatgroups_form_add_groupOwnerSpan').text('');
-
-                layer.msg($.i18n.prop('app_chatgroups_add_succ'), 2, 1);
-
-                getAppChatgroups();
-                $('#addNewChatgroupWindowClose').click();
-                clearFormAddNewChatgroup();
+        //
+        if(isIMUserExists(chatgroupOwner)) {
+            $('#groupnameSpan').text('');
+            $('#app_chatgroups_form_add_groupdescSpan').text('');
+            $('#app_chatgroups_form_add_groupMaxuserSpan').text('');
+            $('#app_chatgroups_form_add_groupOwnerSpan').text('');
+            var cahtgroupData = {
+                "groupname": chatgroupName,
+                "desc": chatgroupDesc,
+                "public": publics,
+                "owner": chatgroupOwner,
+                "maxusers": parseInt(maxusers)
+            };
+            if (publics == true) {
+                cahtgroupData.approval = approval;
             }
-        });
+            $.ajax({
+                url: baseUrl + '/' + orgName + '/' + appName + '/chatgroups',
+                type: 'POST',
+                data: JSON.stringify(cahtgroupData),
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+                    'Content-Type': 'application/json'
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    layer.msg($.i18n.prop('app_chatgroups_add_fail'), 2, 5);
+                },
+                success: function (respData, textStatus, jqXHR) {
+                    $('#app_chatgroups_form_add_groupOwnerSpan').text('');
+
+                    layer.msg($.i18n.prop('app_chatgroups_add_succ'), 2, 1);
+
+                    getAppChatgroups();
+                    $('#addNewChatgroupWindowClose').click();
+                    clearFormAddNewChatgroup();
+                }
+            });
+
+            return true;
+        } else {
+            layer.msg($.i18n.prop('app_chatgroups_add_alert_user_notfoud'), 2, 5);
+            BtnHandler.setBtnEnable();
+        }
     }
 }
 
+/**
+ * Check IM user exists or not
+ * @param username
+ */
+var isIMUserExists = function(username) {
+    var accessToken = $.cookie('access_token');
+    var orgName = $.cookie('orgName');
+    var appName = $.cookie('appName');
+    var result = false;
+    $.ajax({
+        url: baseUrl + '/' + orgName + '/' + appName + '/users/' + username,
+        type: 'GET',
+        async: false,
+        headers: {
+            'Authorization': 'Bearer ' + accessToken
+        },
+        error: function () {
+            result = false;
+        },
+        success: function (respData) {
+            result = true;
+        }
+    });
+
+    return result;
+};
 
 // 批量删除app下的群组的Ajax
 function deleteAppChatgroup(groupuuid) {
@@ -727,7 +784,7 @@ function sendMessage() {
     }
 }
 
-function check() {
+function isBtnClicked() {
     if (count == 0) {
         count++;
         return true;
@@ -741,14 +798,14 @@ function check() {
 var publics = true;
 var approval = true;
 function createNewChatgroupPre() {
-    if (check()) {
+    if (BtnHandler.isBtnEnable()) {
         var groupName = $("#groupName").val().trim();
         var groupDesc = $("#groupDesc").val().trim();
         var groupOwner = $("#groupOwner").val().trim();
         var maxusers = $("#maxusers").val().trim();
         var res = createNewChatgroups(groupName, groupDesc, approval, publics, groupOwner);
         if (!res) {
-            count = 0;
+            BtnHandler.setBtnEnable();
         }
     }
 }

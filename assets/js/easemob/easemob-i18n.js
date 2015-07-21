@@ -152,6 +152,7 @@ var I18NPropsLoader = function(){
                     $('#nav_download').text($.i18n.prop('nav_download'));
                     $('#nav_account').text($.i18n.prop('nav_account'));
                     $('#nav_signout').text($.i18n.prop('nav_signout'));
+                    $('#nav_welcome').text($.i18n.prop('nav_welcome'));
                     $('#second_nav_myapp').text($.i18n.prop('second_nav_myapp'));
                     $('#third_nav_appprofile').text($.i18n.prop('third_nav_appprofile'));
                     $('#third_nav_imusers').text($.i18n.prop('third_nav_imusers'));
@@ -726,6 +727,8 @@ var I18NPropsLoader = function(){
                     $('#groupid').attr('placeholder', $.i18n.prop('app_chatgroups_btn_search_placeholder'));
                     $('#app_chatgroups_table_checkall').text($.i18n.prop('app_chatgroups_table_checkall'));
                     $('#app_chatgroups_table_groupid').text($.i18n.prop('app_chatgroups_table_groupid'));
+                    $('#app_chatgroups_table_groupOnwer').text($.i18n.prop('app_chatgroups_table_groupOnwer'));
+                    $('#app_chatgroups_table_groupMembers').text($.i18n.prop('app_chatgroups_table_groupMembers'));
                     $('#app_chatgroups_table_groupname').text($.i18n.prop('app_chatgroups_table_groupname'));
                     $('#app_chatgroups_table_operation').text($.i18n.prop('app_chatgroups_table_operation'));
                     $('#app_chatgroups_search_table_loading').text($.i18n.prop('app_chatgroups_table_loading'));
@@ -902,6 +905,7 @@ var I18NPropsLoader = function(){
                     $('#second_nav_appusercount').text($.i18n.prop('second_nav_appusercount'));
                     $('#second_nav_appstatus').text($.i18n.prop('second_nav_appstatus'));
                     $('#app_list_apps_loading').text($.i18n.prop('app_list_apps_loading'));
+                    $('#applist_table_nodata').text($.i18n.prop('table_data_nodata'));
                     var statusOrder = parseInt($('#statusOrder').val());
                     for(var i=1; i<=statusOrder; i++) {
                         $('#app_list_appstatus_content_' + i).text($.i18n.prop('app_list_appstatus_content'));

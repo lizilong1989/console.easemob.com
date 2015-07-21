@@ -11,7 +11,7 @@ $(function () {
     // support crossDomain
     $.support.cors = true;
 
-    $('#user_info').html('<small>Welcome,</small>' + $.cookie('cuserName'));
+    $('#user_info').html('<small id="nav_welcome">' + $.i18n.prop('nav_welcome') + '</small>' + $.cookie('cuserName'));
 
     var agreeCBoxObj = $("#agreeCBox");
 
@@ -28,7 +28,10 @@ $(function () {
     } else {
         $('#formSubBtn').removeClass('btn-success').disabled = true;
     }
+
+    BtnHandler.setBtnEnable();
 });
+
 
 // 获取url参数
 function getQueryString(name) {
@@ -326,6 +329,23 @@ var EasemobCommon = function () {
     }
 }();
 
+var BtnHandler = function() {
+    var isBtnEnableTag = 0;
+
+    return {
+        setBtnEnable: function() {
+            isBtnEnableTag = 0;
+        },
+        isBtnEnable: function() {
+            if (isBtnEnableTag == 0) {
+                isBtnEnableTag++;
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+}();
 
 
 String.prototype.Trim = function () {
