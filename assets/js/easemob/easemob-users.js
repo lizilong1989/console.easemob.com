@@ -369,10 +369,10 @@ function searchAppIMUser() {
                         '<li class="dropdown all-camera-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="app_users_search_selections_operation">' + $.i18n.prop('app_users_search_selections_operation') + '</span><b class="caret"></b></a>' +
                         '<ul class="dropdown-menu">' +
                         '<li data-filter-camera-type="all"><a href="javascript:EasemobCommon.disPatcher.toPageAppUserContacts(\'' + username + '\')"><span id="app_users_search_selections_contacts">' + $.i18n.prop('app_users_search_selections_contacts') + '</span></a></li>' +
-                        '<li data-filter-camera-type="Alpha"><a href="#passwordMondify" id="passwdMod${status.index }" onclick="setUsername(\'' + username + '\');" data-toggle="modal" role="button"><span id="app_users_search_selections_resetpassword">' + $.i18n.prop('app_users_search_selections_resetpassword') + '</span></a></li>' +
-                        '<li data-filter-camera-type="Zed"><a href="javascript:showUpdateInfo(\'' + username + '\')"><span id="app_users_search_selections_modify">' + $.i18n.prop('app_users_search_selections_modify') + '</span></a></li>' +
+                        '<li data-filter-camera-type="Zed"><a href="javascript:showUpdateIMUserInfoWindow(\'' + username + '\')"><span id="app_users_search_selections_modify">' + $.i18n.prop('app_users_search_selections_modify') + '</span></a></li>' +
                         '<li data-filter-camera-type="Zed"><a href="javascript:deleteAppUser(\'' + username + '\')"><span id="app_users_search_selections_delete">' + $.i18n.prop('app_users_search_selections_delete') + '</span></a></li>' +
-                        '<li data-filter-camera-type="Zed"><a href="javascript:sendMessgeOne(\'' + username + '\')"><span id="app_users_search_selections_sendMessages">' + $.i18n.prop('app_users_search_selections_sendMessages') + '</span></a></li>' +
+                        '<li data-filter-camera-type="Alpha"><a href="#passwordMondify" id="passwdMod${status.index }" onclick="setUsername(\'' + username + '\');" data-toggle="modal" role="button"><span id="app_users_search_selections_resetpassword">' + $.i18n.prop('app_users_search_selections_resetpassword') + '</span></a></li>' +
+                        '<li data-filter-camera-type="Zed"><a href="javascript:sendMessageOneUser(\'' + username + '\')"><span id="app_users_search_selections_sendMessages">' + $.i18n.prop('app_users_search_selections_sendMessages') + '</span></a></li>' +
                         '</ul>' +
                         '</li>' +
                         '</ul>' +

@@ -252,11 +252,16 @@ function searchAppChatgroupById(groupid, pageAction) {
                 if (groupname == '' || groupname == null) {
                     groupname = '--';
                 }
-                var groupOwner = $.trim(respData.data[0].affiliations[0]['owner']);
-                groupOwner = groupOwner.substring(groupOwner.indexOf('_') + 1);
-                if (groupOwner == '' || groupOwner == null) {
-                    groupOwner = '--';
-                }
+                var affiliations = respData.data[0].affiliations;
+                var groupOwner = '--';
+                $(affiliations).each(function () {
+                    groupOwner = this.owner;
+                });
+
+                //var groupOwner = $.trim(respData.data[0].affiliations[0]);
+                //if (groupOwner == '' || groupOwner == null) {
+                //    groupOwner = '--';
+                //}
                 var groupMembers = $.trim(respData.data[0].affiliations_count);
                 if (groupOwner == '' || groupMembers == null) {
                     groupMembers = '--';
