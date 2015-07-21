@@ -564,6 +564,16 @@ var I18NPropsLoader = function(){
                     $('#admin_home_cancel').text($.i18n.prop('admin_home_cancel'));
                     $('#admin_home_save').text($.i18n.prop('admin_home_save'));
                     $('#admin_home_update').text($.i18n.prop('admin_home_update'));
+
+                    var companyNameInputMsgHidden = $('#companyNameInputMsgHidden').val();
+                    if ('illegal' == companyNameInputMsgHidden) {
+                        $('#companyNameInputMsg').text($.i18n.prop('admin_create_form_companyIllegal'));
+                    }
+
+                    var telephoneInputMsgHidden = $('#telephoneInputMsgHidden').val();
+                    if ('illegal' == telephoneInputMsgHidden) {
+                        $('#telephoneInputMsg').text($.i18n.prop('admin_create_form_telephoneIllegal'));
+                    }
                 }
             });
         },

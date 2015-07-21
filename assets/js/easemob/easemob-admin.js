@@ -769,20 +769,24 @@ function saveAdminInfo() {
     var companyNameInput = $('#companyNameInput').val();
     var telephoneInput = $('#telephoneInput').val();
 
-    var companyNameInputRegex = /^[0-9a-zA-Z\-_\u4e00-\u9faf ]*$/;
+    var companyNameInputRegex = /^[0-9a-zA-Z\-_.\u4e00-\u9faf ]*$/;
     if (!companyNameInputRegex.test(companyNameInput)) {
         $('#companyNameInputMsg').text($.i18n.prop('admin_create_form_companyIllegal'));
         $('#companyNameInputMsg').css('color', 'red');
+        $('#companyNameInputMsgHidden').val('illegal');
         return;
     }
+    $('#companyNameInputMsgHidden').val('');
     $('#companyNameInputMsg').hide();
 
     var telephoneInputRegex = /^[0-9]*$/;
     if (telephoneInput != '' && !telephoneInputRegex.test(telephoneInput)) {
         $('#telephoneInputMsg').text($.i18n.prop('admin_create_form_telephoneIllegal'));
         $('#telephoneInputMsg').css('color', 'red');
+        $('#telephoneInputMsgHidden').val('illegal');
         return;
     }
+    $('#telephoneInputMsgHidden').val('');
     $('#telephoneInputMsg').hide();
 
     updateAdminInfo(username, companyNameInput, telephoneInput);
