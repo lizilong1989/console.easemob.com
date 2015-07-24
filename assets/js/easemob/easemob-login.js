@@ -510,7 +510,7 @@ function createNewOrgAndAdminUserFormValidate() {
         $('#regEmailEMsgHidden').val('illegal');
         return false;
     }
-    $('#regEmailEMsg').text('')
+    $('#regEmailEMsg').text('');
     $('#regEmailEMsgHidden').val('');
 
     if ('' == regCompanyName) {
@@ -520,7 +520,7 @@ function createNewOrgAndAdminUserFormValidate() {
         $('#regCompanyNameEMsgHidden').val('illegal');
         return false;
     }
-    $('#regCompanyNameEMsg').text('')
+    $('#regCompanyNameEMsg').text('');
     $('#regCompanyNameEMsgHidden').val('');
 
     if ('' == regTel) {

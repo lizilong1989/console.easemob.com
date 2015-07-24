@@ -8,12 +8,9 @@
     <script src="/assets/js/ichart.1.2.js"></script>
     <script src="/assets/js/Chart.min.js"></script>
 
-    <!-- 时间控件 -->
     <script src="/assets/js/easemob/easemob-counters.js"></script>
-
     <script src="/assets/js/Calendar3.js"></script>
     <script src="/assets/js/My97DatePicker/WdatePicker.js" id="datePikerScript"></script>
-    <!--<script src="/assets/js/time.js"></script>-->
 
     <script charset="utf-8">
         var counterNameUsers = 'application.collection.users';
@@ -26,7 +23,6 @@
 
         $(function () {
             EasemobCommon.init();
-//            DatePikerHandler.initDatePikerZH();
 
             $('#showName').text($.cookie('appName'));
 
@@ -47,11 +43,10 @@
 
             // 下拉菜单变化
             $('#userChartSelector').change(function() {
-                applyCountersAndDraw(this);
+                applyCountersAndDraw(this, 'selectorChange');
             });
-
             $('#chatmessagsChartSelector').change(function() {
-                applyCountersAndDraw(this);
+                applyCountersAndDraw(this, null);
             });
         });
     </script>
@@ -201,8 +196,8 @@
 
                 <div style="position:absolute;right:5%;top:185px;z-index:100;">
                     <input type="hidden" id="dtp_input3" value=""/><br/><span class="lbl" id="app_collection_counters_text_quickSearch">快速查询</span>：
-                    <input type="radio" name="chartsRadio1" value="oneday" id="chartsRadio1oneday" onclick="drawCountersCharts('oneday')"/><span class="lbl" id="app_collection_counters_text_quickSearchOneDay">1天</span>
-                    <input type="radio" name="chartsRadio1" value="sevendays" id="chartsRadio1sevendays" onclick="drawCountersCharts('sevendays')"/><span class="lbl" id="app_collection_counters_text_quickSearchSevenDays">7天</span>
+                    <input type="radio" name="chartsRadio1" value="oneday" id="chartsRadio1oneday" onclick="drawCountersCharts('oneday', null)"/><span class="lbl" id="app_collection_counters_text_quickSearchOneDay">1天</span>
+                    <input type="radio" name="chartsRadio1" value="sevendays" id="chartsRadio1sevendays" onclick="drawCountersCharts('sevendays', null)"/><span class="lbl" id="app_collection_counters_text_quickSearchSevenDays">7天</span>
                 </div>
                 <br/><br/><br/>
                 <div  style="margin-top: 0px"><center><span id="chartTitle"></span></center></div>

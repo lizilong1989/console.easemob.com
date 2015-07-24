@@ -164,108 +164,6 @@ var I18NPropsLoader = function(){
         },
 
         // load resources used in index.html page
-        /*
-        loadPropertiesForPageIndex: function(){
-            $.i18n.properties({
-                name: resourceFilePrefix,
-                path: resourceFilePath,
-                mode: resourcePropertiesMode,
-                language : this.getNavigatorLanguage(),
-                callback : function() {
-                    $('#page_title').text($.i18n.prop('page_title'));
-                    $('#logo_index').attr('src', $.i18n.prop('logo_index'));
-                    $('#index_span_login').text($.i18n.prop('index_span_login'));
-                    $('#index_span_register').text($.i18n.prop('index_span_register'));
-                    $('#index_login_username').text($.i18n.prop('index_login_username'));
-                    $('#index_login_password').text($.i18n.prop('index_login_password'));
-                    $('#index_login_rememberme').text($.i18n.prop('index_login_rememberme'));
-                    $('#index_bnt_login').text($.i18n.prop('index_bnt_login'));
-                    $('#index_input_username').text($.i18n.prop('index_input_username'));
-
-                    $('#index_forgot_username').text($.i18n.prop('index_forgot_username'));
-                    $('#index_forgot_btn_password').text($.i18n.prop('index_forgot_btn_password'));
-                    $('#email').attr('placeholder', $.i18n.prop('index_forgot_username_placeHolder'));
-                    $('#index_forgot_password_link').text($.i18n.prop('index_forgot_password_link'));
-                    $('#index_bnt_backtologin').text($.i18n.prop('index_bnt_backtologin'));
-                    $('#emailEMsg').text('');
-
-                    $('#index_span_register_orgname').text($.i18n.prop('index_span_register_orgname'));
-                    $('#regOrgName').attr('placeholder', $.i18n.prop('index_span_register_orgname_placeholder'));
-                    $('#regOrgNameSMsg').text($.i18n.prop('index_alert_register_regOrgName_regix'));
-                    $('#index_span_register_userneme').text($.i18n.prop('index_span_register_userneme'));
-                    $('#regUserName').attr('placeholder', $.i18n.prop('index_span_register_userneme_placeholder'));
-                    $('#regUserNameSMsg').text($.i18n.prop('index_alert_register_regUserName_regix'));
-                    $('#index_span_register_password').text($.i18n.prop('index_span_register_password'));
-                    $('#regPassword').attr('placeholder', $.i18n.prop('index_span_register_password_placeholder'));
-                    $('#index_span_register_tel').text($.i18n.prop('index_span_register_tel'));
-                    $('#regTel').attr('placeholder', $.i18n.prop('index_span_register_tel_placeholder'));
-                    $('#index_span_register_repassword').text($.i18n.prop('index_span_register_repassword'));
-                    $('#regRePassword').attr('placeholder', $.i18n.prop('index_span_register_repassword_placeholder'));
-                    $('#index_span_register_email').text($.i18n.prop('index_span_register_email'));
-                    $('#regEmail').attr('placeholder', $.i18n.prop('index_span_register_email_placeholder'));
-                    $('#index_span_register_company').text($.i18n.prop('index_span_register_company'));
-                    $('#regCompanyName').attr('placeholder', $.i18n.prop('index_span_register_company_placeholder'));
-                    $('#index_span_register_comeFromNote').text($.i18n.prop('index_span_register_comeFromNote'));
-                    $('#index_span_register_comefromInternet').text($.i18n.prop('index_span_register_comefromInternet'));
-                    $('#index_span_register_comefromFriends').text($.i18n.prop('index_span_register_comefromFriends'));
-                    $('#index_span_register_comefromOfficial').text($.i18n.prop('index_span_register_comefromOfficial'));
-                    $('#index_span_register_comefromExhibition').text($.i18n.prop('index_span_register_comefromExhibition'));
-                    $('#index_span_register_comefromMedia').text($.i18n.prop('index_span_register_comefromMedia'));
-                    $('#index_span_register_formSubBtn').text($.i18n.prop('index_span_register_formSubBtn'));
-                    $('#index_span_register_agree').text($.i18n.prop('index_span_register_agree'));
-                    $('#index_span_register_agree_service').text($.i18n.prop('index_span_register_agree_service'));
-                    $('#index_span_register_agree_returntilogin').text($.i18n.prop('index_span_register_agree_returntilogin'));
-
-                    var usernameEMsgVal = $('#usernameEMsg').text();
-                    if(usernameEMsgVal != ''){
-                        $('#usernameEMsg').text($.i18n.prop('index_alert_register_username_empty'));
-                    }
-                    var passwordEMsgVal = $('#passwordEMsg').text();
-                    if(passwordEMsgVal != ''){
-                        $('#passwordEMsg').text($.i18n.prop('index_alert_register_password_empty'));
-                    }
-
-                    var regOrgNameEMsgHidden = $('#regOrgNameEMsgHidden').val();
-                    if ('illegal' == regOrgNameEMsgHidden) {
-                        $('#regOrgNameEMsg').text($.i18n.prop('index_alert_register_regOrgName_regix'));
-                    }
-                    var regUserNameEMsgHidden = $('#regUserNameEMsgHidden').val();
-                    if ('illegal' == regUserNameEMsgHidden) {
-                        $('#regUserNameEMsg').text($.i18n.prop('index_alert_register_regUserName_regix'));
-                    }
-                    var regPasswordEMsgHidden = $('#regPasswordEMsgHidden').val();
-                    if ('illegal' == regPasswordEMsgHidden) {
-                        $('#regPasswordEMsg').text($.i18n.prop('index_alert_register_regPassword_regix'));
-                    }
-                    var regRePasswordEMsgHidden = $('#regRePasswordEMsgHidden').val();
-                    if ('illegal' == regRePasswordEMsgHidden) {
-                        $('#regRePasswordEMsg').text($.i18n.prop('index_alert_register_regPassword_regix'));
-                    }
-                    var regEmailEMsgHidden = $('#regEmailEMsgHidden').val();
-                    if ('illegal' == regEmailEMsgHidden) {
-                        $('#regEmailEMsg').text($.i18n.prop('index_alert_register_regEmail_regix'));
-                    }
-                    var regCompanyNameEMsgHidden = $('#regCompanyNameEMsgHidden').val();
-                    if ('illegal' == regCompanyNameEMsgHidden) {
-                        $('#regCompanyNameEMsg').text($.i18n.prop('index_alert_register_regCompanyName_empty'));
-                    }
-                    var regTelEMsgHidden = $('#regTelEMsgHidden').val();
-                    if ('illegal' == regTelEMsgHidden) {
-                        $('#regTelEMsg').text($.i18n.prop('index_alert_register_regTel_regix'));
-                    }
-                    var comeFromEMsgHidden = $('#comeFromEMsgHidden').val();
-                    if ('illegal' == comeFromEMsgHidden) {
-                        $('#comeFromEMsg').text($.i18n.prop('index_alert_register_comeFromEMsg'));
-                    }
-                    var agreeCBoxEMsgHidden = $('#agreeCBoxEMsgHidden').val();
-                    if ('illegal' == agreeCBoxEMsgHidden) {
-                        $('#agreeCBoxEMsg').text($.i18n.prop('index_alert_register_agreeCBox'));
-                    }
-                }
-            });
-        },*/
-
-        // load resources used in index.html page
         loadPropertiesForPageIndexLogin: function(){
             $.i18n.properties({
                 name: resourceFilePrefix,
@@ -413,7 +311,7 @@ var I18NPropsLoader = function(){
                     }
                     var regRePasswordEMsgHidden = $('#regRePasswordEMsgHidden').val();
                     if ('illegal' == regRePasswordEMsgHidden) {
-                        $('#regRePasswordEMsg').text($.i18n.prop('index_alert_register_regPassword_regix'));
+                        $('#regRePasswordEMsg').text($.i18n.prop('index_alert_register_regRePassword_regix'));
                     }
                     var regEmailEMsgHidden = $('#regEmailEMsgHidden').val();
                     if ('illegal' == regEmailEMsgHidden) {
@@ -960,7 +858,6 @@ var I18NPropsLoader = function(){
                     $('#app_notifiers_tableIOS_th_operation').text($.i18n.prop('app_notifiers_tableIOS_th_operation'));
                     $('#app_notifiers_href_makeNotifier').text($.i18n.prop('app_notifiers_href_makeNotifier'));
                     $('#app_notifiers_formIOS_addNewNotifier').text($.i18n.prop('app_notifiers_formIOS_addNewNotifier'));
-                    $('#app_notifiers_formIOS_appName').text($.i18n.prop('app_notifiers_formIOS_appName'));
                     $('#app_notifiers_formIOS_notifierName').text($.i18n.prop('app_notifiers_formIOS_notifierName'));
                     $('#app_notifiers_formIOS_notifier').text($.i18n.prop('app_notifiers_formIOS_notifier'));
                     $('#app_notifiers_formIOS_button').attr('value' ,$.i18n.prop('app_notifiers_formIOS_button_value'));
@@ -1010,7 +907,6 @@ var I18NPropsLoader = function(){
                     $('#nameAndroid').attr('placeholder' ,$.i18n.prop('app_notifiers_formAndroid_name_placeholder'));
                     $('#certificateAndroid').attr('placeholder' ,$.i18n.prop('app_notifiers_formAndroid_passphrase_placeholder'));
                     $('#app_notifiers_formAndroid_addNewNotifier').text($.i18n.prop('app_notifiers_formAndroid_addNewNotifier'));
-                    $('#app_notifiers_formAndroid_appName').text($.i18n.prop('app_notifiers_formAndroid_appName'));
                     $('#app_notifiers_formAndroid_notifierName').text($.i18n.prop('app_notifiers_formAndroid_notifierName'));
                     $('#app_notifiers_formAndroid_notifier').text($.i18n.prop('app_notifiers_formAndroid_notifier'));
                     $('#app_notifiers_formAndroid_button').attr('value' ,$.i18n.prop('app_notifiers_formAndroid_button_value'));

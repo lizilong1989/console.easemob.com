@@ -240,11 +240,11 @@ function getAppUserList(pageAction) {
                             '<ul class="nav-pills" style="list-style-type:none">' +
                             '<li class="dropdown all-camera-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="app_users_selections_operation_' + appUsersListOrder + '">' + $.i18n.prop('app_users_selections_operation') + '</span><b class="caret"></b></a>' +
                             '<ul class="dropdown-menu">' +
-                            '<li data-filter-camera-type="all"><a onclick="EasemobCommon.disPatcher.toPageAppUserContacts(\'' + username + '\')" href="javascript:void(0);"><span id="app_users_selections_contacts_' + appUsersListOrder + '">' + $.i18n.prop('app_users_selections_contacts') + '</span></a></li>' +
-                            '<li data-filter-camera-type="Zed"><a onclick="showUpdateIMUserInfoWindow(\'' + username + '\')" href="javascript:void(0);"><span id="app_users_selections_modify_' + appUsersListOrder + '">' + $.i18n.prop('app_users_selections_modify') + '</span></a></li>' +
-                            '<li data-filter-camera-type="Zed"><a onclick="deleteAppUser(\'' + username + '\')" href="javascript:void(0);"><span id="app_users_selections_delete_' + appUsersListOrder + '">' + $.i18n.prop("app_users_selections_delete") + '</span></a></li>' +
+                            '<li data-filter-camera-type="all"><a href="javascript:void(0);" onclick="EasemobCommon.disPatcher.toPageAppUserContacts(\'' + username + '\')"><span id="app_users_selections_contacts_' + appUsersListOrder + '">' + $.i18n.prop('app_users_selections_contacts') + '</span></a></li>' +
+                            '<li data-filter-camera-type="Zed"><a  href="javascript:void(0);" onclick="showUpdateIMUserInfoWindow(\'' + username + '\')"><span id="app_users_selections_modify_' + appUsersListOrder + '">' + $.i18n.prop('app_users_selections_modify') + '</span></a></li>' +
+                            '<li data-filter-camera-type="Zed"><a href="javascript:void(0);" onclick="deleteAppUser(\'' + username + '\')"><span id="app_users_selections_delete_' + appUsersListOrder + '">' + $.i18n.prop("app_users_selections_delete") + '</span></a></li>' +
                             '<li data-filter-camera-type="Alpha"><a href="#passwordMondify" id="passwdMod${status.index }" onclick="setUsername(\'' + username + '\');" data-toggle="modal" role="button"><span id="app_users_selections_resetpassword_' + appUsersListOrder + '">' + $.i18n.prop('app_users_selections_resetpassword') + '</span></a></li>' +
-                            '<li data-filter-camera-type="Zed"><a onclick="sendMessageOneUser(\'' + username + '\')" href="javascript:void(0)"><span id="app_users_selections_sendMessages_' + appUsersListOrder + '">' + $.i18n.prop('app_users_selections_sendMessages') + '</span></a></li>' +
+                            '<li data-filter-camera-type="Zed"><a href="javascript:void(0);" onclick="sendMessageOneUser(\'' + username + '\')"><span id="app_users_selections_sendMessages_' + appUsersListOrder + '">' + $.i18n.prop('app_users_selections_sendMessages') + '</span></a></li>' +
                             '</ul>' +
                             '</li>' +
                             '</ul>' +
@@ -368,11 +368,11 @@ function searchAppIMUser() {
                         '<ul class="text-center" class="nav-pills" style="list-style-type:none">' +
                         '<li class="dropdown all-camera-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="app_users_search_selections_operation">' + $.i18n.prop('app_users_search_selections_operation') + '</span><b class="caret"></b></a>' +
                         '<ul class="dropdown-menu">' +
-                        '<li data-filter-camera-type="all"><a href="javascript:EasemobCommon.disPatcher.toPageAppUserContacts(\'' + username + '\')"><span id="app_users_search_selections_contacts">' + $.i18n.prop('app_users_search_selections_contacts') + '</span></a></li>' +
-                        '<li data-filter-camera-type="Zed"><a href="javascript:showUpdateIMUserInfoWindow(\'' + username + '\')"><span id="app_users_search_selections_modify">' + $.i18n.prop('app_users_search_selections_modify') + '</span></a></li>' +
-                        '<li data-filter-camera-type="Zed"><a href="javascript:deleteAppUser(\'' + username + '\')"><span id="app_users_search_selections_delete">' + $.i18n.prop('app_users_search_selections_delete') + '</span></a></li>' +
+                        '<li data-filter-camera-type="all"><a href="javascript:void(0);" onclick="EasemobCommon.disPatcher.toPageAppUserContacts(\'' + username + '\')"><span id="app_users_search_selections_contacts">' + $.i18n.prop('app_users_search_selections_contacts') + '</span></a></li>' +
+                        '<li data-filter-camera-type="Zed"><a href="javascript:void(0);" onclick="showUpdateIMUserInfoWindow(\'' + username + '\')"><span id="app_users_search_selections_modify">' + $.i18n.prop('app_users_search_selections_modify') + '</span></a></li>' +
+                        '<li data-filter-camera-type="Zed"><a href="javascript:void(0);" onclick="deleteAppUser(\'' + username + '\')"><span id="app_users_search_selections_delete">' + $.i18n.prop('app_users_search_selections_delete') + '</span></a></li>' +
                         '<li data-filter-camera-type="Alpha"><a href="#passwordMondify" id="passwdMod${status.index }" onclick="setUsername(\'' + username + '\');" data-toggle="modal" role="button"><span id="app_users_search_selections_resetpassword">' + $.i18n.prop('app_users_search_selections_resetpassword') + '</span></a></li>' +
-                        '<li data-filter-camera-type="Zed"><a href="javascript:sendMessageOneUser(\'' + username + '\')"><span id="app_users_search_selections_sendMessages">' + $.i18n.prop('app_users_search_selections_sendMessages') + '</span></a></li>' +
+                        '<li data-filter-camera-type="Zed"><a href="javascript:void(0);" onclick="sendMessageOneUser(\'' + username + '\')"><span id="app_users_search_selections_sendMessages">' + $.i18n.prop('app_users_search_selections_sendMessages') + '</span></a></li>' +
                         '</ul>' +
                         '</li>' +
                         '</ul>' +
@@ -740,7 +740,7 @@ function getAppIMUserContactsList(owner_username) {
                         '<ul class="text-center" class="nav-pills" style="list-style-type:none">' +
                         '<li class="dropdown all-camera-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="app_users_contacts_table_operation_' + appIMUserContactsOrder + '">' + $.i18n.prop('app_users_contacts_table_operation') + '</span><b class="caret"></b></a>' +
                         '<ul class="dropdown-menu" style="left:150px;">' +
-                        '<li><a href="javascript:void(0)" onclick="deleteAppIMFriend(\'' + owner_username + '\',\'' + respData.data[i] + '\')"><span id="app_users_contacts_table_disconn_' + appIMUserContactsOrder + '">' + $.i18n.prop('app_users_contacts_table_disconn') + '</span></a></li>' +
+                        '<li><a href="javascript:void(0);" onclick="deleteAppIMFriend(\'' + owner_username + '\',\'' + respData.data[i] + '\')"><span id="app_users_contacts_table_disconn_' + appIMUserContactsOrder + '">' + $.i18n.prop('app_users_contacts_table_disconn') + '</span></a></li>' +
                         '</ul>' +
                         '</li>' +
                         '</ul>' +
@@ -890,8 +890,8 @@ function updateIMPageStatus(owner_username) {
                 var totalPage = (total % 10 == 0) ? (parseInt(total / 10)) : (parseInt(total / 10) + 1);
                 var ulB = '<ul>';
                 var ulE = '</ul>';
-                var textOp1 = '<li> <a href="javascript:void(0);" onclick="getPrevAppUserList();">' + $.i18n.prop('app_users_table_tab_previous') + '</a> </li>';
-                var textOp2 = '<li> <a href="javascript:void(0);" onclick="getNextAppUserList();">' + $.i18n.prop('app_users_table_tab_next') + '</a> </li>';
+                var textOp1 = '<li> <a href="javascript:void(0);" onclick="getPrevAppUserList()">' + $.i18n.prop('app_users_table_tab_previous') + '</a> </li>';
+                var textOp2 = '<li> <a href="javascript:void(0);" onclick="getNextAppUserList()">' + $.i18n.prop('app_users_table_tab_next') + '</a> </li>';
                 $('#paginau').html('');
                 // 首页
                 if (pageNo == 1) {

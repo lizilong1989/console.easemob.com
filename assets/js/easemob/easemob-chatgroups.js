@@ -151,9 +151,9 @@ function getAppChatgroups(pageAction) {
                         '<ul class="text-center" class="nav-pills" style="list-style-type:none">' +
                         '<li class="dropdown all-camera-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="app_chatgroups_table_selection_operation_' + statusOrder + '">' + $.i18n.prop('app_chatgroups_table_selection_operation') + '</span><b class="caret"></b></a>' +
                         '<ul class="dropdown-menu">' +
-                        '<li data-filter-camera-type="all"><a href="javascript:EasemobCommon.disPatcher.toPageAppChatGroupUsers(\'' + groupid + '\')"><span id="app_chatgroups_table_operation_members_' + statusOrder + '">' + $.i18n.prop('app_chatgroups_table_operation_members') + '</span></a></li>' +
-                        '<li data-filter-camera-type="Alpha"><a href="javascript:deleteAppChatroom(\'' + groupid + '\')"><span id="app_chatgroups_table_operation_delete_' + statusOrder + '">' + $.i18n.prop('app_chatgroups_table_operation_delete') + '</span></a></li>' +
-                        '<li data-filter-camera-type="Zed"><a href="javascript:sendMessgeOne(\'' + groupid + '\')"><span id="app_chatgroups_table_operation_sendmessage_' + statusOrder + '">' + $.i18n.prop('app_chatgroups_table_operation_sendmessage') + '</span></a></li>' +
+                        '<li data-filter-camera-type="all"><a href="javascript:void(0);" onclick="EasemobCommon.disPatcher.toPageAppChatGroupUsers(\'' + groupid + '\')"><span id="app_chatgroups_table_operation_members_' + statusOrder + '">' + $.i18n.prop('app_chatgroups_table_operation_members') + '</span></a></li>' +
+                        '<li data-filter-camera-type="Alpha"><a href="javascript:void(0);" onclick="deleteAppChatroom(\'' + groupid + '\')"><span id="app_chatgroups_table_operation_delete_' + statusOrder + '">' + $.i18n.prop('app_chatgroups_table_operation_delete') + '</span></a></li>' +
+                        '<li data-filter-camera-type="Zed"><a href="javascript:void(0);" onclick="sendMessgeOne(\'' + groupid + '\')"><span id="app_chatgroups_table_operation_sendmessage_' + statusOrder + '">' + $.i18n.prop('app_chatgroups_table_operation_sendmessage') + '</span></a></li>' +
                         '</ul>' +
                         '</li>' +
                         '</ul>' +
@@ -177,8 +177,8 @@ function getAppChatgroups(pageAction) {
 
                 var ulB = '<ul>';
                 var ulE = '</ul>';
-                var textOp1 = '<li> <a href="javascript:void(0);" onclick="getAppChatrooms(\'forward\')"><span id="app_chatgroups_table_nav_previous">' + $.i18n.prop('app_chatgroups_table_nav_previous') + '</span></a> </li>';
-                var textOp2 = '<li> <a href="javascript:void(0);" onclick="getAppChatrooms(\'next\')"><span id="app_chatgroups_table_nav_next">' + $.i18n.prop('app_chatgroups_table_nav_next') + '</span></a> </li>';
+                var textOp1 = '<li> <a href="javascript:void(0);" onclick="getAppChatgroups(\'forward\')"><span id="app_chatgroups_table_nav_previous">' + $.i18n.prop('app_chatgroups_table_nav_previous') + '</span></a> </li>';
+                var textOp2 = '<li> <a href="javascript:void(0);" onclick="getAppChatgroups(\'next\')"><span id="app_chatgroups_table_nav_next">' + $.i18n.prop('app_chatgroups_table_nav_next') + '</span></a> </li>';
                 $('#paginau').html('');
                 var hasNext = (respData.cursor != undefined);
                 cursors[pageNo + 1] = respData.cursor;
@@ -277,9 +277,9 @@ function searchAppChatgroupById(groupid, pageAction) {
                     '<ul class="text-center" class="nav-pills" style="list-style-type:none">' +
                     '<li class="dropdown all-camera-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="app_chatgroups_table_operation">' + $.i18n.prop('app_chatgroups_table_operation') + '</span><b class="caret"></b></a>' +
                     '<ul class="dropdown-menu">' +
-                    '<li data-filter-camera-type="all"><a href="javascript:EasemobCommon.disPatcher.toPageAppChatGroupUsers(\'' + groupid + '\')"><span id="app_chatgroups_table_operation_members">' + $.i18n.prop('app_chatgroups_table_operation_members') + '</span></a></li>' +
-                    '<li data-filter-camera-type="Alpha"><a href="javascript:deleteAppChatroom(\'' + groupid + '\')"><span id="app_chatgroups_table_operation_delete">' + $.i18n.prop('app_chatgroups_table_operation_delete') + '</span></a></li>' +
-                    '<li data-filter-camera-type="Zed"><a href="javascript:sendMessgeOne(\'' + groupid + '\')"><span id="app_chatgroups_table_operation_sendmessage">' + $.i18n.prop('app_chatgroups_table_operation_sendmessage') + '</span></a></li>' +
+                    '<li data-filter-camera-type="all"><a href="javascript:void(0);" onclick="EasemobCommon.disPatcher.toPageAppChatGroupUsers(\'' + groupid + '\')"><span id="app_chatgroups_table_operation_members">' + $.i18n.prop('app_chatgroups_table_operation_members') + '</span></a></li>' +
+                    '<li data-filter-camera-type="Alpha"><a href="javascript:void(0);" onclick="deleteAppChatroom(\'' + groupid + '\')"><span id="app_chatgroups_table_operation_delete">' + $.i18n.prop('app_chatgroups_table_operation_delete') + '</span></a></li>' +
+                    '<li data-filter-camera-type="Zed"><a href="javascript:void(0);" onclick="sendMessgeOne(\'' + groupid + '\')"><span id="app_chatgroups_table_operation_sendmessage">' + $.i18n.prop('app_chatgroups_table_operation_sendmessage') + '</span></a></li>' +
                     '</ul>' +
                     '</li>' +
                     '</ul>' +
@@ -359,7 +359,7 @@ function getAppChatgroupUser(groupid, pageAction) {
                                 '<ul class="text-center" class="nav-pills" style="list-style-type:none">' +
                                 '<li class="dropdown all-camera-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="app_chatgroups_users_table_selection_operation_' + groupMembersOrder + '">' + $.i18n.prop('app_chatgroups_users_table_selection_operation') + '</span><b class="caret"></b></a>' +
                                 '<ul class="dropdown-menu" style="left:200px">' +
-                                '<li><a onclick="deleteAppChatgroupUsers(\'' + groupid + '\',\'' + members + '\')" href="javascript:void(0)"><span id="app_chatgroups_users_table_selection_remove_' + groupMembersOrder + '">' + $.i18n.prop('app_chatgroups_users_table_selection_remove') + '</span></a></li>' +
+                                '<li><a href="javascript:void(0);" onclick="deleteAppChatgroupUsers(\'' + groupid + '\',\'' + members + '\')"><span id="app_chatgroups_users_table_selection_remove_' + groupMembersOrder + '">' + $.i18n.prop('app_chatgroups_users_table_selection_remove') + '</span></a></li>' +
                                 '</ul>' +
                                 '</li>' +
                                 '</ul>' +

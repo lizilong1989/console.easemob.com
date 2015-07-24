@@ -174,16 +174,8 @@
                                 <li><a href="javascript:void(0);"><span id="app_notifiers_formIOS_addNewNotifier">新增证书</span></a></li>
                             </ul>
                             <ul id="certificate">
-                                <li><a href="https://www.easemob.com/docs/ios/push/certificate/" target="_blank"><span id="app_notifiers_href_makeNotifier">制作iOS推送证书</span></a></li>
+                                <li><a href="javascript:void(0);" onclick="EasemobCommon.disPatcher.openPageIOSPushCertificate()" target="_blank"><span id="app_notifiers_href_makeNotifier"></span></a></li>
                             </ul>
-                        </div>
-                        <div class="apply">
-                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                <tr>
-                                    <td align="right" width="150px"><strong id="app_notifiers_formIOS_appName">应用名称&nbsp;&nbsp;&nbsp;</strong>:</td>
-                                    <td bgcolor="#FFFFFF"><span id="appNameIOS"></span></td>
-                                </tr>
-                            </table>
                         </div>
                         <div class="apply">
                             <form id="certificateFormIOS" method="POST" enctype="multipart/form-data" action="">
@@ -253,20 +245,10 @@
 
                     <!-- Android Push Certificate-->
                     <div id="androidCertificateDiv" class="left" style="width:500px;">
-                        <div style="margin: 0 auto;width: 500px;" class="pagination pagination-left" id="whatIsCertificate" onMouseOver="displayMakeCertificateTip(true);"
-                             onMouseOut="displayMakeCertificateTip(false);">
+                        <div style="margin: 0 auto;width: 500px;" class="pagination pagination-left" id="whatIsCertificate">
                             <ul>
                                 <li><a href="javascript:void(0);"><span id="app_notifiers_formAndroid_addNewNotifier">新增证书</span></a></li>
                             </ul>
-                        </div>
-
-                        <div class="apply">
-                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                <tr>
-                                    <td align="right" width="150px"><strong id="app_notifiers_formAndroid_appName">应用名称&nbsp;&nbsp;&nbsp;</strong>:</td>
-                                    <td bgcolor="#FFFFFF"><span id="appNameAndroid"></span></td>
-                                </tr>
-                            </table>
                         </div>
                         <div class="apply">
                             <form id="certificateFormAndroid" method="POST" enctype="multipart/form-data" action="">

@@ -55,11 +55,11 @@ function validateFileSuffix(fileName) {
 
 function checkTel(value) {
     var isChinaPhone = /^([0-9]{3,4}-)?[0-9]{7,8}$/;
-    var isChina = /^(((\+?86)|(\(\+86\)))?(13[0123456789][0-9]{8}|15[0123456789][0-9]{8}|18[0123456789][0-9]{8}|14[0123456789][0-9]{8}))$/;
+    var isChinaMobile = /^(((\+?86)|(\(\+86\)))?(1[0-9]{10}))$/;
     var isMalaysia = /^(((\+?60)|(\(\+60\)))?([0123456789]{7}|[0123456789]{8}|[0123456789]{9}))$/;
     var isSingapore = /^(((\+?65)|(0065)|(\+0065)|(\(\+65\)))?[0123456789]{7,10})$/;
 
-    return isChinaPhone.test(value) || isSingapore.test(value) || isChina.test(value) || isMalaysia.test(value);
+    return isChinaPhone.test(value) || isSingapore.test(value) || isChinaMobile.test(value) || isMalaysia.test(value);
 }
 
 
@@ -111,8 +111,8 @@ function updateUsersPageStatus() {
 
                 var ulB = '<ul>';
                 var ulE = '</ul>';
-                var textOp1 = '<li> <a href="javascript:void(0);" onclick="getPrevAppUserList();">上一页</a> </li>';
-                var textOp2 = '<li> <a href="javascript:void(0);" onclick="getNextAppUserList();">下一页</a> </li>';
+                var textOp1 = '<li> <a href="javascript:void(0);" onclick="getPrevAppUserList()">上一页</a> </li>';
+                var textOp2 = '<li> <a href="javascript:void(0);" onclick="getNextAppUserList()">下一页</a> </li>';
                 $('#paginau').html('');
                 // 首页
                 if (pageNo == 1) {
@@ -203,22 +203,25 @@ var EasemobCommon = function () {
 
         disPatcher: {
             openPageWWWHome: function () {
-                window.open('https://www.easemob.com')
+                window.open('http://www.easemob.com')
             },
             openPageWWWDocs: function () {
-                window.open('https://www.easemob.com/docs/gettingstart');
+                window.open('http://www.easemob.com/docs/gettingstart');
             },
             openPageWWWSupport: function () {
-                window.open('https://www.easemob.com/Support')
+                window.open('http://www.easemob.com/Support')
             },
             openPageWWWSDK: function () {
-                window.open('https://www.easemob.com/sdk')
+                window.open('http://www.easemob.com/sdk')
             },
             openPageIMGeek: function () {
-                window.open('https://www.imgeek.org')
+                window.open('http://www.imgeek.org')
             },
             openPageAboutTerms: function () {
-                window.open('https://www.easemob.com/hx/about/terms.html')
+                window.open('http://www.easemob.com/Webpage/view/id/4')
+            },
+            openPageIOSPushCertificate: function () {
+                window.open('http://www.easemob.com/docs/ios/push/certificate/')
             },
             refreshCurrentPage: function () {
                 location.replace(location.href);

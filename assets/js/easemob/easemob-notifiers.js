@@ -99,8 +99,8 @@ function getAppCertificateIOS(pageAction){
             } else {
                 var ulB = '<ul>';
                 var ulE = '</ul>';
-                var textOp1 = '<li> <a href="javascript:void(0);" onclick="getPrevAppNotifiersIOS();"><span id="app_notifiers_tableIOS_notifier_nav_previous">' + $.i18n.prop('app_notifiers_tableIOS_notifier_nav_previous') + '</span></a> </li>';
-                var textOp2 = '<li> <a href="javascript:void(0);" onclick="getNextAppNotifiersIOS();"><span id="app_notifiers_tableIOS_notifier_nav_next">' + $.i18n.prop('app_notifiers_tableIOS_notifier_nav_next') + '</span></a> </li>';
+                var textOp1 = '<li> <a href="javascript:void(0);" onclick="getPrevAppNotifiersIOS()"><span id="app_notifiers_tableIOS_notifier_nav_previous">' + $.i18n.prop('app_notifiers_tableIOS_notifier_nav_previous') + '</span></a> </li>';
+                var textOp2 = '<li> <a href="javascript:void(0);" onclick="getNextAppNotifiersIOS()"><span id="app_notifiers_tableIOS_notifier_nav_next">' + $.i18n.prop('app_notifiers_tableIOS_notifier_nav_next') + '</span></a> </li>';
                 $('#paginau').html('');
 
                 // 首页
@@ -225,8 +225,8 @@ function getAppCertificateAndroid(pageAction){
             } else {
                 var ulB = '<ul>';
                 var ulE = '</ul>';
-                var textOp1 = '<li> <a href="javascript:void(0);" onclick="getPrevAppNotifiersAndroid();"><span id="app_notifiers_tableAndroid_notifier_nav_previous">' + $.i18n.prop('app_notifiers_tableAndroid_notifier_nav_previous') + '</span></a> </li>';
-                var textOp2 = '<li> <a href="javascript:void(0);" onclick="getNextAppNotifiersAndroid();"><span id="app_notifiers_tableAndroid_notifier_nav_next">' + $.i18n.prop('app_notifiers_tableAndroid_notifier_nav_next') + '</span></a> </li>';
+                var textOp1 = '<li> <a href="javascript:void(0);" onclick="getPrevAppNotifiersAndroid()"><span id="app_notifiers_tableAndroid_notifier_nav_previous">' + $.i18n.prop('app_notifiers_tableAndroid_notifier_nav_previous') + '</span></a> </li>';
+                var textOp2 = '<li> <a href="javascript:void(0);" onclick="getNextAppNotifiersAndroid()"><span id="app_notifiers_tableAndroid_notifier_nav_next">' + $.i18n.prop('app_notifiers_tableAndroid_notifier_nav_next') + '</span></a> </li>';
                 $('#paginauAndroid').html('');
 
                 // 首页
@@ -466,7 +466,6 @@ function showAndroidPushCertificateTab() {
     $('#androidPushCertificateTab').parent().attr('class', 'active');
     $('#iosPushCertificateTab').parent().removeAttr('class');
 
-    $('#appNameAndroid').text($.cookie('appName'));
     $('#iosCertificateDiv').hide();
     $('#tableCertificateIOS').hide();
     $('#androidCertificateDiv').show();
@@ -481,7 +480,6 @@ function showIOSPushCertificateTab() {
     $('#iosPushCertificateTab').parent().attr('class', 'active');
     $('#androidPushCertificateTab').parent().removeAttr('class');
 
-    $('#appNameIOS').text($.cookie('appName'));
     $('#androidCertificateDiv').hide();
     $('#tableCertificateAndroid').hide();
     $('#iosCertificateDiv').show();

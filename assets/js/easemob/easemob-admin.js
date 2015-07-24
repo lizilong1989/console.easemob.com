@@ -223,7 +223,7 @@ function getOrgAdminList() {
                     var isCurrentUser = false;
                     if (username != loginUser) {
                         ops = '<li class="dropdown all-camera-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="admin_list_table_operation_' + orgAdminListOrder + '">' + $.i18n.prop('admin_list_table_operation') + '</span><b class="caret"></b></a>' +
-                            '<ul class="dropdown-menu">' + '<li data-filter-camera-type="all"><a onclick="disConnAdminAndOrg(\'' + username + '\')" href="javascript:void(0);"><span id="admin_list_table_remove_' + orgAdminListOrder + '">' + $.i18n.prop('admin_list_table_remove') + '</span></a></li>';
+                            '<ul class="dropdown-menu">' + '<li data-filter-camera-type="all"><a href="javascript:void(0);" onclick="disConnAdminAndOrg(\'' + username + '\')"><span id="admin_list_table_remove_' + orgAdminListOrder + '">' + $.i18n.prop('admin_list_table_remove') + '</span></a></li>';
                     } else {
                         isCurrentUser = true;
                         ops = $.i18n.prop('admin_list_table_currentUser_disable');

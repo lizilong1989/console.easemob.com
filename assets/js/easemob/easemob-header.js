@@ -2,8 +2,7 @@
  * Created by kenshinn on 15-6-15.
  */
 document.write(
-    '<title>环信开发者中心</title>\
-    <link href="/assets/css/bootstrap-2.3.2.min.css" rel="stylesheet" type="text/css" media="screen"/>\
+    '<link href="/assets/css/bootstrap-2.3.2.min.css" rel="stylesheet" type="text/css" media="screen"/>\
     <link href="/assets/css/bootstrap-responsive-2.3.2.min.css" rel="stylesheet" type="text/css" media="screen"/>\
     <link href="/assets/css/font-awesome-3.1.0.min.css" rel="stylesheet" type="text/css" media="screen"/>\
     <!--[if IE 7]>\
