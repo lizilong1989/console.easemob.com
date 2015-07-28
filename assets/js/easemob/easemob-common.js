@@ -429,7 +429,7 @@ $(function () {
 
             alr.html(html);
             alr.modal({
-                width: 500,
+                width: 700,
                 backdrop: 'static'
             });
         };

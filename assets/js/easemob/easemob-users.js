@@ -459,7 +459,7 @@ function deleteAppUser(username) {
     var confirmOk = $.i18n.prop('confirm_ok');
     var confirmCancel = $.i18n.prop('confirm_cancel');
     Modal.confirm({
-            msg: $.i18n.prop('app_users_confirm_delete_user'),
+            msg: $.i18n.prop('app_users_confirm_delete_user') + '<br/><font color="red">' + $.i18n.prop('app_users_confirm_delete_userTips') + '</font>',
             title: "",
             btnok: confirmOk,
             btncl: confirmCancel
