@@ -2,9 +2,6 @@
  * Created by kenshinn on 15-6-2.
  */
 
-var Console = Console || {};
-Console.countersHandler = {};
-
 //初始开始时间段
 //记录当前时间
 var nowTime;
@@ -491,11 +488,32 @@ function showUsersChartTab() {
     $('#countersChartType').show();
 //            $('#chatmessagsChartSelector').hide();
     $('#chatgroupsChartSelector').hide();
+
     $('#drawCountersChartsType').val('register_users');
 
     var period = $("input[name='chartsRadio1']:checked").val();
     drawCountersCharts(period, null);
-    $('#chartTitle').text(chartTileUsers);
+
+    // TODO
+    var counterType = $('#userChartSelector').children("option:selected").val();
+    var drawCountersChartsTypeObj = $('#drawCountersChartsType');
+    drawCountersChartsTypeObj.val(counterType);
+
+    var chartTitle = $('#chartTitle');
+    switch (counterType) {
+        case 'daily_active_users':
+            chartTitle.text($.i18n.prop('app_collection_counters_chartTileDailyActiveUser'));
+            break;
+        case 'daily_chat_users':
+            chartTitle.text($.i18n.prop('app_collection_counters_chartTileDailyChatUser'));
+            break;
+        case 'daily_new_active_users':
+            chartTitle.text($.i18n.prop('app_collection_counters_chartTileDailyNewActiveUser'));
+            break;
+        case 'register_users':
+            chartTitle.text($.i18n.prop('app_collection_counters_chartTileUsers'));
+            break;
+    }
 }
 
 function showChatmessagsChartTab() {
@@ -509,7 +527,7 @@ function showChatmessagsChartTab() {
 
     var period = $("input[name='chartsRadio1']:checked").val();
     drawCountersCharts(period, null);
-    $('#chartTitle').text(chartTileChatmessages);
+    var chartTitle = $('#chartTitle').text($.i18n.prop('app_collection_counters_chartTileChatmessages'));
 }
 
 //        function showChatgroupsChartTab() {

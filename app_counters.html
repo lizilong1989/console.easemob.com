@@ -15,11 +15,11 @@
     <script charset="utf-8">
         var counterNameUsers = 'application.collection.users';
         var counterNameChatmessages = 'application.collection.chatmessages';
-        var chartTileUsers = 'IM用户数趋势图';
-        var chartTileChatmessages = '消息发送量趋势图';
-        var chartTileDailyActiveUser = '每日活跃用户数趋势图';
-        var chartTileDailyNewActiveUser = '每日新增活跃用户数趋势图';
-        var chartTileDailyChatUser = '每日发送消息用户数趋势图';
+        var chartTileUsers = '';
+        var chartTileChatmessages = '';
+        var chartTileDailyActiveUser = '';
+        var chartTileDailyNewActiveUser = '';
+        var chartTileDailyChatUser = '';
 
         $(function () {
             EasemobCommon.init();
@@ -200,6 +200,7 @@
                     <input type="radio" name="chartsRadio1" value="sevendays" id="chartsRadio1sevendays" onclick="drawCountersCharts('sevendays', null)"/><span class="lbl" id="app_collection_counters_text_quickSearchSevenDays">7天</span>
                 </div>
                 <br/><br/><br/>
+                <input type="hidden" id="chartTitleType" value="" />
                 <div  style="margin-top: 0px"><center><span id="chartTitle"></span></center></div>
                 <div id="countersTabContent" class="tab-content" style="width: 95%">
                     <div class="tab-pane fade in active" id="counters">

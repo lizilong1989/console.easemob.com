@@ -728,15 +728,18 @@ var I18NPropsLoader = function(){
                     $('#app_collection_counters_text_quickSearchSevenDays').text($.i18n.prop('app_collection_counters_text_quickSearchSevenDays'));
                     $('#countersSearchBtn').val($.i18n.prop('app_collection_counters_text_searchBtn'));
 
-                    var tabUsersClass = $('#tabUsers').parent().attr('class');
-                    var tabChatmessagesClass = $('#tabChatmessages').parent().attr('class');
+                    var chartTitleType = $('#chartTitleType').val();
                     var chartTitle = $('#chartTitle');
+
+                    var tabUsersClass = $('#tabUsers').parent().attr('class');
                     if(tabUsersClass == 'active') {
                         chartTitle.text($.i18n.prop('app_collection_counters_chartTileUsers'));
                     }
+                    var tabChatmessagesClass = $('#tabChatmessages').parent().attr('class');
                     if(tabChatmessagesClass == 'active') {
                         chartTitle.text($.i18n.prop('app_collection_counters_chartTileChatmessages'));
                     }
+
                     var drawCountersChartsType = $('#drawCountersChartsType').val();
                     switch(drawCountersChartsType){
                         case 'daily_active_users':

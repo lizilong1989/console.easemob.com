@@ -206,13 +206,13 @@ var EasemobCommon = function () {
                 window.open('http://www.easemob.com')
             },
             openPageWWWDocs: function () {
-                window.open('http://www.easemob.com/docs/gettingstart');
+                window.open('http://docs.easemob.com/docs.php');
             },
             openPageWWWSupport: function () {
-                window.open('http://www.easemob.com/Support')
+                window.open('http://www.easemob.com/support')
             },
             openPageWWWSDK: function () {
-                window.open('http://www.easemob.com/sdk')
+                window.open('http://www.easemob.com/downloads')
             },
             openPageIMGeek: function () {
                 window.open('http://www.imgeek.org')
