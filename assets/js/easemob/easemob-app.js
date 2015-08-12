@@ -122,7 +122,6 @@ function getAppList() {
     var accessToken = $.cookie('access_token');
     var cuser = $.cookie('cuser');
     var orgName = $.cookie('orgName');
-    userCount = 0;
     if (!accessToken || accessToken == '') {
         EasemobCommon.disPatcher.sessionTimeOut();
     } else {
@@ -150,39 +149,10 @@ function getAppList() {
                     nameArr.push(key);
                     uuidArr.push(value);
                     key = key.substring(key.indexOf('/') + 1);
-                    userCount = 0;
-                    $.ajax({
-                        url: baseUrl + '/' + orgName + '/' + value + '/counters?counter=application.collection.users&pad=true',
-                        type: 'GET',
-                        async: false,
-                        headers: {
-                            'Authorization': 'Bearer ' + accessToken,
-                            'Content-Type': 'application/json'
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                        },
-                        success: function (respData, textStatus, jqXHR) {
-                            $.each(respData.counters, function () {
-                                if (this.values.lenght == 0) {
-                                    userCount = 0;
-                                } else {
-                                    $.each(this.values, function () {
-                                        var userValue = parseInt(this.value);
-                                        if (userValue < 0) {
-                                            userValue = 0;
-                                        }
-                                        userCount = userValue;
-                                    });
-                                }
-                            });
-                        }
-                    });
 
                     option += '<tr><td class="text-center"><a href="app_info.html?appName=' + key + '&appName=' + key + '">' + key + '</a></td>' +
-                        '<td class="text-center">' + userCount + '</td>' +
                         '<td class="text-center"><span id="app_list_appstatus_content_' + statusOrder + '">' + $.i18n.prop('app_list_appstatus_content') + '</span></td>' +
                         '</tr>';
-
                 });
 
                 $('#statusOrder').val(statusOrder);
@@ -274,8 +244,45 @@ function getAppOverView() {
     } else {
         fetchAppInfo(accessToken, orgName, appName);
 
-        fetchAppCredentials(accessToken, orgName, appName)
+        fetchAppCredentials(accessToken, orgName, appName);
+
+        fetchAppUserCount(accessToken, orgName, appName);
     }
+}
+
+
+// fetch the im users count of the app
+function fetchAppUserCount(accessToken, orgName, appName) {
+
+    var userCount = 0;
+    $.ajax({
+        url: baseUrl + '/' + orgName + '/' + appName + '/counters?counter=application.collection.users&pad=true',
+        type: 'GET',
+        async: false,
+        headers: {
+            'Authorization': 'Bearer ' + accessToken,
+            'Content-Type': 'application/json'
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+        },
+        success: function (respData, textStatus, jqXHR) {
+            $.each(respData.counters, function () {
+                if (this.values.lenght == 0) {
+                    userCount = 0;
+                } else {
+                    $.each(this.values, function () {
+                        var userValue = parseInt(this.value);
+                        if (userValue < 0) {
+                            userValue = 0;
+                        }
+                        userCount = userValue;
+                    });
+                }
+            });
+        }
+    });
+
+    $('#totalRegisteredUsers').text(userCount);
 }
 
 

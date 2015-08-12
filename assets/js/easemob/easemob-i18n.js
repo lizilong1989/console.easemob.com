@@ -825,7 +825,6 @@ var I18NPropsLoader = function(){
                     $('#second_nav_myapp').text($.i18n.prop('second_nav_myapp'));
                     $('#second_nav_createapp').text($.i18n.prop('second_nav_createapp'));
                     $('#second_nav_appname').text($.i18n.prop('second_nav_appname'));
-                    $('#second_nav_appusercount').text($.i18n.prop('second_nav_appusercount'));
                     $('#second_nav_appstatus').text($.i18n.prop('second_nav_appstatus'));
                     $('#app_list_apps_loading').text($.i18n.prop('app_list_apps_loading'));
                     $('#applist_table_nodata').text($.i18n.prop('table_data_nodata'));
@@ -941,6 +940,7 @@ var I18NPropsLoader = function(){
                     $('#app_profile_text_model').text($.i18n.prop('app_profile_text_model'));
                     $('#app_profile_btn_change').text($.i18n.prop('app_profile_btn_change'));
                     $('#app_profile_btn_update').text($.i18n.prop('app_profile_btn_update'));
+                    $('#app_profile_text_total_registered_users').text($.i18n.prop('app_profile_text_total_registered_users'));
                     $('#app_profile_text_thumbnail_height').text($.i18n.prop('app_profile_text_thumbnail_height'));
                     $('#app_profile_text_thumbnail_width').text($.i18n.prop('app_profile_text_thumbnail_width'));
                     $('#app_profile_text_thumbnail').text($.i18n.prop('app_profile_text_thumbnail'));
