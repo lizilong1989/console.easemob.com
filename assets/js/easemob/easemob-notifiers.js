@@ -368,7 +368,7 @@ function submitIOSCertificateForm() {
             count = 0;
             return;
         }
-        var notifierPassPhraseRegex = /^[A-Za-z0-9_]{1,40}$/;
+        var notifierPassPhraseRegex = /^[\S]{1,40}$/;
         if (!notifierPassPhraseRegex.test(passphrase)) {
             layer.msg($.i18n.prop('app_notifiers_formIOS_phrase_illegal'), 3, 5);
             count = 0;
@@ -412,7 +412,7 @@ function submitAndroidCertificateForm() {
         var notifierName = $('#nameAndroid').val();
         var certificate = $('#certificateAndroid').val();
         var notifierNameRegex = /^[A-Za-z0-9_-]{1,30}$/;
-        var notifierPassPhraseRegex = /^[A-Za-z0-9_]{1,40}$/;
+        var notifierPassPhraseRegex = /^[\S]{1,40}$/;
         if (!notifierNameRegex.test(notifierName)) {
             layer.msg($.i18n.prop('app_notifiers_formAndroid_name_illegal'), 3, 5);
             count = 0;
