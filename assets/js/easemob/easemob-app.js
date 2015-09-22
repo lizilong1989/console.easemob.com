@@ -23,7 +23,7 @@ function createAppFormValidate() {
     }
     var appNameRegex = /^[0-9a-zA-Z\-]*$/;
     if (!appNameRegex.test(appName)) {
-        appCreateFormAppNameMsgObj.text($.i18n.prop('app_create_form_productNameMsg'));
+        appCreateFormAppNameMsgObj.text($.i18n.prop('app_create_form_appNameMsg'));
         appCreateFormAppNameMsgObj.css('color', 'red');
         appNameObj.focus();
         return false;
@@ -39,7 +39,7 @@ function createAppFormValidate() {
     }
     var productNameRegex = /^[0-9a-zA-Z-_\u4e00-\u9faf ]*$/;
     if (!productNameRegex.test(productName)) {
-        appCreateFormProductNameMsgObj.text($.i18n.prop('app_create_form_appNameMsg'));
+        appCreateFormProductNameMsgObj.text($.i18n.prop('app_create_form_productNameMsg'));
         appCreateFormProductNameMsgObj.css('color', 'red');
         productNameObj.focus();
         return false;
