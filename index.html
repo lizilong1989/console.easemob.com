@@ -102,13 +102,12 @@
             EasemobCommon.initLocale();
         });
 
+        var _hmt = _hmt || [];
         (function() {
-            var baidu = document.createElement('script');
-            baidu.type = 'text/javascript';
-            baidu.async = true;
-            baidu.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'hm.baidu.com/h.js%3F3e5b3453fdcff1e4dec124ea22f1e189';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(baidu, s);
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?3e5b3453fdcff1e4dec124ea22f1e189";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
         })();
     </script>
 </head>
